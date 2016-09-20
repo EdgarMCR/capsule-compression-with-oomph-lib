@@ -170,6 +170,9 @@ namespace Global_Physical_Variables
  bool printDebugInfo = false;  
  bool printTractionInfo = false;
 
+  /// Set Newton Tolerance via command line
+  double newton_tol = 1e-8;
+
   /// Consitiutive Law string
   /// MR - Moony-Rivlin
   /// GH - Generalized Hookian
@@ -263,6 +266,9 @@ void actions_after_newton_solve() {}
  /// Update function (empty)
  void actions_before_newton_solve() {
    newton_step=0;
+
+   //Update Volume in case lambda has been changed
+   Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
     /*
    std::cout << "solid mesh" << std::endl;
     /// Loop over all nodes in the mesh
@@ -486,10 +492,12 @@ void actions_after_newton_solve() {}
  void lower_height(double targetHeight);
  void lower_height_w_revert(double targetHeight);
 
-  ///lower a parameter
-  void lower_parameter(double &parameter, double target);
+  /// Change a parameter via adaptive continuation
+  void change_parameter(double &parameter, double target);
  
  void set_under_relaxation_factor(double ur){under_relaxation_factor = ur;}
+
+  double calc_inflated_vol(double t, double lambda);
 
 private:
 
@@ -578,7 +586,7 @@ CantileverProblem<ELEMENT>::CantileverProblem(const bool& incompress)
   // default 10, say 1000 should give enough room
   Max_residuals = Global_Physical_Variables::MaxResidual;
     
-  //  Newton_solver_tolerance = 5e-8;
+  Newton_solver_tolerance = Global_Physical_Variables::newton_tol;
     
   // Settings for bifurcation tracking, currently not working with under-
   // relaxed newton method
@@ -1494,17 +1502,16 @@ void CantileverProblem<ELEMENT>::save_solution(const char * directory){
 
 template<class ELEMENT>
 /// Function to lower the parameter adaptivly 
-void CantileverProblem<ELEMENT>::lower_parameter(double &parameter, double target){
-  
-  //double diff = Global_Physical_Variables::H - targetHeight;
-  double ds = -1e-2; 
+void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double target){
+  double ds;
+
   
   int kk = 0; //number of steps
   int nr_errors=0; //Record the number of times the setp-size had to be halfed
   int steps_since_reset = 0;  
   //Save current solution
   char filename[100];
-  sprintf(filename,"sol_adaptive_lower_parameter.dat");
+  sprintf(filename,"sol_adaptive_change_parameter.dat");
   ofstream Solution_output_file;
   ifstream Solution_input_file;
 
@@ -1523,20 +1530,38 @@ void CantileverProblem<ELEMENT>::lower_parameter(double &parameter, double targe
   Solution_output_file.setf(ios::showpoint);
   dump(Solution_output_file);    
   Solution_output_file.close();
-  
-  while(parameter > target)
+
+  if(parameter > target)
     {
-      //Lower contact height
-      if(parameter+ds < target){
+      ds = -1e-2; 
+    }
+  else
+    {
+      ds = 1e-2;
+    }
+  
+  while(abs(parameter -  target) > 1e-3)
+    {
+      if(ds < 0 && parameter+ds < target){
 	break;
       }
+      if(ds > 0 && parameter+ds > target){
+	break;
+      }
+
       parameter+=ds;
           
-      cout << endl;
-      cout << "Step " << kk << 
+      //Update Volume in case the parameter is lambda
+      Global_Physical_Variables::Volume = 
+	calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
+      std::cout << std::endl;
+      std::cout << "Step " << kk << 
             ". Decrementing to " << parameter
-            << " with step of " << ds << endl;
-      
+		<< " with step of " << ds << std::endl;
+     std::cout << "H = " << Global_Physical_Variables::H
+	       << " lambda = " << Global_Physical_Variables::lambda
+	       << " Volume = " << Global_Physical_Variables::Volume
+	       << " P = " << get_interal_pressure() << std::endl;
       try{
         // Solve the problem    
         #ifdef REFINE
@@ -1888,10 +1913,12 @@ void CantileverProblem<ELEMENT>::lower_height_w_revert(double targetHeight){
     " had to lower the step-size " << nr_errors << " times. " << std::endl;
 }
 
-// Calcuates the relevant volume based on tickness t and desiered 
-// inflantion lambda, assuming that the volume of the elastic material
-// remains constant
-double calc_inflated_vol(double t, double lambda){
+/// Calcuates the relevant volume based on tickness t and desiered 
+/// inflantion lambda, assuming that the volume of the elastic material
+/// remains constant
+template<class ELEMENT>
+/// Function to lower the height H adaptivly to reach states of high compression. 
+double CantileverProblem<ELEMENT>::calc_inflated_vol(double t, double lambda){
   //initial volume under the elastic solid
   double v0 = pow((1 - Global_Physical_Variables::t), 3) / 3;
   
@@ -1907,11 +1934,125 @@ double calc_inflated_vol(double t, double lambda){
 }
 
 
-
 //====================================================================
 //####################################################################
 //====================================================================
 
+
+//===================================================================
+/// Function to lower a parameter passed by reference
+//===================================================================
+
+void change_parameter(double &parameter, double target){
+ // Initial values for parameter values
+ Global_Physical_Variables::P=0.0; 
+ Global_Physical_Variables::Gravity=0.0;
+
+ // Create penetrator
+ Global_Physical_Variables::Penetrator_pt =
+  new AxiSymPenetrator(&Global_Physical_Variables::H);
+
+ //The number of elements such that after so they stay approximatlly
+ // square even after some streching 
+ Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*3;
+
+
+ cout << "Thickness = " << Global_Physical_Variables::t << " with " <<
+        Global_Physical_Variables::n_ele_r << ", " << 
+        Global_Physical_Variables::n_ele_theta << 
+        " elements in the r and theta direction" << endl;
+
+bool incompressible = true;
+#ifdef REFINE
+      //TODO: Write refinable element
+#else
+  CantileverProblem<AxisymQPVDElementWithPressure> problem2(incompressible);
+#endif
+ cout << endl;
+
+ //  std::cout << "Press Enter\n";
+ //  std::cin.ignore(); 
+  
+ ifstream Solution_input_file; //for loading solution
+ 
+
+ if(!Global_Physical_Variables::loadSol.empty()){
+  
+  ofstream Solution_output_file;
+  ifstream Solution_input_file;
+
+  //load previous soltution
+  std::cout << "Loading solution: " << Global_Physical_Variables::loadSol << std::endl;
+  Solution_input_file.open(Global_Physical_Variables::loadSol.c_str());
+  problem2.read(Solution_input_file);
+  Solution_input_file.close();
+
+   //Lets check how ti looks
+   problem2.doc_solution();
+
+   problem2.set_under_relaxation_factor(0.4);  
+   Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
+   std::cout << "Initial Newton Solve, shoudl converge immediatly. "
+	     << "H = " << Global_Physical_Variables::H
+	     << " Volume = " << Global_Physical_Variables::Volume
+	     << " P = " << problem2.get_interal_pressure() << std::endl;
+   //solve once in undeformed configuration, hopefully this should converge immediatly
+   #ifdef REFINE
+     Global_Physical_Variables::max_adapt=1;
+     problem2.newton_solve(Global_Physical_Variables::max_adapt);
+   #else
+     problem2.newton_solve();
+   #endif
+
+   //Lets check that displacement is zero
+   problem2.doc_solution();
+
+   double stepsize = 0.02; 
+   double current_Target = parameter;
+
+   if(parameter > target)
+     {
+       stepsize = stepsize*-1.0;
+       while(parameter > target){
+	 std::cout << "Current parameter value = " << parameter
+		   << " Target = " << target
+		   << " Target for next solution = " << current_Target
+		   << std::endl;
+	 current_Target += stepsize;
+	 problem2.change_parameter(parameter, current_Target);
+	 problem2.save_solution();//to have something to restart from in futur
+	 problem2.save_solution(".");
+	 std::cout << "Current parameter = " << parameter 
+		   << " Target parameter = " << target
+		   << std::endl;
+       }
+     }
+   else
+     {
+       while(parameter < target){
+	 std::cout << "Current parameter value = " << parameter
+		   << " Target = " << target
+		   << " Target for next solution = " << current_Target
+		   << std::endl;
+	 current_Target += stepsize;
+	 problem2.change_parameter(parameter, current_Target);
+	 problem2.save_solution();//to have something to restart from in futur
+	 problem2.save_solution(".");
+	 std::cout << "Current parameter = " << parameter 
+		   << " Target parameter = " << target
+		   << std::endl;
+       }
+
+     }
+   
+}
+ else{
+   std::cout << "No loadSol variable provided, cannot load solution. " 
+	     << "'lower_parameter' function will now return without doing anything." 
+	     << std::endl; 
+ }
+     
+}
 
 
 //===================================================================
@@ -1976,7 +2117,7 @@ bool incompressible = true;
    problem2.doc_solution();
 
    problem2.set_under_relaxation_factor(0.4);  
-   Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
+   Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
    std::cout << "Initial Newton Solve, shoudl converge immediatly. "
 	     << "H = " << Global_Physical_Variables::H
 	     << " Volume = " << Global_Physical_Variables::Volume
@@ -2001,7 +2142,7 @@ bool incompressible = true;
 	       << " Target for next solution = " << current_Target
 	       << std::endl;
      current_Target -= stepsize;
-     problem2.lower_parameter(Global_Physical_Variables::C1, current_Target);
+     problem2.change_parameter(Global_Physical_Variables::C1, current_Target);
      problem2.save_solution();//to have something to restart from in futur
      problem2.save_solution(".");
      std::cout << "Current C1 = " << Global_Physical_Variables::C1 
@@ -2082,7 +2223,7 @@ bool incompressible = true;
    problem2.doc_solution();
 
    problem2.set_under_relaxation_factor(0.4);  
-   Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
+   Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
    std::cout << "Initial Newton Solve, shoudl converge immediatly. "
 	     << "H = " << Global_Physical_Variables::H
 	     << " Volume = " << Global_Physical_Variables::Volume
@@ -2142,11 +2283,11 @@ bool incompressible = true;
    //run the function that increases volume
    problem2.set_under_relaxation_factor(1.0); //when there is no contact, can use normal newton solve
 
-   std::cout << " Aiming for volume of " << calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda) <<
+   std::cout << " Aiming for volume of " << problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda) <<
      " corrseponding to lambda of " << Global_Physical_Variables::lambda << " from a volume of " << Global_Physical_Variables::Volume <<
      " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
 
-   problem2.increaseVolume(calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda));
+   problem2.increaseVolume(problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda));
 
    problem2.set_under_relaxation_factor(0.4);  //max under-relaxation possible for 2 elemtne in r direction    
 
@@ -2280,7 +2421,7 @@ else{
    problem2.doc_solution();
 
    problem2.set_under_relaxation_factor(0.4);  
-   Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
+   Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
    std::cout << "Initial Newton Solve, shoudl converge immediatly. "
 	     << "H = " << Global_Physical_Variables::H
 	     << " Volume = " << Global_Physical_Variables::Volume
@@ -2378,7 +2519,7 @@ else{
  
 
    problem2.set_under_relaxation_factor(0.4);  
-   Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
+   Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
 
    Global_Physical_Variables::H = 0.8;
 
@@ -2482,6 +2623,8 @@ int main(int argc, char **argv){
  CommandLineArgs::specify_command_line_flag("--program",
                                             &Global_Physical_Variables::program);
 
+ CommandLineArgs::specify_command_line_flag("--newtontol",
+                                            &Global_Physical_Variables::newton_tol);
 
   // Parse command line
  CommandLineArgs::parse_and_assign(); 
@@ -2557,6 +2700,15 @@ int main(int argc, char **argv){
      std::cout << "lower_C1()" <<std::endl;
      lower_C1();
    }
+   if(!Global_Physical_Variables::program.compare("increaseVol"))
+     {
+       std::cout << "Decreasing/increaseing Volume to lambda = 1.1."
+		 << " (Current lambda = " 
+		 << Global_Physical_Variables::lambda
+		 << " )"  <<std::endl;
+       //increase volume
+       change_parameter(Global_Physical_Variables::lambda, 1.1);
+     }
  }
  //reload_solution_test();
  // reload_solution_fresh_test();
