@@ -499,6 +499,9 @@ void actions_after_newton_solve() {}
 
   double calc_inflated_vol(double t, double lambda);
 
+  /// Returns global variables in a string
+  std::string get_global_variables_as_string();
+
 private:
 
  /// \short Create contact elements
@@ -1227,10 +1230,13 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
 //  else{}
 
   // Output contact elements
+
  sprintf(filename,"%s/contact%i.dat",Doc_info.directory().c_str(),
          Doc_info.number());
  some_file.open(filename);
 
+ some_file << "#Contact mesh details for the compression of a sphere." << std::endl;
+ some_file <<  get_global_variables_as_string() << std::endl ;
 unsigned nel=Surface_contact_mesh_pt->nelement();
 
  double f_normal =0;
@@ -1458,35 +1464,12 @@ void CantileverProblem<ELEMENT>::save_solution(){
 
 template<class ELEMENT>
 void CantileverProblem<ELEMENT>::save_solution(const char * directory){
-    char constitutivelaw[50];
-    if(!Global_Physical_Variables::constitutive_law.compare("MR"))
-      {
-	sprintf(constitutivelaw,"CL=%s_C1=%f_C2=%f",
-	    Global_Physical_Variables::constitutive_law.c_str(),
-            Global_Physical_Variables::C1,
-            Global_Physical_Variables::C2);
-    	
-      }
-    else{
-      if(!Global_Physical_Variables::constitutive_law.compare("GH"))
-	{
-	  sprintf(constitutivelaw,"CL=%s_E=%f_Nu=%f",
-            Global_Physical_Variables::constitutive_law.c_str(),
-            Global_Physical_Variables::E,
-            Global_Physical_Variables::Nu);    	
-      }
-    }
 
-
+  std::string globals = get_global_variables_as_string();
     char filename[200];
-    sprintf(filename,"%s/sol_nreler=%d_nreletheta=%d_H=%.4f_vol=%.4f_t=%.2f_%s.dat",
+    sprintf(filename,"%s/sol_%s.dat",
             directory,
-            Global_Physical_Variables::n_ele_r,
-            Global_Physical_Variables::n_ele_theta,
-            Global_Physical_Variables::H,
-            Global_Physical_Variables::Volume,
-            Global_Physical_Variables::t,
-	    constitutivelaw);
+	    globals.c_str());
     
     ofstream Solution_output_file;
     Solution_output_file.open(filename);
@@ -1934,6 +1917,46 @@ double CantileverProblem<ELEMENT>::calc_inflated_vol(double t, double lambda){
 }
 
 
+template<class ELEMENT>
+/// Function that returns string with all global variables
+std::string CantileverProblem<ELEMENT>::get_global_variables_as_string()
+{
+    char constitutivelaw[50];
+    if(!Global_Physical_Variables::constitutive_law.compare("MR"))
+      {
+	sprintf(constitutivelaw,"CL=%s_C1=%.4f_C2=%.4f",
+	    Global_Physical_Variables::constitutive_law.c_str(),
+            Global_Physical_Variables::C1,
+            Global_Physical_Variables::C2);
+    	
+      }
+    else{
+      if(!Global_Physical_Variables::constitutive_law.compare("GH"))
+	{
+	  sprintf(constitutivelaw,"CL=%s_E=%.4f_Nu=%.4f",
+            Global_Physical_Variables::constitutive_law.c_str(),
+            Global_Physical_Variables::E,
+            Global_Physical_Variables::Nu);    	
+      }
+    }
+
+
+    char buff[200];
+    sprintf(buff,"nreler=%d_nreletheta=%d_H=%.4f_lambda=%.2f_vol=%.4f_t=%.2f_%s",
+            Global_Physical_Variables::n_ele_r,
+            Global_Physical_Variables::n_ele_theta,
+            Global_Physical_Variables::H,
+            Global_Physical_Variables::lambda,
+            Global_Physical_Variables::Volume,
+            Global_Physical_Variables::t,
+	    constitutivelaw);
+
+  std::string globals = buff;
+  return globals;
+}
+
+
+
 //====================================================================
 //####################################################################
 //====================================================================
@@ -2260,12 +2283,13 @@ bool incompressible = true;
 
    Global_Physical_Variables::P =0.0;
 
-   // Set volume to correspond to the actual volume of the undefomred sphere
-   Global_Physical_Variables::Volume = pow((1 - Global_Physical_Variables::t), 3) / 3;
-
    //Set height to 0.01 aboe the predicted height of capsule
    Global_Physical_Variables::H = Global_Physical_Variables::lambda; 
 
+   // save lambda
+   double  save_lambda = Global_Physical_Variables::lambda; 
+ 
+   Global_Physical_Variables::lambda = 1.0;
 
  cout << "Starting Newton Solve " << endl;
    //solve once in undeformed configuration, hopefully this should converge immediatly
@@ -2283,11 +2307,14 @@ bool incompressible = true;
    //run the function that increases volume
    problem2.set_under_relaxation_factor(1.0); //when there is no contact, can use normal newton solve
 
+   Global_Physical_Variables::lambda = save_lambda;
+
    std::cout << " Aiming for volume of " << problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda) <<
      " corrseponding to lambda of " << Global_Physical_Variables::lambda << " from a volume of " << Global_Physical_Variables::Volume <<
      " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
 
-   problem2.increaseVolume(problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda));
+   Global_Physical_Variables::lambda  = 1.0;
+   problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
 
    problem2.set_under_relaxation_factor(0.4);  //max under-relaxation possible for 2 elemtne in r direction    
 
