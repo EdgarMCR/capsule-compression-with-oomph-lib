@@ -166,8 +166,10 @@ namespace Global_Physical_Variables
  double H = 1.0;
  
   //Preinflation of the capsule, 1 being the undeformed state
-  double lambda = 1.0;  
- bool printDebugInfo = false;  
+  double lambda = 1.0; 
+
+  // 0 =false, != 0  true 
+ int printDebugInfo = 0;  
  bool printTractionInfo = false;
 
   /// Set Newton Tolerance via command line
@@ -194,6 +196,24 @@ namespace Global_Physical_Variables
  // set pressure,P, defined above or enforces a volume constraint set by
  // the variable Volume defined above.
  int enforce_volume_constraint = false;
+
+  //Boolean values to set the options for the contact elements
+  // Default is false = 0
+  ///Set whether or not to use isoparametric basis function for pressure
+ int Contact_use_isoparametric_flag;
+
+  ///Set options for basis/test functions for penetration and pressure
+  int Contact_use_collocated_penetration_flag;
+
+  ///Set options for basis/test functions for penetration and pressure
+  int Contact_use_collocated_contact_pressure_flag;
+
+  // bool that is true, set the bool pointers to this when setting them to true
+  // TODO: this should be constant but when I set it to constant that causes
+  // problems with the setter functions in the contact_elements.h
+  // Long story short, if you are reading this because something modified this
+  // variable without you noticing, I'm sorry. 
+  bool true_flag = true;
 
  /// \short Constant pressure load. The arguments to this function are imposed
  /// on us by the SolidTractionElements which allow the traction to 
@@ -991,6 +1011,28 @@ void CantileverProblem<ELEMENT>::create_contact_elements()
         if(!outputed){cout << "setting integration schema with " << Global_Physical_Variables::Nintpt << " points." << endl; outputed=true;}
         contact_element_pt->set_integration_scheme(new MyIntegral(Global_Physical_Variables::Nintpt));
      }
+
+    if(Global_Physical_Variables::printDebugInfo){
+      std::cout << "Setting contact options now. " << std::endl;
+    }
+
+  if (CommandLineArgs::command_line_flag_has_been_set("--contact_use_isoparametric") 
+      && Global_Physical_Variables::Contact_use_isoparametric_flag)
+     {
+       contact_element_pt->set_isoparametric_flag_pt(Global_Physical_Variables::true_flag);
+     }
+
+    if (CommandLineArgs::command_line_flag_has_been_set("--contact_use_collocated_penetration")
+	&& Global_Physical_Variables::Contact_use_collocated_penetration_flag)
+     {
+       contact_element_pt->set_collocated_penetration_flag_pt(Global_Physical_Variables::true_flag);
+     }
+    if (CommandLineArgs::command_line_flag_has_been_set("--contact_use_collocated_contact_pressure")
+	&& Global_Physical_Variables::Contact_use_collocated_contact_pressure_flag)
+     {
+       contact_element_pt->set_collocated_contact_pressure_flag_pt(Global_Physical_Variables::true_flag);
+     }
+
      //Add the contact element to the surface mesh
      Surface_contact_mesh_pt->add_element_pt(contact_element_pt);
      
@@ -1249,7 +1291,14 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
 
  some_file << "#Contact mesh details for the compression of a sphere." << std::endl;
  some_file <<  get_global_variables_as_string() << std::endl ;
-unsigned nel=Surface_contact_mesh_pt->nelement();
+ 
+ //document contact options
+ some_file << "# Contact options are: " << std::endl;
+ some_file <<  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
+		    Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
+           << std::endl;
+
+ unsigned nel=Surface_contact_mesh_pt->nelement();
 
  double f_normal =0;
  double f_orthoganal = 0;
@@ -1266,6 +1315,16 @@ for (unsigned e=0;e<nel;e++)
   */
   dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
 		Surface_contact_mesh_pt->element_pt(e))->resulting_contact_force(cont_f);
+
+
+  ///Set whether or not to use isoparametric basis function for pressure
+  //bool* Use_isoparametric_flag_pt;
+
+  ///Set options for basis/test functions for penetration and pressure
+  //bool* Use_collocated_penetration_flag_pt;
+
+  ///Set options for basis/test functions for penetration and pressure
+  //bool* Use_collocated_contact_pressure_flag_pt;
 
   f_normal += cont_f[0];
   f_orthoganal += cont_f[1];
@@ -2658,6 +2717,24 @@ int main(int argc, char **argv){
 
  CommandLineArgs::specify_command_line_flag("--underrelaxation",
                                             &Global_Physical_Variables::under_relaxation);
+
+
+ // set the contact options
+  ///Set whether or not to use isoparametric basis function for pressure
+ CommandLineArgs::specify_command_line_flag("--contact_use_isoparametric",
+                                            &Global_Physical_Variables::Contact_use_isoparametric_flag);
+
+  ///Set options for basis/test functions for penetration and pressure
+ CommandLineArgs::specify_command_line_flag("--contact_use_collocated_penetration",
+                                            &Global_Physical_Variables::Contact_use_collocated_penetration_flag);
+
+  ///Set options for basis/test functions for penetration and pressure
+ CommandLineArgs::specify_command_line_flag("--contact_use_collocated_contact_pressure",
+                                            &Global_Physical_Variables::Contact_use_collocated_contact_pressure_flag);
+
+ CommandLineArgs::specify_command_line_flag("--debugInfo",
+                                            &Global_Physical_Variables::printDebugInfo);
+
 
 
   // Parse command line

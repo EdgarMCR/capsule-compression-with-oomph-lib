@@ -751,6 +751,9 @@ class TemplateFreeContactElementBase : public virtual FiniteElement
   ///(const version)
   bool* use_isoparametric_flag_pt() const 
    {return Use_isoparametric_flag_pt;}
+  //setter
+  void set_isoparametric_flag_pt(bool &newValue) 
+  {Use_isoparametric_flag_pt = &newValue;}
 
   /// Access function: Pointer to flag to use collocated penetration
   bool*& use_collocated_penetration_flag_pt() 
@@ -760,6 +763,9 @@ class TemplateFreeContactElementBase : public virtual FiniteElement
   bool* use_collocated_penetration_flag_pt() const 
    {return Use_collocated_penetration_flag_pt;}
 
+  void set_collocated_penetration_flag_pt(bool &newValue)
+   {Use_collocated_penetration_flag_pt = &newValue;}
+
   /// Access function: Pointer to flag to use collocated contact pressure
   bool*& use_collocated_contact_pressure_flag_pt() 
    {return Use_collocated_contact_pressure_flag_pt;}
@@ -767,6 +773,10 @@ class TemplateFreeContactElementBase : public virtual FiniteElement
   ///(const version)
   bool* use_collocated_contact_pressure_flag_pt() 
    const {return Use_collocated_contact_pressure_flag_pt;}
+
+  //setter
+  void  set_collocated_contact_pressure_flag_pt(bool &newValue) 
+   {Use_collocated_contact_pressure_flag_pt = &newValue;}
 
 
   protected:
@@ -778,7 +788,6 @@ class TemplateFreeContactElementBase : public virtual FiniteElement
 
   //create an instance of a traction pointer
   TractionFctPt Traction_fct_pt;
-
 
   ///Set whether or not to use isoparametric basis function for pressure
   bool* Use_isoparametric_flag_pt;
@@ -2712,6 +2721,10 @@ public virtual SurfaceContactElementBase<ELEMENT>
  /// Return the residuals for the SurfaceContactElement equations
  void fill_in_contribution_to_residuals_surface_contact(Vector<double> &residuals);
 
+ //Return string that documents contact options
+ std::string get_contact_options_in_string();
+
+
  double get_area(){
    return area;
 }
@@ -2975,6 +2988,38 @@ public virtual SurfaceContactElementBase<ELEMENT>
 ////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////
 
+//=====================================================================
+/// Return string that documents contact options
+//=====================================================================
+template<class ELEMENT>
+std::string AxiSymNonlinearSurfaceContactElement<ELEMENT>::get_contact_options_in_string()
+{
+
+  std::string opt ="";
+
+  if(this->Use_isoparametric_flag_pt){
+    opt.append("# Use_isoparametric_flag_pt = true \n");
+  }
+  else{
+    opt.append("# Use_isoparametric_flag_pt = false \n");
+  }
+
+  if(this->Use_collocated_penetration_flag_pt){
+    opt.append("# Use_collocated_penetration_flag_pt = true \n");
+  }
+  else{
+    opt.append("# Use_collocated_penetration_flag_pt = false \n");
+  }
+
+  if(this->Use_isoparametric_flag_pt){
+    opt.append("# Use_collocated_contact_pressure_flag_pt = true \n");
+  }
+  else{
+    opt.append("# Use_collocated_contact_pressure_flag_pt = false \n");
+  }
+
+  return opt;
+ }
 
 
 //=====================================================================
