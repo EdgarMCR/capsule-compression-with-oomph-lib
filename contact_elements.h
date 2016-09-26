@@ -43,6 +43,7 @@
 // oomph-lib includes
 #include "generic.h" // ../generic/Qelements.h"
 
+
 namespace oomph
 {
  
@@ -2683,6 +2684,9 @@ public virtual SurfaceContactElementBase<ELEMENT>
  /// Holds the area in contact of teh element, sone by surface integral
  /// in the residual equation
  double area;
+
+ // A prefactor for the residual to allow to correct any scaling issues
+ double contact_pressure_prefactor;
  
   public:
  
@@ -2701,6 +2705,8 @@ public virtual SurfaceContactElementBase<ELEMENT>
   {
     force.push_back(0);
     force.push_back(0);
+    //Set the prefactor to 1, i.e. no scaling
+    contact_pressure_prefactor =1;
  }
  
  /// Return the residuals for the SurfaceContactElement equations
@@ -2719,6 +2725,19 @@ public virtual SurfaceContactElementBase<ELEMENT>
   unsigned n_plot=5;
   this->output(outfile,n_plot);
  }
+
+ void set_pressure_prefactor(double new_value)
+{
+  if(new_value > 0 )
+    {
+      contact_pressure_prefactor = new_value;
+    }
+  else{
+    std::cout << "Can only set prefactor in contact elements to positive values!" 
+	      << "Value not changed." << std::endl;
+  }
+}
+
 
  /// \short Output function
  void output(std::ostream &outfile, const unsigned &n_plot)
@@ -2805,6 +2824,7 @@ public virtual SurfaceContactElementBase<ELEMENT>
 
     outfile << f_x << " " << f_z << " ";
 
+    outfile << contact_pressure_prefactor << " ";
     outfile << std::endl;
    }
   
@@ -3446,7 +3466,8 @@ fill_in_contribution_to_residuals_surface_contact(Vector<double> &residuals)
  // Now add local contribution to existing entries
  for (unsigned j=0;j<n_dof;j++)
   {
-   residuals[j]+=local_residuals[j];
+   residuals[j] += contact_pressure_prefactor * 
+ local_residuals[j];
   }
 }
 

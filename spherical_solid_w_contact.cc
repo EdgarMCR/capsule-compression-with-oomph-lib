@@ -163,7 +163,7 @@ namespace Global_Physical_Variables
  double Volume = 0.243;
  
  //Compression Height H
- double H = 1.2;
+ double H = 1.0;
  
   //Preinflation of the capsule, 1 being the undeformed state
   double lambda = 1.0;  
@@ -243,7 +243,13 @@ namespace Global_Physical_Variables
  
  // Max number of adaptations per newton solve
  unsigned max_adapt = 1;
- 
+
+  // double to hold unde-relaxation factor to be set via
+  // command line
+  double under_relaxation=0.4;
+
+  //Pressure pre-factor for the contact equations
+  double contact_pressure_prefactor = 1;
 } //end namespace
 
 
@@ -969,6 +975,12 @@ void CantileverProblem<ELEMENT>::create_contact_elements()
      AxiSymNonlinearSurfaceContactElement<ELEMENT>* contact_element_pt = new 
       AxiSymNonlinearSurfaceContactElement<ELEMENT>(bulk_elem_pt,face_index);
       
+     // Set the scaling factor for the resiudal
+     if(Global_Physical_Variables::contact_pressure_prefactor != 1.0)
+       {
+	 contact_element_pt->set_pressure_prefactor(Global_Physical_Variables::contact_pressure_prefactor);
+       }
+
      //make sure there is no sticl
       if(contact_element_pt-> is_stick_enabled()){
           contact_element_pt->disable_stick();
@@ -1487,7 +1499,6 @@ template<class ELEMENT>
 /// Function to lower the parameter adaptivly 
 void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double target){
   double ds;
-
   
   int kk = 0; //number of steps
   int nr_errors=0; //Record the number of times the setp-size had to be halfed
@@ -1516,14 +1527,20 @@ void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targ
 
   if(parameter > target)
     {
-      ds = -1e-2; 
+	  ds = -1e-2;
     }
   else
     {
       ds = 1e-2;
     }
-  
-  while(abs(parameter -  target) > 1e-3)
+
+  // Make sure initial step isn't too big
+  if(std::abs(parameter - target) < ds)
+    {
+      ds = target - parameter;
+    }
+
+  while(abs(parameter -  target) > 1e-4)
     {
       if(ds < 0 && parameter+ds < target){
 	break;
@@ -1556,7 +1573,14 @@ void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targ
         //increase step size iff the number of newton steps is 
         //smaller than 10 (this assuming we are using an under-relaxed
         //Newton method)
-        if(newton_step < 12 && steps_since_reset > 3){ds = ds*2.0;}
+	if(newton_step < 12 && steps_since_reset > 3 && std::abs(2*ds) < std::abs(parameter - target))
+	    {
+	      std::cout << "Doubeling step size from " 
+			<< ds << " to " << 2*ds 
+			<< ". Current Parameter = " << parameter
+			<< " and target = " << target << "." << std::endl; 
+	      ds = ds*2.0;
+	    }
         
         // Doc solution
         doc_solution();
@@ -2030,6 +2054,13 @@ bool incompressible = true;
    //Lets check that displacement is zero
    problem2.doc_solution();
 
+}
+ else{
+   std::cout << "No loadSol variable provided, cannot load solution. " 
+	     << "Will try a newton solve with current parameters. This might fail. " 
+	     << std::endl; 
+ }
+
    double stepsize = 0.02; 
    double current_Target = parameter;
 
@@ -2068,12 +2099,7 @@ bool incompressible = true;
 
      }
    
-}
- else{
-   std::cout << "No loadSol variable provided, cannot load solution. " 
-	     << "'lower_parameter' function will now return without doing anything." 
-	     << std::endl; 
- }
+
      
 }
 
@@ -2183,16 +2209,10 @@ bool incompressible = true;
 }
 
 
-
-
-
-
-
-
 //===================================================================
 /// Function for standard run
 //===================================================================
-void standard_run(){
+void standard_run(double step_increment){
  // Set the consitutive law via command line argument
 
  // Initial values for parameter values
@@ -2262,7 +2282,7 @@ bool incompressible = true;
    //Lets check that displacement is zero
    problem2.doc_solution();
 
-   double H_stepsize = 0.02; //0.02 * 0.6 * Global_Physical_Variables::lambda;
+   double H_stepsize = step_increment; //0.02 * 0.6 * Global_Physical_Variables::lambda;
    double currentH_Target = Global_Physical_Variables::H;
    while(Global_Physical_Variables::H > 0.39*Global_Physical_Variables::lambda){
      std::cout << "Current height = " << Global_Physical_Variables::H 
@@ -2270,7 +2290,7 @@ bool incompressible = true;
 	       << " Target for next solution = " << currentH_Target
 	       << std::endl;
      currentH_Target -= H_stepsize;
-     problem2.lower_height(currentH_Target);
+     problem2.change_parameter(Global_Physical_Variables::H, currentH_Target);
      problem2.save_solution();//to have something to restart from in futur
      problem2.save_solution(".");
      std::cout << "Current height = " << Global_Physical_Variables::H 
@@ -2318,7 +2338,7 @@ bool incompressible = true;
 
    problem2.set_under_relaxation_factor(0.4);  //max under-relaxation possible for 2 elemtne in r direction    
 
-   double H_stepsize = 0.02; //0.02 * 0.6 * Global_Physical_Variables::lambda;
+   double H_stepsize = step_increment; //0.02 * 0.6 * Global_Physical_Variables::lambda;
    double currentH_Target = Global_Physical_Variables::H -0.1;
    while(Global_Physical_Variables::H > 0.39*Global_Physical_Variables::lambda){
      std::cout << "Current height = " << Global_Physical_Variables::H 
@@ -2336,6 +2356,13 @@ bool incompressible = true;
    }
 }
 }
+
+
+void standard()
+{
+  standard_run(0.2);
+}
+
 
 //=====================================================================
 // Function to demonstrate problem with reloading solution from file
@@ -2482,40 +2509,9 @@ else{
 
 void reload_solution_fresh_test(){
 
-
- if(Global_Physical_Variables::constitutive_law == "GH"){
-   //Create generalised Hookean constitutive equations
-   Global_Physical_Variables::Constitutive_law_pt = 
-     new GeneralisedHookean(&Global_Physical_Variables::Nu,
-                        &Global_Physical_Variables::E);
-
-   std::cout << "Setting constitutive law to GeneralisedHookean" << std::endl;
- }
-
- if(Global_Physical_Variables::constitutive_law == "MR"){
-  // Create MooneyRivlin constitutive equations
-  Global_Physical_Variables::Strain_energy_function_pt = 
-  new MooneyRivlin(&Global_Physical_Variables::C1,
-                        &Global_Physical_Variables::C2);
-
-  // Define a constitutive law (based on strAxisymmetricSolidTractionElementain energy function)
-  Global_Physical_Variables::Constitutive_law_pt = 
-  new IsotropicStrainEnergyFunctionConstitutiveLaw(
-   Global_Physical_Variables::Strain_energy_function_pt);
-
-   std::cout << "Setting constitutive law to MooneyRivlin" << std::endl;
- }
-
  // Initial values for parameter values
  Global_Physical_Variables::P=0.0; 
  Global_Physical_Variables::Gravity=0.0;
-
-
-  if(Global_Physical_Variables::printDebugInfo){
-        cout << " " << endl;
- 	cout << "Initial Newton solve: " << endl;
- }
-
 
  // Create penetrator
  Global_Physical_Variables::Penetrator_pt =
@@ -2545,15 +2541,13 @@ else{
   CantileverProblem<AxisymQPVDElementWithPressure> problem2(incompressible);
  
 
-   problem2.set_under_relaxation_factor(0.4);  
+   problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);  
    Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
 
-   Global_Physical_Variables::H = 0.8;
 
  //load previous soltution
   std::cout << "Loading solution: " << Global_Physical_Variables::loadSol << std::endl;
-  std::string file = "sol_nreler=1_nreletheta=48_H=0.8000_vol=0.2430_t=0.10.dat";
-  Solution_input_file.open(file.c_str());
+  Solution_input_file.open(Global_Physical_Variables::loadSol.c_str());
   problem2.read(Solution_input_file);
   Solution_input_file.close();
 
@@ -2570,6 +2564,10 @@ else{
 
    //Lets check that displacement is zero
    problem2.doc_solution();
+
+   problem2.save_solution();
+   problem2.save_solution(".");
+
 
 }
 
@@ -2650,8 +2648,17 @@ int main(int argc, char **argv){
  CommandLineArgs::specify_command_line_flag("--program",
                                             &Global_Physical_Variables::program);
 
+ //set the newton tolerance
  CommandLineArgs::specify_command_line_flag("--newtontol",
                                             &Global_Physical_Variables::newton_tol);
+
+ //prefactor for contact residues to improve scaling
+ CommandLineArgs::specify_command_line_flag("--contactscaling",
+                                            &Global_Physical_Variables::contact_pressure_prefactor);
+
+ CommandLineArgs::specify_command_line_flag("--underrelaxation",
+                                            &Global_Physical_Variables::under_relaxation);
+
 
   // Parse command line
  CommandLineArgs::parse_and_assign(); 
@@ -2720,12 +2727,20 @@ int main(int argc, char **argv){
  // switch which sub-routine to run 
  if(!Global_Physical_Variables::program.compare("standard")){
    std::cout << "Starting standard_run()" <<std::endl;
-   standard_run();
+   standard();
  }
  else{
+   if(!Global_Physical_Variables::program.compare("standardSmallSteps")){
+     std::cout << "standardSmallSteps" <<std::endl;
+     standard_run(0.01);
+   }
    if(!Global_Physical_Variables::program.compare("lowerC1")){
      std::cout << "lower_C1()" <<std::endl;
      lower_C1();
+   }
+   if(!Global_Physical_Variables::program.compare("lowerHto0.8")){
+     std::cout << "lowerHto0.8()" <<std::endl;
+     change_parameter(Global_Physical_Variables::H, 0.8);
    }
    if(!Global_Physical_Variables::program.compare("increaseVol"))
      {
@@ -2736,6 +2751,11 @@ int main(int argc, char **argv){
        //increase volume
        change_parameter(Global_Physical_Variables::lambda, 1.1);
      }
+  if(!Global_Physical_Variables::program.compare("reloadSolution"))
+     {
+       std::cout << "Starting program reload_solution_fresh_test()" << std::endl;
+       reload_solution_fresh_test();
+     } 
  }
  //reload_solution_test();
  // reload_solution_fresh_test();
