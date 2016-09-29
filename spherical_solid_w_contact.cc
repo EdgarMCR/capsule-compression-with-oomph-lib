@@ -1239,17 +1239,23 @@ void CantileverProblem<ELEMENT>::doc_solution()
 {
 
  ofstream some_file;
- char filename[100];
+ ofstream some_file2;
+ char filename[200];
+ char filename2[200];
 
  // Number of plot points
  unsigned n_plot = 5; 
 
  // Output shape of and stress in deformed body
  //--------------------------------------------
- sprintf(filename,"%s/t_%.2f_MR_C1%.2f_C2%.2f_P%.5f_soln%i.dat",Doc_info.directory().c_str(),
-        Global_Physical_Variables::t,        
-        Global_Physical_Variables::C1, Global_Physical_Variables::C2 , 
-        Global_Physical_Variables::P, Doc_info.number());
+ std::string global_val = get_global_variables_as_string();
+ sprintf(filename,"%s/output_%s_%d.dat",Doc_info.directory().c_str(),
+	 global_val.c_str(),
+	 Doc_info.number());
+ some_file.open(filename);
+ solid_mesh_pt()->output(some_file,2);
+ some_file.close();
+
  sprintf(filename,"%s/soln%i.dat",Doc_info.directory().c_str(),
         Doc_info.number());
  some_file.open(filename);
@@ -1285,6 +1291,11 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
 
   // Output contact elements
 
+ sprintf(filename2,"%s/contact_output_%s_%d.dat",Doc_info.directory().c_str(),
+	 global_val.c_str(),
+	 Doc_info.number());
+ some_file2.open(filename2);
+ 
  sprintf(filename,"%s/contact%i.dat",Doc_info.directory().c_str(),
          Doc_info.number());
  some_file.open(filename);
@@ -1298,6 +1309,16 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
 		    Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
            << std::endl;
 
+
+some_file2 << "#Contact mesh details for the compression of a sphere." << std::endl;
+some_file2 <<  get_global_variables_as_string() << std::endl ;
+ 
+ //document contact options
+ some_file2 << "# Contact options are: " << std::endl;
+ some_file2 <<  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
+		    Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
+           << std::endl;
+
  unsigned nel=Surface_contact_mesh_pt->nelement();
 
  double f_normal =0;
@@ -1307,6 +1328,11 @@ for (unsigned e=0;e<nel;e++)
 {
   dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
       Surface_contact_mesh_pt->element_pt(e))->output(some_file,n_plot);
+
+  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
+      Surface_contact_mesh_pt->element_pt(e))->output(some_file2,n_plot);
+
+
   /*
   force += dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
 									 Surface_contact_mesh_pt->element_pt(e))->get_force();
@@ -1333,6 +1359,7 @@ for (unsigned e=0;e<nel;e++)
  std::cout << " Contact force = (" <<f_normal << ", " 
 	   << f_orthoganal << ")."  << std::endl;
 some_file.close();
+some_file2.close();
  // Increment label for output files
  Doc_info.number()++;
  
@@ -1386,7 +1413,7 @@ if(Global_Physical_Variables::enforce_volume_constraint){
   some_file << "H = \t" <<  Global_Physical_Variables::H 
 	   << "\t Volume = \t" << vol 
 	    << "\t Pressure = \t" << el_pt->internal_data_pt(0)->value(0) 
-	    << "\t Normal Contact Force = \t" << f_normal<< std:: endl;
+	    << "\t Radial Contact Force = \t" << f_normal<< std:: endl;
  }
  some_file.close();
  
@@ -2025,13 +2052,14 @@ std::string CantileverProblem<ELEMENT>::get_global_variables_as_string()
 
 
     char buff[200];
-    sprintf(buff,"nreler=%d_nreletheta=%d_H=%.4f_lambda=%.2f_vol=%.4f_t=%.2f_%s",
+    sprintf(buff,"nreler=%d_nreletheta=%d_H=%.4f_lambda=%.2f_vol=%.4f_t=%.2f_nt=%.2e_%s",
             Global_Physical_Variables::n_ele_r,
             Global_Physical_Variables::n_ele_theta,
             Global_Physical_Variables::H,
             Global_Physical_Variables::lambda,
             Global_Physical_Variables::Volume,
             Global_Physical_Variables::t,
+            Global_Physical_Variables::newton_tol,
 	    constitutivelaw);
 
   std::string globals = buff;
@@ -2120,7 +2148,7 @@ bool incompressible = true;
 	     << std::endl; 
  }
 
-   double stepsize = 0.02; 
+   double stepsize = 0.01; 
    double current_Target = parameter;
 
    if(parameter > target)
