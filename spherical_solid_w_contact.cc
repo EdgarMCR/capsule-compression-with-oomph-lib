@@ -1253,6 +1253,10 @@ void CantileverProblem<ELEMENT>::doc_solution()
 	 global_val.c_str(),
 	 Doc_info.number());
  some_file.open(filename);
+ some_file.precision(17);
+ some_file.setf(ios::fixed);
+ some_file.setf(ios::showpoint);
+    
  solid_mesh_pt()->output(some_file,2);
  some_file.close();
 
@@ -1295,6 +1299,9 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
 	 global_val.c_str(),
 	 Doc_info.number());
  some_file2.open(filename2);
+ some_file2.precision(17);
+ some_file2.setf(ios::fixed);
+ some_file2.setf(ios::showpoint);
  
  sprintf(filename,"%s/contact%i.dat",Doc_info.directory().c_str(),
          Doc_info.number());
@@ -2641,7 +2648,7 @@ else{
    //Lets check how ti looks
    problem2.doc_solution();
 
-   std::cout << "Initial Newton Solve, shoudl converge immediatly. "
+   std::cout << "Initial Newton Solve, have doc'ed solution "
 	     << "H = " << Global_Physical_Variables::H
 	     << " Volume = " << Global_Physical_Variables::Volume
 	     << " P = " << problem2.get_interal_pressure() << std::endl;
@@ -2651,10 +2658,10 @@ else{
 
    //Lets check that displacement is zero
    problem2.doc_solution();
-
+   std::cout << " doc'ed solution, now saving restart file." << std::endl;
    problem2.save_solution();
    problem2.save_solution(".");
-
+   std::cout << "Saved restart file." << std::endl;
 
 }
 
@@ -2862,6 +2869,7 @@ int main(int argc, char **argv){
        reload_solution_fresh_test();
      } 
  }
+
  //reload_solution_test();
  // reload_solution_fresh_test();
 
