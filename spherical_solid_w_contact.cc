@@ -515,11 +515,7 @@ void actions_after_newton_solve() {}
  void save_solution();
  void save_solution(const char * directory);
  
- /// Lowers height adaptivly
- void lower_height(double targetHeight);
- void lower_height_w_revert(double targetHeight);
-
-  /// Change a parameter via adaptive continuation
+ /// Change a parameter via adaptive continuation
   void change_parameter(double &parameter, double target);
  
  void set_under_relaxation_factor(double ur){under_relaxation_factor = ur;}
@@ -1633,13 +1629,19 @@ void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targ
     {
       ds = target - parameter;
     }
-
-  while(abs(parameter -  target) > 1e-4)
+  // Check whether the parameter is equal to the target with
+  // a given tolerance tol
+  double tol = 1e-4;
+  while(abs(parameter -  target) > tol)
     {
-      if(ds < 0 && parameter+ds < target){
+      // Stop loop if next step takes parameter beyond target
+      // add small value to prevent round-off errors causing
+      // an early termination when a step would set the parameter
+      // equal to the target
+      if(ds < 0 && parameter+ds + tol*1e-2 < target){ //when lowering parameter
 	break;
       }
-      if(ds > 0 && parameter+ds > target){
+      if(ds > 0 && parameter+ds - tol*1e-2 > target){ //when increasing parameter
 	break;
       }
 
@@ -1728,7 +1730,9 @@ void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targ
     doc_solution();
   }
   catch(...){
-    std::cout << "LAst Newton solve failed, reverting to previous solution and returning" 
+    std::cout << "Last Newton solve failed, reverting to previous solution "
+	      << "and solving again with previous parameter value of "
+	      << final << ". This should converge immediatly." 
 	      << std::endl;
     //Revert height
     parameter = final;
@@ -1748,269 +1752,16 @@ void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targ
       doc_solution();
     }
     catch(...){
+      std::cout << "Did not converge immediatly as it should have."
+		<< "Function will return un-converged solution and "
+		<< "will probably lead to program to fail."
+		<< std::endl;
       nr_errors++;
     }
     nr_errors++;
   }
 
   std::cout << "The 'lower_parameter' function took " << kk +1 << " steps and" <<
-    " had to lower the step-size " << nr_errors << " times. " << std::endl;
-}
-
-template<class ELEMENT>
-/// Function to lower the height H adaptivly to reach states of high compression. 
-void CantileverProblem<ELEMENT>::lower_height(double targetHeight){
-  
-  //double diff = Global_Physical_Variables::H - targetHeight;
-  double ds = -1e-2; 
-  
-  int kk = 0; //number of steps
-  int nr_errors=0; //Record the number of times the setp-size had to be halfed
-  int steps_since_reset = 0;  
-  //Save current solution
-  char filename[100];
-  sprintf(filename,"sol_adaptive_lower_height.dat");
-  ofstream Solution_output_file;
-  ifstream Solution_input_file;
-
-  //Assumes problem is currently solved
-  // Let's solve once more just to be certain
-  std::cout << " Initial Newton solve, should converge immediatly." << std::endl;
-  #ifdef REFINE
-     newton_solve(Global_Physical_Variables::max_adapt);
-  #else
-     newton_solve();
-  #endif
-  
-  Solution_output_file.open(filename);
-  dump(Solution_output_file);    
-  Solution_output_file.close();
-  
-  while(Global_Physical_Variables::H > targetHeight)
-    {
-      //Lower contact height
-      if(Global_Physical_Variables::H+ds < targetHeight){
-	break;
-      }
-      Global_Physical_Variables::H+=ds;
-          
-      cout << endl;
-      cout << "Step " << kk << 
-            ". Decrementing Height to " << Global_Physical_Variables::H 
-            << " with step of " << ds << endl;
-      
-      try{
-        // Solve the problem    
-        #ifdef REFINE
-          newton_solve(Global_Physical_Variables::max_adapt);
-        #else
-          newton_solve();
-        #endif
-          
-        //increase step size iff the number of newton steps is 
-        //smaller than 10 (this assuming we are using an under-relaxed
-        //Newton method)
-        if(newton_step < 12 && steps_since_reset > 3){ds = ds*2.0;}
-        
-        // Doc solution
-        doc_solution();
-
-        Solution_output_file.open(filename);
-        dump(Solution_output_file);    
-        Solution_output_file.close();
-        
-        kk++;
-        steps_since_reset++;
-      }
-      catch(...){//Didn't working
-        //Revert height
-        Global_Physical_Variables::H-=ds;
-        
-        //half step-size
-        ds = ds/2.0;
-        
-        steps_since_reset = 0;
-        
-        if(abs(ds) < 1e-5){
-          std::cout << "Step is too small, aborting!" << std::endl;
-          return;
-        }
-        
-        //load previous soltution
-        Solution_input_file.open(filename);
-        read(Solution_input_file);
-        Solution_input_file.close();
-        
-        nr_errors++;
-      }
-    } 
-  //Save previous height
-  double finalH = Global_Physical_Variables::H;
-
-  //Reach below target height
-  Global_Physical_Variables::H = targetHeight;
-  std::cout << "Setting height to " << targetHeight << 
-    " and solving one last time." << std::endl; 
-  try{
-    // Solve the problem    
-    #ifdef REFINE
-    newton_solve(Global_Physical_Variables::max_adapt) ;
-    #else
-    newton_solve();
-    #endif  // Doc solution
-    doc_solution();
-  }
-  catch(...){
-    std::cout << "LAst Newton solve failed, reverting to previous solution and returning" 
-	      << std::endl;
-    //Revert height
-    Global_Physical_Variables::H = finalH;
-        
-    //load previous soltution
-    Solution_input_file.open(filename);
-    read(Solution_input_file);
-    Solution_input_file.close();
-
-    try{
-      // Solve the problem at previous state, should converge immediatly
-      #ifdef REFINE
-        newton_solve(Global_Physical_Variables::max_adapt) ;
-      #else
-        newton_solve();
-      #endif  // Doc solution
-      doc_solution();
-    }
-    catch(...){
-      nr_errors++;
-    }
-    nr_errors++;
-  }
-
-  std::cout << "The 'lower_height' function took " << kk +1 << " steps and" <<
-    " had to lower the step-size " << nr_errors << " times. " << std::endl;
-}
-
-template<class ELEMENT>
-/// Function to lower the height H adaptivly to reach states of high compression. 
-void CantileverProblem<ELEMENT>::lower_height_w_revert(double targetHeight){
-  
-  //double diff = Global_Physical_Variables::H - targetHeight;
-  double ds = -5e-2; 
-  
-  int kk = 0; //number of steps
-  int nr_errors=0; //Record the number of times the setp-size had to be halfed
-  
-  //Save current solution
-  char filename1[100];
-  sprintf(filename1,"sol_adaptive_lower_height_1.dat");
-  char filename2[100];
-  sprintf(filename2,"sol_adaptive_lower_height_2.dat");
-  char filename3[100];
-  sprintf(filename3,"sol_adaptive_lower_height_3.dat");
-  
-  ofstream Solution_output_file;
-  ifstream Solution_input_file;
-
-
-  Solution_output_file.open(filename1);
-  dump(Solution_output_file);    
-  Solution_output_file.close();
-  
-  while(Global_Physical_Variables::H > targetHeight)
-    {
-      //Lower contact height
-      Global_Physical_Variables::H+=ds;
-          
-      cout << endl;
-      cout << "Step " << kk << 
-            ". Decrementing Height to " << Global_Physical_Variables::H 
-            << " with step of " << ds << endl;
-      
-      try{
-        // Solve the problem    
-        #ifdef REFINE
-          newton_solve(Global_Physical_Variables::max_adapt);
-        #else
-          newton_solve();
-        #endif
-          
-        //increase step size iff the number of newton steps is 
-        //smaller than 10 (this assuming we are using an under-relaxed
-        //Newton method)
-        if(newton_step < 12){ds = ds*2.0;}
-        
-        // Doc solution
-        doc_solution();
-
-        //Copy filed to other files
-        if(kk>1){
-          std::ifstream  src(filename2, std::ios::binary);
-          std::ofstream  dst(filename3,   std::ios::binary);
-          dst << src.rdbuf();
-        }
-        std::ifstream  src(filename1, std::ios::binary);
-        std::ofstream  dst(filename2,   std::ios::binary);
-        dst << src.rdbuf();
-        
-        Solution_output_file.open(filename1);
-	Solution_output_file.precision(17);
-	Solution_output_file.setf(ios::fixed);
-	Solution_output_file.setf(ios::showpoint);
-        dump(Solution_output_file);    
-        Solution_output_file.close();
-        
-        kk++;
-      }
-      catch(...){//Didn't working        
-        //load previous soltution
-        if(kk > 2){
-          //Revert height
-          Global_Physical_Variables::H-= 3*ds;
-          Solution_input_file.open(filename3);
-        }
-        else{
-          if(kk==2){
-            //Revert height
-            Global_Physical_Variables::H-=2*ds;
-            std::cout << "Reading solution one step back." << std::endl;
-            Solution_input_file.open(filename2);
-          }
-          else{
-            //Revert height
-            Global_Physical_Variables::H-=ds;
-            std::cout << "Reading previous solution." << std::endl;
-            Solution_input_file.open(filename1);
-          }
-        }
-
-         //half step-size
-        ds = ds/2.0;
-        
-        if(abs(ds) < 1e-5){
-          std::cout << "Step is too small, aborting!" << std::endl;
-          return;
-        }
-        
-        read(Solution_input_file);
-        Solution_input_file.close();
-        
-        nr_errors++;
-      }
-    } 
-  
-  //Reach below target height
-  Global_Physical_Variables::H = targetHeight;
-  std::cout << "Setting height to " << targetHeight << 
-    " and solving one last time." << std::endl; 
-  // Solve the problem    
-  #ifdef REFINE
-    newton_solve(Global_Physical_Variables::max_adapt);
-  #else
-    newton_solve();
-  #endif  // Doc solution
-  doc_solution();
-  
-  std::cout << "The 'lower_height' function took " << kk +1 << " steps and" <<
     " had to lower the step-size " << nr_errors << " times. " << std::endl;
 }
 
@@ -2440,167 +2191,20 @@ bool incompressible = true;
 	       << " Target height = " << 0.39*Global_Physical_Variables::lambda
 	       << " Target for next solution = " << currentH_Target
 	       << std::endl;
-     currentH_Target -= H_stepsize;
-     problem2.lower_height(currentH_Target);
+     currentH_Target -= H_stepsize; 
+     problem2.change_parameter(Global_Physical_Variables::H, currentH_Target);
      problem2.save_solution();//to have something to restart from in futur
      problem2.save_solution(".");
      std::cout << "Current height = " << Global_Physical_Variables::H 
 	       << " Target height = " << 0.39*Global_Physical_Variables::lambda
-	       << std::endl;
-     
+	       << std::endl;    
    }
+ }
 }
-}
-
-
 void standard()
 {
   standard_run(0.2);
 }
-
-
-//=====================================================================
-// Function to demonstrate problem with reloading solution from file
-//====================================================================
-
-void reload_solution_test(){
-
-
- if(Global_Physical_Variables::constitutive_law == "GH"){
-   //Create generalised Hookean constitutive equations
-   Global_Physical_Variables::Constitutive_law_pt = 
-     new GeneralisedHookean(&Global_Physical_Variables::Nu,
-                        &Global_Physical_Variables::E);
-
-   std::cout << "Setting constitutive law to GeneralisedHookean" << std::endl;
- }
-
- if(Global_Physical_Variables::constitutive_law == "MR"){
-  // Create MooneyRivlin constitutive equations
-  Global_Physical_Variables::Strain_energy_function_pt = 
-  new MooneyRivlin(&Global_Physical_Variables::C1,
-                        &Global_Physical_Variables::C2);
-
-  // Define a constitutive law (based on strAxisymmetricSolidTractionElementain energy function)
-  Global_Physical_Variables::Constitutive_law_pt = 
-  new IsotropicStrainEnergyFunctionConstitutiveLaw(
-   Global_Physical_Variables::Strain_energy_function_pt);
-
-   std::cout << "Setting constitutive law to MooneyRivlin" << std::endl;
- }
-
- // Initial values for parameter values
- Global_Physical_Variables::P=0.0; 
- Global_Physical_Variables::Gravity=0.0;
-
-
-  if(Global_Physical_Variables::printDebugInfo){
-        cout << " " << endl;
- 	cout << "Initial Newton solve: " << endl;
- }
-
- // Create penetrator
- Global_Physical_Variables::Penetrator_pt =
-  new AxiSymPenetrator(&Global_Physical_Variables::H);
-  
-if(false){
- Global_Physical_Variables::n_ele_theta = 2.0* Global_Physical_Variables::n_ele_r;
-}
-else{
- Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*3;
-}
-
- cout << "Thickness = " << Global_Physical_Variables::t << " with " <<
-        Global_Physical_Variables::n_ele_r << ", " << 
-        Global_Physical_Variables::n_ele_theta << 
-        " elements in the r and theta direction" << endl;
-
- bool incompressible = true;
-
- // Creating two problems
- CantileverProblem<AxisymQPVDElementWithPressure> problem1(incompressible); 
-
- cout << endl;
-
-   // Set volume to correspond to the actual volume of the undefomred sphere
-   Global_Physical_Variables::Volume = pow((1 - Global_Physical_Variables::t), 3) / 3;
-
-   //Set height to 0.01 aboe the predicted height of capsule
-   Global_Physical_Variables::H = Global_Physical_Variables::lambda; 
-
-
- cout << "Starting Newton Solve " << endl;
-   //solve once in undeformed configuration, hopefully this should converge immediatly
-   problem1.newton_solve();
-
-   //Lets check that displacement is zero
-   problem1.doc_solution();
-
-   problem1.set_under_relaxation_factor(0.4);  //max under-relaxation possible for 2 elemtne in r direction    
-
-   double finalTarget = 0.8;
-   double H_stepsize = 0.1; //0.02 * 0.6 * Global_Physical_Variables::lambda;
-   double currentH_Target = Global_Physical_Variables::H;
-   while(Global_Physical_Variables::H > finalTarget*Global_Physical_Variables::lambda){
-     std::cout << "Current height = " << Global_Physical_Variables::H 
-	       << " Target height = " << finalTarget*Global_Physical_Variables::lambda
-	       << " Target for next solution = " << currentH_Target
-	       << std::endl;
-     currentH_Target -= H_stepsize;
-     problem1.lower_height(currentH_Target);
-     problem1.save_solution(".");
-     std::cout << "Current height = " << Global_Physical_Variables::H 
-	       << " Target height = " << finalTarget*Global_Physical_Variables::lambda
-	       << std::endl;
-     
-   }
-  
-  ofstream Solution_output_file;
-  ifstream Solution_input_file;
-  CantileverProblem<AxisymQPVDElementWithPressure> problem2(incompressible);
- 
- //load previous soltution
-  std::cout << "Loading solution: " << Global_Physical_Variables::loadSol << std::endl;
-  std::string file = "sol_nreler=1_nreletheta=48_H=0.8000_vol=0.2430_t=0.10.dat";
-  Solution_input_file.open(file.c_str());
-  problem2.read(Solution_input_file);
-  Solution_input_file.close();
-
-   //Lets check how it looks
-   problem2.doc_solution();
-
-   problem2.set_under_relaxation_factor(0.4);  
-   Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
-   std::cout << "Initial Newton Solve, shoudl converge immediatly. "
-	     << "H = " << Global_Physical_Variables::H
-	     << " Volume = " << Global_Physical_Variables::Volume
-	     << " P = " << problem2.get_interal_pressure() << std::endl;
-   //solve once in undeformed configuration, hopefully this should converge immediatly
-   problem2.newton_solve();
-
-   //Lets check that displacement is zero
-   problem2.doc_solution();
-   finalTarget = finalTarget - 0.02;
-   H_stepsize = 0.02; //0.02 * 0.6 * Global_Physical_Variables::lambda;
-   currentH_Target = Global_Physical_Variables::H;
-   while(Global_Physical_Variables::H > finalTarget*Global_Physical_Variables::lambda){
-     std::cout << "Current height = " << Global_Physical_Variables::H 
-	       << " Target height = " << finalTarget*Global_Physical_Variables::lambda
-	       << " Target for next solution = " << currentH_Target
-	       << std::endl;
-     currentH_Target -= H_stepsize;
-     problem2.lower_height(currentH_Target);
-     problem2.save_solution();//to have something to restart from in futur
-     problem2.save_solution(".");
-     std::cout << "Current height = " << Global_Physical_Variables::H 
-	       << " Target height = " << finalTarget*Global_Physical_Variables::lambda
-	       << std::endl;
-   }
-   
-
-
-}
-
 
 void reload_solution_fresh_test(){
 
@@ -2688,6 +2292,10 @@ int main(int argc, char **argv){
   cout << "spherical_solid_w_contact.cc log info" << endl;
  #endif
 
+  //Output the time and date at which the code was compiled
+  std::cout << "Code was compiled on the " 
+	    << __DATE__ << " at " << __TIME__
+	    << "." << std::endl;
 
   // Set the precision fo output to maximum (i.e. double) to avoid problems
   // due to rounding when reloading
