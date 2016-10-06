@@ -52,22 +52,23 @@ using namespace std;
 
 using namespace oomph;
 
+#ifndef HTCONDOR
 /// To redirect a copy of cout to a log file
 // If this gives an error, need to install boost
 // 'sudo apt-get install libboost-iostreams-dev' 
-#include <boost/iostreams/tee.hpp>
-#include <boost/iostreams/stream.hpp>
-#include <fstream>
-#include <iostream>
+ #include <boost/iostreams/tee.hpp>
+ #include <boost/iostreams/stream.hpp>
+ #include <fstream>
+ #include <iostream>
 
-using std::ostream;
-using std::ofstream;
-//using std::cout;
+ using std::ostream;
+ using std::ofstream;
+ //using std::cout;
 
-namespace bio = boost::iostreams;
-using bio::tee_device;
-using bio::stream;
-
+ namespace bio = boost::iostreams;
+ using bio::tee_device;
+ using bio::stream;
+#endif
 
 //=============================================================================
 /// One-dimensional integration scheme that locates integration points
@@ -2193,7 +2194,7 @@ bool incompressible = true;
 
      }
    
-
+   return;
      
 }
 
@@ -2670,12 +2671,9 @@ else{
 /// gravity
 //======================================================================
 int main(int argc, char **argv){
+ #ifndef HTCONDOR
   typedef boost::iostreams::tee_device<ostream, ofstream> TeeDevice;
   typedef boost::iostreams::stream<TeeDevice> TeeStream;
-
-  // Set the precision fo output to maximum (i.e. double) to avoid problems
-  // due to rounding when reloading
-  // cout.precision(17);  
 
   /// Redirect a copy of cout to file
   remove("spherical_solid_w_contact.log");
@@ -2688,6 +2686,13 @@ int main(int argc, char **argv){
 
   cout.rdbuf(logger.rdbuf());
   cout << "spherical_solid_w_contact.cc log info" << endl;
+ #endif
+
+
+  // Set the precision fo output to maximum (i.e. double) to avoid problems
+  // due to rounding when reloading
+  // cout.precision(17);  
+
 
    // Store command line arguments
  CommandLineArgs::setup(argc,argv);
@@ -2846,6 +2851,10 @@ int main(int argc, char **argv){
      std::cout << "standardSmallSteps" <<std::endl;
      standard_run(0.01);
    }
+   if(!Global_Physical_Variables::program.compare("standard0.05Steps")){
+     std::cout << "standard0.05Steps" <<std::endl;
+     standard_run(0.05);
+   }
    if(!Global_Physical_Variables::program.compare("lowerC1")){
      std::cout << "lower_C1()" <<std::endl;
      lower_C1();
@@ -2854,6 +2863,12 @@ int main(int argc, char **argv){
      std::cout << "lowerHto0.8()" <<std::endl;
      change_parameter(Global_Physical_Variables::H, 0.8);
    }
+   if(!Global_Physical_Variables::program.compare("lowerHto0.99")){
+     std::cout << "lowerHto0.99()" <<std::endl;
+     change_parameter(Global_Physical_Variables::H, 0.99);
+     std::cout << "finished lowerHto0.99()" << std::endl;
+   }
+
    if(!Global_Physical_Variables::program.compare("increaseVol"))
      {
        std::cout << "Decreasing/increaseing Volume to lambda = 1.1."
@@ -2872,10 +2887,12 @@ int main(int argc, char **argv){
 
  //reload_solution_test();
  // reload_solution_fresh_test();
+ #ifndef HTCONDOR
+  std::cout << "Closing logger" << std::endl;   
+  logger.close();
+ #endif
 
-    
- logger.close();
- 
+ std::cout << "Returning 0" << std::endl; 
 return 0;
  
 } //end of main
