@@ -1836,7 +1836,7 @@ std::string CantileverProblem<ELEMENT>::get_global_variables_as_string()
 /// Function to lower a parameter passed by reference
 //===================================================================
 
-void change_parameter(double &parameter, double target){
+void change_parameter(double &parameter, double target, double stepsize){
  // Initial values for parameter values
  Global_Physical_Variables::P=0.0; 
  Global_Physical_Variables::Gravity=0.0;
@@ -1867,7 +1867,9 @@ bool incompressible = true;
  //  std::cin.ignore(); 
   
  ifstream Solution_input_file; //for loading solution
- 
+
+ // Set the under-relaxation factor
+ problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);  
 
  if(!Global_Physical_Variables::loadSol.empty()){
   
@@ -1882,8 +1884,6 @@ bool incompressible = true;
 
    //Lets check how ti looks
    problem2.doc_solution();
-
-   problem2.set_under_relaxation_factor(0.4);  
    Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
    std::cout << "Initial Newton Solve, shoudl converge immediatly. "
 	     << "H = " << Global_Physical_Variables::H
@@ -1903,17 +1903,62 @@ bool incompressible = true;
 }
  else{
    std::cout << "No loadSol variable provided, cannot load solution. " 
-	     << "Will try a newton solve with current parameters. This might fail. " 
+	     << "Will try set-up problem. This might fail. " 
 	     << std::endl; 
+
+   //Set penetrator height to the predicted height of capsule
+   Global_Physical_Variables::H = Global_Physical_Variables::lambda; 
+
+   // save lambda and set it to one
+   double  save_lambda = Global_Physical_Variables::lambda;  
+   Global_Physical_Variables::lambda = 1.0;
+
+ cout << "Starting Newton Solve, expect this to converge immeditatl " << endl;
+   //solve once in undeformed configuration, hopefully this should converge immediatly
+ #ifdef REFINE
+ Global_Physical_Variables::max_adapt=1;
+   problem2.newton_solve(Global_Physical_Variables::max_adapt);
+#else
+   problem2.newton_solve();
+#endif
+ 
+   //Lets check that displacement is zero
+   problem2.doc_solution();
+
+   //Increase volume first
+   //run the function that increases volume
+   problem2.set_under_relaxation_factor(1.0); //when there is no contact, can use normal newton solve
+
+   Global_Physical_Variables::lambda = save_lambda;
+
+   std::cout << " Aiming for volume of " << problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda) <<
+     " corrseponding to lambda of " << Global_Physical_Variables::lambda << " from a volume of " << Global_Physical_Variables::Volume <<
+     " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
+
+   Global_Physical_Variables::lambda  = 1.0;
+   problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
+
+   problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
+
  }
 
-   double stepsize = 0.01; 
    double current_Target = parameter;
 
    if(parameter > target)
      {
        stepsize = stepsize*-1.0;
+       // While the parameter is above the target, decrement it in steps
+       // of stepsize until target is reached
        while(parameter > target){
+
+	 //check whether next step will overshoot and adjust 
+	 // step size if needed. Added a small amount to 
+	 // ensure round-of error doesn't kick in when the
+	 // stepsize hits the target exactly. 
+	 if(parameter + stepsize + 1e-6 < target){
+	   stepsize = target - parameter;
+	 }
+ 
 	 std::cout << "Current parameter value = " << parameter
 		   << " Target = " << target
 		   << " Target for next solution = " << current_Target
@@ -1930,6 +1975,15 @@ bool incompressible = true;
    else
      {
        while(parameter < target){
+
+	 //check whether next step will overshoot and adjust 
+	 // step size if needed. Added a small amount to 
+	 // ensure round-of error doesn't kick in when the
+	 // stepsize hits the target exactly. 
+	 if(parameter + stepsize - 1e-6 > target){
+	   stepsize = target - parameter;
+	 }
+
 	 std::cout << "Current parameter value = " << parameter
 		   << " Target = " << target
 		   << " Target for next solution = " << current_Target
@@ -1949,110 +2003,6 @@ bool incompressible = true;
      
 }
 
-
-//===================================================================
-/// Function to lower the C1 variable of the Moony-Rivling 
-/// consitutive law
-//===================================================================
-
-void lower_C1(){
- // Set the consitutive law via command line argument
-
- if(Global_Physical_Variables::constitutive_law == "GH"){
-   std::cout << "Trying to set constitutive law to GeneralisedHookean. " 
-	     << "'lower_C1' only works with Moony-Rivlin law! "
-	     << "Function will return without doing anything"
-	     << std::endl;
-
-   return;
- }
-
- // Initial values for parameter values
- Global_Physical_Variables::P=0.0; 
- Global_Physical_Variables::Gravity=0.0;
-
- // Create penetrator
- Global_Physical_Variables::Penetrator_pt =
-  new AxiSymPenetrator(&Global_Physical_Variables::H);
-  
- Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*3;
-
-
- cout << "Thickness = " << Global_Physical_Variables::t << " with " <<
-        Global_Physical_Variables::n_ele_r << ", " << 
-        Global_Physical_Variables::n_ele_theta << 
-        " elements in the r and theta direction" << endl;
-
-bool incompressible = true;
-#ifdef REFINE
-      //TODO: Write refinable element
-#else
-  CantileverProblem<AxisymQPVDElementWithPressure> problem2(incompressible);
-#endif
- cout << endl;
-
- //  std::cout << "Press Enter\n";
- //  std::cin.ignore(); 
-  
- ifstream Solution_input_file; //for loading solution
- 
-
- if(!Global_Physical_Variables::loadSol.empty()){
-  
-  ofstream Solution_output_file;
-  ifstream Solution_input_file;
-
-  //load previous soltution
-  std::cout << "Loading solution: " << Global_Physical_Variables::loadSol << std::endl;
-  Solution_input_file.open(Global_Physical_Variables::loadSol.c_str());
-  problem2.read(Solution_input_file);
-  Solution_input_file.close();
-
-   //Lets check how ti looks
-   problem2.doc_solution();
-
-   problem2.set_under_relaxation_factor(0.4);  
-   Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
-   std::cout << "Initial Newton Solve, shoudl converge immediatly. "
-	     << "H = " << Global_Physical_Variables::H
-	     << " Volume = " << Global_Physical_Variables::Volume
-	     << " P = " << problem2.get_interal_pressure() << std::endl;
-   //solve once in undeformed configuration, hopefully this should converge immediatly
-   #ifdef REFINE
-     Global_Physical_Variables::max_adapt=1;
-     problem2.newton_solve(Global_Physical_Variables::max_adapt);
-   #else
-     problem2.newton_solve();
-   #endif
-
-   //Lets check that displacement is zero
-   problem2.doc_solution();
-
-   double stepsize = 0.02; 
-   double target = 0.1;
-   double current_Target = Global_Physical_Variables::C1;
-   while(Global_Physical_Variables::C1 > target){
-     std::cout << "Current C1 = " << Global_Physical_Variables::C1 
-	       << " Target height = " << target
-	       << " Target for next solution = " << current_Target
-	       << std::endl;
-     current_Target -= stepsize;
-     problem2.change_parameter(Global_Physical_Variables::C1, current_Target);
-     problem2.save_solution();//to have something to restart from in futur
-     problem2.save_solution(".");
-     std::cout << "Current C1 = " << Global_Physical_Variables::C1 
-	       << " Target C1 = " << target
-	       << std::endl;
-   }
-   
-}
- else{
-   std::cout << "No loadSol variable provided, cannot load solution. " 
-	     << "'lower_C1' function will now return without doing anything." 
-	     << std::endl; 
- }
-     
-}
 
 
 //===================================================================
@@ -2110,7 +2060,7 @@ bool incompressible = true;
 
    //Lets check how ti looks
    problem2.doc_solution();
-
+   problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);  
    Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
    std::cout << "Initial Newton Solve, shoudl converge immediatly. "
 	     << "H = " << Global_Physical_Variables::H
@@ -2181,7 +2131,7 @@ bool incompressible = true;
    Global_Physical_Variables::lambda  = 1.0;
    problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
 
-   problem2.set_under_relaxation_factor(0.4);  //max under-relaxation possible for 2 elemtne in r direction    
+   problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
 
    double H_stepsize = step_increment; //0.02 * 0.6 * Global_Physical_Variables::lambda;
    double currentH_Target = Global_Physical_Variables::H -0.1;
@@ -2365,7 +2315,6 @@ int main(int argc, char **argv){
  CommandLineArgs::specify_command_line_flag("--underrelaxation",
                                             &Global_Physical_Variables::under_relaxation);
 
-
  // set the contact options
   ///Set whether or not to use isoparametric basis function for pressure
  CommandLineArgs::specify_command_line_flag("--contact_use_isoparametric",
@@ -2456,23 +2405,25 @@ int main(int argc, char **argv){
  else{
    if(!Global_Physical_Variables::program.compare("standardSmallSteps")){
      std::cout << "standardSmallSteps" <<std::endl;
-     standard_run(0.01);
+     //standard_run(0.01);
+     change_parameter(Global_Physical_Variables::H, 0.39 * Global_Physical_Variables::lambda, 0.01);
    }
    if(!Global_Physical_Variables::program.compare("standard0.05Steps")){
      std::cout << "standard0.05Steps" <<std::endl;
-     standard_run(0.05);
+     //standard_run(0.05);
+     change_parameter(Global_Physical_Variables::H, 0.39 * Global_Physical_Variables::lambda, 0.05);
    }
    if(!Global_Physical_Variables::program.compare("lowerC1")){
      std::cout << "lower_C1()" <<std::endl;
-     lower_C1();
+     change_parameter(Global_Physical_Variables::C1, 0.1, 0.2);
    }
    if(!Global_Physical_Variables::program.compare("lowerHto0.8")){
      std::cout << "lowerHto0.8()" <<std::endl;
-     change_parameter(Global_Physical_Variables::H, 0.8);
+     change_parameter(Global_Physical_Variables::H, 0.8, 0.2);
    }
    if(!Global_Physical_Variables::program.compare("lowerHto0.99")){
      std::cout << "lowerHto0.99()" <<std::endl;
-     change_parameter(Global_Physical_Variables::H, 0.99);
+     change_parameter(Global_Physical_Variables::H, 0.99, 0.1);
      std::cout << "finished lowerHto0.99()" << std::endl;
    }
 
@@ -2483,7 +2434,7 @@ int main(int argc, char **argv){
 		 << Global_Physical_Variables::lambda
 		 << " )"  <<std::endl;
        //increase volume
-       change_parameter(Global_Physical_Variables::lambda, 1.1);
+       change_parameter(Global_Physical_Variables::lambda, 1.1, 0.1);
      }
   if(!Global_Physical_Variables::program.compare("reloadSolution"))
      {

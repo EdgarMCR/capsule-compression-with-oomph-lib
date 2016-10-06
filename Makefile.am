@@ -6,8 +6,8 @@ check_PROGRAMS=airy_cantilever airy_cantilever2_adapt \
 airy_cantilever2_noadapt spherical_solid spherical_solid_compressed \
 spherical_solid_imposedDisp \
 solid_contact spherical_solid_w_contact \
-solid_contact spherical_solid_w_contact_static \
-solid_contact spherical_solid_w_contact_adaptive
+spherical_solid_w_contact_static \
+spherical_solid_w_contact_adaptive
 
 #-------------------------------------------------
 

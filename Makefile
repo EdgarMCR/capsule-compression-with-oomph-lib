@@ -85,7 +85,8 @@ check_PROGRAMS = airy_cantilever$(EXEEXT) \
 	airy_cantilever2_noadapt$(EXEEXT) spherical_solid$(EXEEXT) \
 	spherical_solid_compressed$(EXEEXT) \
 	spherical_solid_imposedDisp$(EXEEXT) solid_contact$(EXEEXT) \
-	spherical_solid_w_contact$(EXEEXT) solid_contact$(EXEEXT) \
+	spherical_solid_w_contact$(EXEEXT) \
+	spherical_solid_w_contact_static$(EXEEXT) \
 	spherical_solid_w_contact_adaptive$(EXEEXT)
 subdir = user_drivers/edgar_haener/spherical_solid
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -156,6 +157,16 @@ spherical_solid_w_contact_adaptive_LINK = $(LIBTOOL) $(AM_V_lt) \
 	--tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
 	$(CXXLD) $(spherical_solid_w_contact_adaptive_CXXFLAGS) \
 	$(CXXFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+am_spherical_solid_w_contact_static_OBJECTS = spherical_solid_w_contact_static-spherical_solid_w_contact.$(OBJEXT)
+spherical_solid_w_contact_static_OBJECTS =  \
+	$(am_spherical_solid_w_contact_static_OBJECTS)
+spherical_solid_w_contact_static_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+spherical_solid_w_contact_static_LINK = $(LIBTOOL) $(AM_V_lt) \
+	--tag=CXX $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=link \
+	$(CXXLD) $(spherical_solid_w_contact_static_CXXFLAGS) \
+	$(CXXFLAGS) $(spherical_solid_w_contact_static_LDFLAGS) \
+	$(LDFLAGS) -o $@
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -195,7 +206,8 @@ SOURCES = $(airy_cantilever_SOURCES) $(airy_cantilever2_adapt_SOURCES) \
 	$(spherical_solid_compressed_SOURCES) \
 	$(spherical_solid_imposedDisp_SOURCES) \
 	$(spherical_solid_w_contact_SOURCES) \
-	$(spherical_solid_w_contact_adaptive_SOURCES)
+	$(spherical_solid_w_contact_adaptive_SOURCES) \
+	$(spherical_solid_w_contact_static_SOURCES)
 DIST_SOURCES = $(airy_cantilever_SOURCES) \
 	$(airy_cantilever2_adapt_SOURCES) \
 	$(airy_cantilever2_noadapt_SOURCES) $(solid_contact_SOURCES) \
@@ -203,7 +215,8 @@ DIST_SOURCES = $(airy_cantilever_SOURCES) \
 	$(spherical_solid_compressed_SOURCES) \
 	$(spherical_solid_imposedDisp_SOURCES) \
 	$(spherical_solid_w_contact_SOURCES) \
-	$(spherical_solid_w_contact_adaptive_SOURCES)
+	$(spherical_solid_w_contact_adaptive_SOURCES) \
+	$(spherical_solid_w_contact_static_SOURCES)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -522,6 +535,27 @@ spherical_solid_w_contact_LDADD = -L${exec_prefix}/lib -lsolid -lconstitutive \
 #-----------------------------------------------------------------------
 
 # Sources for executable
+spherical_solid_w_contact_static_SOURCES = spherical_solid_w_contact.cc
+spherical_solid_w_contact_static_LDFLAGS = -static -static-libgcc -static-libstdc++ -static-libgfortran
+
+# Required libraries:
+# $(FLIBS) is included in case the  solver involves fortran sources.
+spherical_solid_w_contact_static_LDADD = -L${exec_prefix}/lib -l:libsolid.a -l:libconstitutive.a \
+                        -l:libgeneric.a -l:liboomph_arpack.a -l:liboomph_superlu_4.3.a\
+			-l:liboomph_lapack.a -l:liboomph_flapack.a -l:liboomph_blas.a \
+			-l:libgfortran.a \
+			-l:libquadmath.a  \
+			$(EXTERNAL_LIBS) $(FLIBS)
+
+#-l:libm.a -l:libc.a  
+
+#spherical_solid_w_contact_static_CFLAGS=-static -static-libgcc -static-libstdc++ -static-libgfortran
+spherical_solid_w_contact_static_CXXFLAGS = -DHTCONDOR
+#-----------------------------------------------------------------------
+
+#-----------------------------------------------------------------------
+
+# Sources for executable
 spherical_solid_w_contact_adaptive_SOURCES = spherical_solid_w_contact.cc
 
 # Required libraries:
@@ -611,6 +645,10 @@ spherical_solid_w_contact_adaptive$(EXEEXT): $(spherical_solid_w_contact_adaptiv
 	@rm -f spherical_solid_w_contact_adaptive$(EXEEXT)
 	$(AM_V_CXXLD)$(spherical_solid_w_contact_adaptive_LINK) $(spherical_solid_w_contact_adaptive_OBJECTS) $(spherical_solid_w_contact_adaptive_LDADD) $(LIBS)
 
+spherical_solid_w_contact_static$(EXEEXT): $(spherical_solid_w_contact_static_OBJECTS) $(spherical_solid_w_contact_static_DEPENDENCIES) $(EXTRA_spherical_solid_w_contact_static_DEPENDENCIES) 
+	@rm -f spherical_solid_w_contact_static$(EXEEXT)
+	$(AM_V_CXXLD)$(spherical_solid_w_contact_static_LINK) $(spherical_solid_w_contact_static_OBJECTS) $(spherical_solid_w_contact_static_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -626,6 +664,7 @@ include ./$(DEPDIR)/spherical_solid_compressed.Po
 include ./$(DEPDIR)/spherical_solid_imposedDisp.Po
 include ./$(DEPDIR)/spherical_solid_w_contact.Po
 include ./$(DEPDIR)/spherical_solid_w_contact_adaptive-spherical_solid_w_contact.Po
+include ./$(DEPDIR)/spherical_solid_w_contact_static-spherical_solid_w_contact.Po
 
 .cc.o:
 	$(AM_V_CXX)$(CXXCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
@@ -675,6 +714,20 @@ spherical_solid_w_contact_adaptive-spherical_solid_w_contact.obj: spherical_soli
 #	$(AM_V_CXX)source='spherical_solid_w_contact.cc' object='spherical_solid_w_contact_adaptive-spherical_solid_w_contact.obj' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
 #	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(spherical_solid_w_contact_adaptive_CXXFLAGS) $(CXXFLAGS) -c -o spherical_solid_w_contact_adaptive-spherical_solid_w_contact.obj `if test -f 'spherical_solid_w_contact.cc'; then $(CYGPATH_W) 'spherical_solid_w_contact.cc'; else $(CYGPATH_W) '$(srcdir)/spherical_solid_w_contact.cc'; fi`
+
+spherical_solid_w_contact_static-spherical_solid_w_contact.o: spherical_solid_w_contact.cc
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(spherical_solid_w_contact_static_CXXFLAGS) $(CXXFLAGS) -MT spherical_solid_w_contact_static-spherical_solid_w_contact.o -MD -MP -MF $(DEPDIR)/spherical_solid_w_contact_static-spherical_solid_w_contact.Tpo -c -o spherical_solid_w_contact_static-spherical_solid_w_contact.o `test -f 'spherical_solid_w_contact.cc' || echo '$(srcdir)/'`spherical_solid_w_contact.cc
+	$(AM_V_at)$(am__mv) $(DEPDIR)/spherical_solid_w_contact_static-spherical_solid_w_contact.Tpo $(DEPDIR)/spherical_solid_w_contact_static-spherical_solid_w_contact.Po
+#	$(AM_V_CXX)source='spherical_solid_w_contact.cc' object='spherical_solid_w_contact_static-spherical_solid_w_contact.o' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(spherical_solid_w_contact_static_CXXFLAGS) $(CXXFLAGS) -c -o spherical_solid_w_contact_static-spherical_solid_w_contact.o `test -f 'spherical_solid_w_contact.cc' || echo '$(srcdir)/'`spherical_solid_w_contact.cc
+
+spherical_solid_w_contact_static-spherical_solid_w_contact.obj: spherical_solid_w_contact.cc
+	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(spherical_solid_w_contact_static_CXXFLAGS) $(CXXFLAGS) -MT spherical_solid_w_contact_static-spherical_solid_w_contact.obj -MD -MP -MF $(DEPDIR)/spherical_solid_w_contact_static-spherical_solid_w_contact.Tpo -c -o spherical_solid_w_contact_static-spherical_solid_w_contact.obj `if test -f 'spherical_solid_w_contact.cc'; then $(CYGPATH_W) 'spherical_solid_w_contact.cc'; else $(CYGPATH_W) '$(srcdir)/spherical_solid_w_contact.cc'; fi`
+	$(AM_V_at)$(am__mv) $(DEPDIR)/spherical_solid_w_contact_static-spherical_solid_w_contact.Tpo $(DEPDIR)/spherical_solid_w_contact_static-spherical_solid_w_contact.Po
+#	$(AM_V_CXX)source='spherical_solid_w_contact.cc' object='spherical_solid_w_contact_static-spherical_solid_w_contact.obj' libtool=no \
+#	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) \
+#	$(AM_V_CXX_no)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(spherical_solid_w_contact_static_CXXFLAGS) $(CXXFLAGS) -c -o spherical_solid_w_contact_static-spherical_solid_w_contact.obj `if test -f 'spherical_solid_w_contact.cc'; then $(CYGPATH_W) 'spherical_solid_w_contact.cc'; else $(CYGPATH_W) '$(srcdir)/spherical_solid_w_contact.cc'; fi`
 
 mostlyclean-libtool:
 	-rm -f *.lo
