@@ -2111,7 +2111,6 @@ bool incompressible = true;
    //Lets check how ti looks
    problem2.doc_solution();
 
-   problem2.set_under_relaxation_factor(0.4);  
    Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
    std::cout << "Initial Newton Solve, shoudl converge immediatly. "
 	     << "H = " << Global_Physical_Variables::H
