@@ -516,9 +516,11 @@ void actions_after_newton_solve() {}
  void save_solution(const char * directory);
  
  /// Change a parameter via adaptive continuation
-  void change_parameter(double &parameter, double target);
+  int change_parameter(double &parameter, double target);
  
- void set_under_relaxation_factor(double ur){under_relaxation_factor = ur;}
+  // Set and get the under_relaxation of the newton method
+  void set_under_relaxation_factor(double ur){under_relaxation_factor = ur;}
+  const double get_under_relaxation_factor(){return under_relaxation_factor;}
 
   double calc_inflated_vol(double t, double lambda);
 
@@ -1257,6 +1259,9 @@ void CantileverProblem<ELEMENT>::doc_solution()
  solid_mesh_pt()->output(some_file,2);
  some_file.close();
 
+ //If we are running it for testing, write coarse and numbered solutions
+ // This way can easily plot the result without renaming files
+#ifndef HTCONDOR
  sprintf(filename,"%s/soln%i.dat",Doc_info.directory().c_str(),
         Doc_info.number());
  some_file.open(filename);
@@ -1268,6 +1273,7 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
  some_file.open(filename);
  solid_mesh_pt()->output(some_file, 2);
  some_file.close();
+#endif
 
  // Write trace file: Load/displacement characteristics
  Trace_file << Global_Physical_Variables::P  << " " 
@@ -1300,6 +1306,8 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
  some_file2.setf(ios::fixed);
  some_file2.setf(ios::showpoint);
  
+//When running for testing
+#ifndef HTCONDOR
  sprintf(filename,"%s/contact%i.dat",Doc_info.directory().c_str(),
          Doc_info.number());
  some_file.open(filename);
@@ -1312,7 +1320,7 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
  some_file <<  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
 		    Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
            << std::endl;
-
+#endif
 
 some_file2 << "#Contact mesh details for the compression of a sphere." << std::endl;
 some_file2 <<  get_global_variables_as_string() << std::endl ;
@@ -1330,9 +1338,10 @@ some_file2 <<  get_global_variables_as_string() << std::endl ;
  Vector<double> cont_f(2);
 for (unsigned e=0;e<nel;e++)
 {
+#ifndef HTCONDOR
   dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
       Surface_contact_mesh_pt->element_pt(e))->output(some_file,n_plot);
-
+#endif
   dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
       Surface_contact_mesh_pt->element_pt(e))->output(some_file2,n_plot);
 
@@ -1362,7 +1371,9 @@ for (unsigned e=0;e<nel;e++)
 
  std::cout << " Contact force = (" <<f_normal << ", " 
 	   << f_orthoganal << ")."  << std::endl;
+#ifndef HTCONDOR
 some_file.close();
+#endif
 some_file2.close();
  // Increment label for output files
  Doc_info.number()++;
@@ -1587,9 +1598,12 @@ void CantileverProblem<ELEMENT>::save_solution(const char * directory){
 
 template<class ELEMENT>
 /// Function to lower the parameter adaptivly 
-void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double target){
+int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double target){
+
+  // step size
   double ds;
-  
+
+  int returnValue =0 ; //return value of function -> 0 means success
   int kk = 0; //number of steps
   int nr_errors=0; //Record the number of times the setp-size had to be halfed
   int steps_since_reset = 0;  
@@ -1702,7 +1716,7 @@ void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targ
         
         if(abs(ds) < 1e-5){
           std::cout << "Step is too small, aborting!" << std::endl;
-          return;
+          return 1;
         }
         
         //load previous soltution
@@ -1757,12 +1771,16 @@ void CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targ
 		<< "will probably lead to program to fail."
 		<< std::endl;
       nr_errors++;
+
+      returnValue =1; //Indicate that changing parameters wasn't sucessful
     }
     nr_errors++;
   }
 
   std::cout << "The 'lower_parameter' function took " << kk +1 << " steps and" <<
     " had to lower the step-size " << nr_errors << " times. " << std::endl;
+
+  return returnValue; 
 }
 
 /// Calcuates the relevant volume based on tickness t and desiered 
@@ -1941,9 +1959,15 @@ bool incompressible = true;
    problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
 
  }
-
+   // Holds intermediate target
    double current_Target = parameter;
+   
+   //flag to indicate succesfull completion
+   // 0 - success
+   // 1 - failed
+   int change_parameter_flag =0;
 
+   // check if we are increasing or decreasing the parameter
    if(parameter > target)
      {
        stepsize = stepsize*-1.0;
@@ -1964,9 +1988,24 @@ bool incompressible = true;
 		   << " Target for next solution = " << current_Target
 		   << std::endl;
 	 current_Target += stepsize;
-	 problem2.change_parameter(parameter, current_Target);
+	 change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+	 // check for sucess
+	 if(change_parameter_flag != 0){
+	   // didn't change parameter correctly
+	   // try lowering under-relaxation 
+	   problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
+	   
+	   std::cout << "Try running change_parameter again with halfed under-relaxation of "
+		     << problem2.get_under_relaxation_factor() << "." << std::endl;
+           //try reaching the same target again
+	   change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+	 }
+
 	 problem2.save_solution();//to have something to restart from in futur
-	 problem2.save_solution(".");
+	 //Whne runing for testing, also make a second save in current direcotry
+ #ifndef HTCONDOR
+	 problem2.save_solution("."); 
+ #endif
 	 std::cout << "Current parameter = " << parameter 
 		   << " Target parameter = " << target
 		   << std::endl;
@@ -1989,9 +2028,24 @@ bool incompressible = true;
 		   << " Target for next solution = " << current_Target
 		   << std::endl;
 	 current_Target += stepsize;
-	 problem2.change_parameter(parameter, current_Target);
+	 change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+
+	 // check for sucess
+	 if(change_parameter_flag != 0){
+	   // didn't change parameter correctly
+	   // try lowering under-relaxation 
+	   problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
+	   
+	   std::cout << "Try running change_parameter again with halfed under-relaxation of "
+		     << problem2.get_under_relaxation_factor() << "." << std::endl;
+           //try reaching the same target again
+	   change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+	 }
+
 	 problem2.save_solution();//to have something to restart from in futur
+#ifndef HTCONDOR
 	 problem2.save_solution(".");
+#endif
 	 std::cout << "Current parameter = " << parameter 
 		   << " Target parameter = " << target
 		   << std::endl;
@@ -2372,6 +2426,10 @@ int main(int argc, char **argv){
  }
 
 
+ //=========================================================================
+ // Setting the constitutive law and equation
+ //=========================================================================
+
  if(Global_Physical_Variables::constitutive_law == "GH"){
    //Create generalised Hookean constitutive equations
    Global_Physical_Variables::Constitutive_law_pt = 
@@ -2396,8 +2454,9 @@ int main(int argc, char **argv){
  }
 
 
-
- // switch which sub-routine to run 
+ //=========================================================================
+ // Switch which sub-routine to run 
+ //=========================================================================
  if(!Global_Physical_Variables::program.compare("standard")){
    std::cout << "Starting standard_run()" <<std::endl;
    standard();
