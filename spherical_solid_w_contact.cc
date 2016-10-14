@@ -1666,7 +1666,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
 	calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
       std::cout << std::endl;
       std::cout << "Step " << kk << 
-            ". Decrementing to " << parameter
+            ". Changing to " << parameter
 		<< " with step of " << ds << std::endl;
      std::cout << "H = " << Global_Physical_Variables::H
 	       << " lambda = " << Global_Physical_Variables::lambda
@@ -1929,7 +1929,7 @@ bool incompressible = true;
 
    // save lambda and set it to one
    double  save_lambda = Global_Physical_Variables::lambda;  
-   Global_Physical_Variables::lambda = 1.0;
+   Global_Physical_Variables::lambda  = 1.0;  
 
  cout << "Starting Newton Solve, expect this to converge immeditatl " << endl;
    //solve once in undeformed configuration, hopefully this should converge immediatly
@@ -1947,17 +1947,18 @@ bool incompressible = true;
    //run the function that increases volume
    problem2.set_under_relaxation_factor(1.0); //when there is no contact, can use normal newton solve
 
-   Global_Physical_Variables::lambda = save_lambda;
-
    std::cout << " Aiming for volume of " << problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda) <<
      " corrseponding to lambda of " << Global_Physical_Variables::lambda << " from a volume of " << Global_Physical_Variables::Volume <<
      " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
 
-   Global_Physical_Variables::lambda  = 1.0;
+   // Ensure that the penetrator is above the capsule so no contact occures
+   Global_Physical_Variables::H = save_lambda + 0.01;
+   //Increase the volumn to the prescribed volume
    problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
 
    problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
-
+   // set the penetrator to the height of the capsule
+   Global_Physical_Variables::H = Global_Physical_Variables::lambda;
  }
    // Holds intermediate target
    double current_Target = parameter;
@@ -2485,7 +2486,11 @@ int main(int argc, char **argv){
      change_parameter(Global_Physical_Variables::H, 0.99, 0.1);
      std::cout << "finished lowerHto0.99()" << std::endl;
    }
-
+   if(!Global_Physical_Variables::program.compare("lowerHto0.34")){
+     std::cout << "lowerHto0.34()" <<std::endl;
+     change_parameter(Global_Physical_Variables::H, 0.34 * Global_Physical_Variables::lambda, 0.01);
+     std::cout << "finished lowerHto0.34()" << std::endl;
+   }
    if(!Global_Physical_Variables::program.compare("increaseVol"))
      {
        std::cout << "Decreasing/increaseing Volume to lambda = 1.1."
