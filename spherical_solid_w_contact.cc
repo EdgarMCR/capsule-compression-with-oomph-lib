@@ -38,6 +38,7 @@
 //Solid and constitutive stuff
 #include "solid.h"
 #include "constitutive.h"
+#include "constitutive_law_yeoh.h"
 
 //axis symmetric elements
 //#include "axisym_spherical_solid.h"
@@ -153,9 +154,10 @@ namespace Global_Physical_Variables
  /// Poisson's ratio
  double Nu=0.3;
 
- //Constants for Mooney-Rivlin Material constants
+ //Material constants for Neo-Hookian, Moony-Rivlin and Yeoh
  double C1 = 1.3;
  double C2 = 1.1;
+ double C3 = 1.0;
 
  /// Uniform pressure
  double P = 0.0;
@@ -1825,6 +1827,15 @@ std::string CantileverProblem<ELEMENT>::get_global_variables_as_string()
             Global_Physical_Variables::E,
             Global_Physical_Variables::Nu);    	
       }
+      if(!Global_Physical_Variables::constitutive_law.compare("YEOH"))
+	{
+	  sprintf(constitutivelaw,"CL=%s_C1=%.4f_C2=%.4f_C3=%.4f",
+            Global_Physical_Variables::constitutive_law.c_str(),
+            Global_Physical_Variables::C1,
+            Global_Physical_Variables::C2,
+            Global_Physical_Variables::C3);    	
+      }
+
     }
 
 
@@ -2343,6 +2354,8 @@ int main(int argc, char **argv){
   // Set the material properties of Mooney-Rivlin Constitutive Law
  CommandLineArgs::specify_command_line_flag("--C2",
                                             &Global_Physical_Variables::C2);
+ CommandLineArgs::specify_command_line_flag("--C3",
+                                            &Global_Physical_Variables::C3);
 
  // Set the material properties of Mooney-Rivlin Constitutive Law
  CommandLineArgs::specify_command_line_flag("--load",
@@ -2452,6 +2465,21 @@ int main(int argc, char **argv){
    Global_Physical_Variables::Strain_energy_function_pt);
 
    std::cout << "Setting constitutive law to MooneyRivlin" << std::endl;
+ }
+
+ if(Global_Physical_Variables::constitutive_law == "YEOH"){
+  // Create MooneyRivlin constitutive equations
+  Global_Physical_Variables::Strain_energy_function_pt = 
+  new Yeoh(&Global_Physical_Variables::C1,
+	   &Global_Physical_Variables::C2, 
+	   &Global_Physical_Variables::C3);
+
+  // Define a constitutive law (based on strain energy function)
+  Global_Physical_Variables::Constitutive_law_pt = 
+  new IsotropicStrainEnergyFunctionConstitutiveLaw(
+   Global_Physical_Variables::Strain_energy_function_pt);
+
+   std::cout << "Setting constitutive law to Yeoh" << std::endl;
  }
 
 
