@@ -1,0 +1,8 @@
+#!/bin/bash
+
+COUNTER=0
+while [  $COUNTER -lt $1 ]; do
+    echo The counter is $COUNTER
+    ../../../bin/oomph-convert.py $2/soln${COUNTER}_coarse.dat $2/soln_coarse_$COUNTER.vtu
+    let COUNTER=COUNTER+1 
+done
