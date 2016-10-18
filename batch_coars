@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for i in $1; do
+    ../../../bin/oomph-convert.py $2/soln$i_coarse.dat $2/soln_coarse_$i.vtu
+done
