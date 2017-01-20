@@ -2,4 +2,4 @@
 password="12qwaszx!Doctor"
 username="mbbxkeh2"
 Ip="submitter.itservices.manchester.ac.uk"
-sshpass -p "$password" scp spherical_solid_w_contact_static $username@$Ip:compression_test/
+sshpass -p "$password" scp spherical_solid_w_contact_static $username@$Ip:yeoh3/

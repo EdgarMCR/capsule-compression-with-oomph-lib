@@ -1,0 +1,8 @@
+#!/bin/bash
+
+counter=0
+for filename in $1/sol_*.dat; do
+    echo $filename 
+    cp $filename $1/sol_$counter.dat
+    ((counter++))
+done

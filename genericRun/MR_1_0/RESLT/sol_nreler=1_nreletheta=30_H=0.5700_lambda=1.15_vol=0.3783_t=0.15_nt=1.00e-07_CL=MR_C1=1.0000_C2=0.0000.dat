@@ -1,0 +1,1662 @@
+4 # number of (sub)meshes 
+0 # (fake) uniform refinement when pruned 
+0 # (fake) uniform refinement when pruned 
+0 # (fake) uniform refinement when pruned 
+0 # (fake) uniform refinement when pruned 
+9999 # test flag for end of sub-meshes 
+0 # bool flag for unsteady
+0.0 # Dummy time from steady run 
+0 # Dummy number of timesteps from steady run
+0 # number of nodes 
+1 # number of internal Data items in element 0
+1 # number of data values
+1 # number of doubles for time history
+-0.63491058558473468
+0 # number of nodes 
+0 # number of nodes 
+183 # number of nodes 
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.00000000000000000
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.48546386004741188
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.00000000000000000
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.52430035477326931
+0.00000000000000000
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.00000000000000000
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.57000000132644391
+0.00000000000000000
+1 # number of data values
+1 # number of doubles for time history
+0.64754415202290949
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.02617993877983333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.48616898589352875
+0.01959680280315986
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.02617993877983333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.52497555905282400
+0.01855828660063867
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.02617993877983333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.57064997755924940
+0.01735988215491074
+1 # number of data values
+1 # number of doubles for time history
+0.64503576641219373
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.05235987755966667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.48826034746336877
+0.03913504093808423
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.05235987755966667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.52700236626917729
+0.03705973234323195
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.05235987755966667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.57259895674772032
+0.03466504830971853
+1 # number of data values
+1 # number of doubles for time history
+0.64635613624944166
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.07853981633950000
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.49175062932722136
+0.05856362083151328
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.07853981633950000
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.53037691809486620
+0.05545708622501377
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.07853981633950000
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.57584492537943610
+0.05187144063852592
+1 # number of data values
+1 # number of doubles for time history
+0.64489260301327200
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.10471975511933333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.49662261798776097
+0.07782690979161133
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.10471975511933333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.53509620996784180
+0.07369304744058768
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.10471975511933333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.58038374706066653
+0.06892230705492841
+1 # number of data values
+1 # number of doubles for time history
+0.64636242459694226
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.13089969389916667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.50288458067212749
+0.09686628558724987
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.13089969389916667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.54115348764328475
+0.09171693280778342
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.13089969389916667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.58621074180958721
+0.08577302480403544
+1 # number of data values
+1 # number of doubles for time history
+0.64487068168421668
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.15707963267899999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.51051482653702973
+0.11563270199228676
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.15707963267899999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.54854286438748334
+0.10947420903009324
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.15707963267899999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.59331832107520488
+0.10236610363959828
+1 # number of data values
+1 # number of doubles for time history
+0.64636799812440349
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.18325957145883334
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.51951788795890474
+0.13406346049285547
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.18325957145883334
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.55725431114291679
+0.12691352278915385
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.18325957145883334
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.60169947145444647
+0.11865939312057604
+1 # number of data values
+1 # number of doubles for time history
+0.64481791851823067
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.20943951023866667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.52986965649113593
+0.15211447641620190
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.20943951023866667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.56727883156948422
+0.14398176836231030
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.20943951023866667
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.61134291500786253
+0.13459370227913309
+1 # number of data values
+1 # number of doubles for time history
+0.64636961973729168
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.23561944901849999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.54157025476111920
+0.16971951165862045
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.23561944901849999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.57860331797210840
+0.16062771044519303
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.23561944901849999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.62223973521139453
+0.15013019905064992
+1 # number of data values
+1 # number of doubles for time history
+0.64474241184374081
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.26179938779833334
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.55459381644340333
+0.18683974187004471
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.26179938779833334
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.59121575996541664
+0.17679959371693019
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.26179938779833334
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.63437465951469907
+0.16520756785596696
+1 # number of data values
+1 # number of doubles for time history
+0.64636759837161528
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.28797932657816666
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.56893559742767275
+0.20340539530014506
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.28797932657816666
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.60510008248510905
+0.19244664614027046
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.28797932657816666
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.64773741338268320
+0.17979103497361629
+1 # number of data values
+1 # number of doubles for time history
+0.64464260778693050
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.31415926535799998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.58456870620781443
+0.21938344797428233
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.31415926535799998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.62024139002852785
+0.20751859801448994
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.31415926535799998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.66230835885712203
+0.19381677878864076
+1 # number of data values
+1 # number of doubles for time history
+0.64636154630730946
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.34033920413783331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.60148299681455497
+0.23470039766134587
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.34033920413783331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.63662076198036321
+0.22196535295383515
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.34033920413783331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.67807655399422473
+0.20725485449536382
+1 # number of data values
+1 # number of doubles for time history
+0.64451385804601702
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.36651914291766668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.61965144517047366
+0.24932969956866388
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.36651914291766668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.65422058438531927
+0.23573833139522563
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.36651914291766668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.69501750530239703
+0.22003847616123476
+1 # number of data values
+1 # number of doubles for time history
+0.64635009475417815
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.39269908169750001
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.63905783736319421
+0.26319378051637243
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.39269908169750001
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.67301922895823141
+0.24878825183748499
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.39269908169750001
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.71312048799266869
+0.23214336662423721
+1 # number of data values
+1 # number of doubles for time history
+0.64435100962682224
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.41887902047733333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.65967611996358966
+0.27627335315614382
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.41887902047733333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.69299657039809204
+0.26106845902213127
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.41887902047733333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.73235551122427245
+0.24349920240455447
+1 # number of data values
+1 # number of doubles for time history
+0.64633084077701042
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.44505895925716665
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.68148316763098660
+0.28848631345524411
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.44505895925716665
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.71412842456300107
+0.27253056473286436
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.44505895925716665
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.75271317617872469
+0.25408829663486721
+1 # number of data values
+1 # number of doubles for time history
+0.64414798562180653
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.47123889803699998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.70445525850540214
+0.29982148202337572
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.47123889803699998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.73639240567562447
+0.28313009059128447
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.47123889803699998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.77415715956739040
+0.26383608339925080
+1 # number of data values
+1 # number of doubles for time history
+0.64630111767607823
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.49741883681683335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.72856128818054022
+0.31019165934865123
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.49741883681683335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.75976193604837128
+0.29281955939140858
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.49741883681683335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.79668077170196816
+0.27273247753648039
+1 # number of data values
+1 # number of doubles for time history
+0.64389866054859979
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.52359877559666668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.75378152890739070
+0.31959467226705618
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.52359877559666668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.78421267050533627
+0.30155693307209608
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.52359877559666668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.82024027707573122
+0.28069782467235449
+1 # number of data values
+1 # number of doubles for time history
+0.64625863518253790
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.54977871437649994
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.78007556331064476
+0.32793757579006977
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.54977871437649994
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.80971579943029326
+0.30929559613690683
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.54977871437649994
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.84483341080278351
+0.28773072985056958
+1 # number of data values
+1 # number of doubles for time history
+0.64359619908163168
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.57595865315633332
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.80742965903451291
+0.33522811508781170
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.57595865315633332
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.83624537733996485
+0.31599622222946611
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.57595865315633332
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.87040762893205448
+0.29374548140834589
+1 # number of data values
+1 # number of doubles for time history
+0.64619932234124955
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.60213859193616670
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.83579244355673554
+0.34136688466957871
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.60213859193616670
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.86377051871382260
+0.32161294067170226
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.60213859193616670
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.89696720496843674
+0.29875052234065069
+1 # number of data values
+1 # number of doubles for time history
+0.64323845242398903
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.62831853071599997
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.86515853749806748
+0.34637242771630095
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.62831853071599997
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.89226410905810438
+0.32610939961722785
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.62831853071599997
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.92444903997492911
+0.30265301575170273
+1 # number of data values
+1 # number of doubles for time history
+0.64611495963023735
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.65449846949583335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.89546366590706539
+0.35013812608056666
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.65449846949583335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.92169332359915568
+0.32944029347876613
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.65449846949583335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.95286649908794019
+0.30547240143649085
+1 # number of data values
+1 # number of doubles for time history
+0.64283636547180456
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.68067840827566661
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.92671341671481955
+0.35269408800133578
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.68067840827566661
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.95203040870013589
+0.33157245335290270
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.68067840827566661
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.98214384217534378
+0.30710766345060181
+1 # number of data values
+1 # number of doubles for time history
+0.64598174770672034
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.70685834705549999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.95882851452506357
+0.35392572033972136
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.70685834705549999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.98324070138353270
+0.33246095258302227
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.70685834705549999
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.01230650556704260
+0.30759027031806718
+1 # number of data values
+1 # number of doubles for time history
+0.64244029365737787
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.73303828583533337
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+0.99182791281950633
+0.35387522600146648
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.73303828583533337
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.01529649457722582
+0.33207579526486264
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.73303828583533337
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.04326391948364861
+0.30681032464651153
+1 # number of data values
+1 # number of doubles for time history
+0.64572303319889035
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.75921822461516664
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.02561576176970548
+0.35241921693929962
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.75921822461516664
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.04816133838128911
+0.33037247371014689
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.75921822461516664
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.07505675037929205
+0.30481181733242574
+1 # number of data values
+1 # number of doubles for time history
+0.64221627716378971
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.78539816339500002
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.06022484675973794
+0.34961214365315257
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.78539816339500002
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.08180851913047937
+0.32732336967858067
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.78539816339500002
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.10757832935031320
+0.30147659173677122
+1 # number of data values
+1 # number of doubles for time history
+0.64508500855660755
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.81157810217483328
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.09554405521617482
+0.34532054747205310
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.81157810217483328
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.11619981361502840
+0.32288550486130468
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.81157810217483328
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.14088672253221346
+0.29685993813464789
+1 # number of data values
+1 # number of doubles for time history
+0.64264752755432508
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.83775804095466666
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.13161282152600862
+0.33961108096595455
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.83775804095466666
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.15131087234361384
+0.31703019487533246
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.83775804095466666
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.17486239573029172
+0.29084019042932907
+1 # number of data values
+1 # number of doubles for time history
+0.64327013480173034
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.86393797973450004
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.16831675167168614
+0.33233652284174181
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.86393797973450004
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.18710183529689739
+0.30972108991172265
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.86393797973450004
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.20957780739768728
+0.28347744711704137
+1 # number of data values
+1 # number of doubles for time history
+0.64504879301984297
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.89011791851433331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.20566871557655064
+0.32357777655010572
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.89011791851433331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.22355248252425586
+0.30091631476432656
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.89011791851433331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.24491991001844182
+0.27466330615859241
+1 # number of data values
+1 # number of doubles for time history
+0.63792410810711087
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.91629785729416668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.24359817423564789
+0.31316019972842574
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.91629785729416668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.26062211926613932
+0.29060498909886534
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.91629785729416668
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.28095272319395259
+0.26444031248668581
+1 # number of data values
+1 # number of doubles for time history
+0.65260160294833347
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.94247779607399995
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.28197538723282278
+0.30119417825990052
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.94247779607399995
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.29829519015774486
+0.27869305335225530
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.94247779607399995
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.31764090757378982
+0.25276340278257475
+1 # number of data values
+1 # number of doubles for time history
+0.62283931849733076
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.96865773485383333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.32092728273498450
+0.28743323790914427
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.96865773485383333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.33653008433805698
+0.26525827022292980
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.96865773485383333
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.35494530124917967
+0.23958644092495798
+1 # number of data values
+1 # number of doubles for time history
+0.67016123882075529
+2 # number of Lagrangian position variables
+0.84999999999999998
+0.99483767363366671
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.35982122317418486
+0.27207851309846132
+2 # number of Lagrangian position variables
+0.92499999999999993
+0.99483767363366671
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.37530613102779076
+0.25004530879543402
+2 # number of Lagrangian position variables
+1.00000000000000000
+0.99483767363366671
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.39312943499157793
+0.22506174648119043
+1 # number of data values
+1 # number of doubles for time history
+0.58465802467082517
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.02101761241349998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.39941035981672601
+0.25477420172148679
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.02101761241349998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.41451624047946800
+0.23340194659901362
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.02101761241349998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.43165895095873785
+0.20880993706895867
+1 # number of data values
+1 # number of doubles for time history
+0.67086143817989319
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.04719755119333335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.43771265777431823
+0.23584107019811393
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.04719755119333335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.45402975060760542
+0.21481420945611343
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.04719755119333335
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.47161152496291803
+0.19145599494711785
+1 # number of data values
+1 # number of doubles for time history
+0.48060020896810141
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.07337748997316673
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.47687540515211113
+0.21601835707821954
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.07337748997316673
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.49261588109999765
+0.19518567294948938
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.07337748997316673
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.51003074197551457
+0.17128067621666462
+1 # number of data values
+1 # number of doubles for time history
+0.17099341750414579
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.09955742875299989
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.51383640360150507
+0.19494753045744673
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.09955742875299989
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.52959465201965861
+0.17557579403039666
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.09955742875299989
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.54822152314591266
+0.15224034873369469
+1 # number of data values
+1 # number of doubles for time history
+-0.00000003450529090
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.12573736753283327
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.54938892280914597
+0.17617771085858919
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.12573736753283327
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.56540689165354641
+0.15658154623340437
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.12573736753283327
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.58344497740460710
+0.13503216167562962
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.15191730631266664
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.58337389772148351
+0.15736971930595370
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.15191730631266664
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.59951785238363997
+0.13922946328145586
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.15191730631266664
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.61808311438563712
+0.11883343535635127
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.17809724509250002
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.61560380662098924
+0.14018557434602458
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.17809724509250002
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.63224591006624742
+0.12303428249171025
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.17809724509250002
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.65101402962379495
+0.10429329484699265
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.20427718387233340
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.64641996584459194
+0.12402400705590445
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.20427718387233340
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.66329540663980890
+0.10822211720991057
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.20427718387233340
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.68250939137339017
+0.09080244225540453
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.23045712265216656
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.67538499917045791
+0.10908090238023982
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.23045712265216656
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.69272678107135155
+0.09458728459573733
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.23045712265216656
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.71225845906997765
+0.07877162641506490
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.25663706143199994
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.70284587895589512
+0.09542659695835443
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.25663706143199994
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.72036591839890329
+0.08217993252672078
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.25663706143199994
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.74018742069002230
+0.06768701752751513
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.28281700021183331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.72834039429283970
+0.08276880983279263
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.28281700021183331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.74619391754429398
+0.07089218049270586
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.28281700021183331
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.76629003943146001
+0.05791293458818539
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.30899693899166669
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.75212966484039789
+0.07142601987523035
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.30899693899166669
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.77009634556406348
+0.06068879903893007
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.30899693899166669
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.79034729156170336
+0.04897626112012425
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.33517687777150007
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.77384032009494064
+0.06090849198266721
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.33517687777150007
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.79200994144728143
+0.05150018473710001
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.33517687777150007
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.81246183813687467
+0.04119534864867138
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.36135681655133323
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.79361973796708951
+0.05160479527356288
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.36135681655133323
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.81186138139852937
+0.04324363538001686
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.36135681655133323
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.83237188668411877
+0.03413520529394188
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.38753675533116660
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.81121967823908969
+0.04296730250126637
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.38753675533116660
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.82956014099818232
+0.03585756216906675
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.38753675533116660
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.85021136378874029
+0.02805269156642691
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.41371669411099998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.82667356330278752
+0.03535909860782389
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.41371669411099998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.84506998269262290
+0.02923075141202825
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.41371669411099998
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.86571796429213377
+0.02256007109750278
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.43989663289083336
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.83986445489577566
+0.02825693165255856
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.43989663289083336
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.85828432650637465
+0.02329453212920786
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.43989663289083336
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.87903468159799769
+0.01783638856735771
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.46607657167066674
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.85072781323955637
+0.02193716889743343
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.46607657167066674
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.86920384101024117
+0.01792156917870976
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.46607657167066674
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.88991462216544193
+0.01355320497552705
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.49225651045049990
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.85926604738608869
+0.01595854437642379
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.49225651045049990
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.87771598287323638
+0.01302851113115298
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.49225651045049990
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.89850897775099670
+0.00980123501581714
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.51843644923033327
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.86534537612088935
+0.01046901561541206
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.51843644923033327
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.88385725720958863
+0.00848248497931084
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.51843644923033327
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.90459160770014790
+0.00632230605707308
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.54461638801016665
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.86906138081426620
+0.00515130538514002
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.54461638801016665
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.88751961074163677
+0.00418261220545232
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.54461638801016665
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.90832707177754912
+0.00311486026502684
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.84999999999999998
+1.57079632679000003
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.87024948286555492
+0.00000000000000000
+2 # number of Lagrangian position variables
+0.92499999999999993
+1.57079632679000003
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.88877138913583464
+0.00000000000000000
+2 # number of Lagrangian position variables
+1.00000000000000000
+1.57079632679000003
+2 # number of fixed position variables
+1 # total number of doubles for time history (incl present)
+1.90951126364964296
+0.00000000000000000
+1 # number of data values
+1 # number of doubles for time history
+0.00000000000000000
+1 # number of internal Data items in element 0
+3 # number of data values
+1 # number of doubles for time history
+1.31912166818976972
+-0.53265779604824459
+0.00170443058978607
+1 # number of internal Data items in element 1
+3 # number of data values
+1 # number of doubles for time history
+1.32496776297804386
+-0.53282199225804894
+0.00432237504965403
+1 # number of internal Data items in element 2
+3 # number of data values
+1 # number of doubles for time history
+1.33649351999548061
+-0.53322610000363913
+0.00721817585422798
+1 # number of internal Data items in element 3
+3 # number of data values
+1 # number of doubles for time history
+1.35389824404130454
+-0.53385344700727011
+0.01018046986922601
+1 # number of internal Data items in element 4
+3 # number of data values
+1 # number of doubles for time history
+1.37732630169988224
+-0.53473663846752850
+0.01322753812201719
+1 # number of internal Data items in element 5
+3 # number of data values
+1 # number of doubles for time history
+1.40697384176693530
+-0.53591831588190297
+0.01638544946685482
+1 # number of internal Data items in element 6
+3 # number of data values
+1 # number of doubles for time history
+1.44309438018793323
+-0.53745306630018197
+0.01968336848990318
+1 # number of internal Data items in element 7
+3 # number of data values
+1 # number of doubles for time history
+1.48600443758825418
+-0.53940905437264142
+0.02315378692455759
+1 # number of internal Data items in element 8
+3 # number of data values
+1 # number of doubles for time history
+1.53609090385384106
+-0.54186962999980726
+0.02683320599466912
+1 # number of internal Data items in element 9
+3 # number of data values
+1 # number of doubles for time history
+1.59382008421837318
+-0.54493539676784530
+0.03076305322543386
+1 # number of internal Data items in element 10
+3 # number of data values
+1 # number of doubles for time history
+1.65974899293105871
+-0.54872581230611783
+0.03499080147965324
+1 # number of internal Data items in element 11
+3 # number of data values
+1 # number of doubles for time history
+1.73453850747483740
+-0.55338094319780629
+0.03957105293604476
+1 # number of internal Data items in element 12
+3 # number of data values
+1 # number of doubles for time history
+1.81896892399274446
+-0.55905960546122013
+0.04456707908349259
+1 # number of internal Data items in element 13
+3 # number of data values
+1 # number of doubles for time history
+1.91395695514774333
+-0.56592640744187972
+0.05005263569181093
+1 # number of internal Data items in element 14
+3 # number of data values
+1 # number of doubles for time history
+2.02057170131137998
+-0.57410195101967898
+0.05611604648708760
+1 # number of internal Data items in element 15
+3 # number of data values
+1 # number of doubles for time history
+2.14004355719108474
+-0.58349460642946205
+0.06287219617620982
+1 # number of internal Data items in element 16
+3 # number of data values
+1 # number of doubles for time history
+2.27375346045195403
+-0.59326321965139661
+0.07050986827289399
+1 # number of internal Data items in element 17
+3 # number of data values
+1 # number of doubles for time history
+2.42320802030870652
+-0.60013077475296595
+0.07947959647104562
+1 # number of internal Data items in element 18
+3 # number of data values
+1 # number of doubles for time history
+2.59033348482421033
+-0.59309809900682031
+0.09127753860501420
+1 # number of internal Data items in element 19
+3 # number of data values
+1 # number of doubles for time history
+2.78261443390919982
+-0.53486733165655431
+0.11267812588120976
+1 # number of internal Data items in element 20
+3 # number of data values
+1 # number of doubles for time history
+3.05754241346432698
+-0.30571455762544880
+0.15618169062504891
+1 # number of internal Data items in element 21
+3 # number of data values
+1 # number of doubles for time history
+3.30900900396347275
+-0.17746109331046805
+0.11626341753532261
+1 # number of internal Data items in element 22
+3 # number of data values
+1 # number of doubles for time history
+3.54225112910455708
+-0.16716211904672482
+0.11800906687209371
+1 # number of internal Data items in element 23
+3 # number of data values
+1 # number of doubles for time history
+3.78045025834162640
+-0.18571635732530528
+0.11701423044316410
+1 # number of internal Data items in element 24
+3 # number of data values
+1 # number of doubles for time history
+4.01250719293742897
+-0.21453120378035387
+0.11105845415652618
+1 # number of internal Data items in element 25
+3 # number of data values
+1 # number of doubles for time history
+4.22735735888382891
+-0.24495221170115786
+0.09987475175176977
+1 # number of internal Data items in element 26
+3 # number of data values
+1 # number of doubles for time history
+4.41450256596350687
+-0.27275464842056824
+0.08374661952234169
+1 # number of internal Data items in element 27
+3 # number of data values
+1 # number of doubles for time history
+4.56442707615783139
+-0.29547634533931938
+0.06328540575241914
+1 # number of internal Data items in element 28
+3 # number of data values
+1 # number of doubles for time history
+4.66919644388568500
+-0.31149838276495823
+0.03942565980340586
+1 # number of internal Data items in element 29
+3 # number of data values
+1 # number of doubles for time history
+4.72308431585846211
+-0.31977270148680453
+0.01339151704722909
+0 # number of global Data items 

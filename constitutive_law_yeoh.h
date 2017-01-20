@@ -79,7 +79,7 @@ class Yeoh : public StrainEnergyFunction
  /// respect to the strain invariants
  void derivatives(Vector<double> &I, Vector<double> &dWdI)
   {
-    dWdI[0] = 3*(*C3_pt) * I[0]*I[0] + 2*((*C2_pt) - 9 * (*C3_pt) + (*C1_pt) ) * I[0] + 27*(*C3_pt) - 6 * (*C2_pt);
+    dWdI[0] = 3*(*C3_pt) * I[0]*I[0] + 2*((*C2_pt) - 9 * (*C3_pt)  ) * I[0] + 27*(*C3_pt) - 6 * (*C2_pt) + (*C1_pt);
    dWdI[1] = 0.0;
    dWdI[2] = 0.0;
   }

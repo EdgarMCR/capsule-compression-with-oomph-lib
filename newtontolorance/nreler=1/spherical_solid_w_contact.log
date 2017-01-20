@@ -1,0 +1,110 @@
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 2e-08
+--underrelaxation 0.1
+--enfvol 1
+--maxnsteps 150
+--nreler 1
+--load sol_nreler=1_nreletheta=48_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=5.00e-08_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =1
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 1, 48 elements in the r and theta direction
+
+assign_eqn_numbers()  = 818
+Loading solution: sol_nreler=1_nreletheta=48_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=5.00e-08_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 818
+
+Restart file exists
+ Contact force = (-3.06286, 2.9916).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70983
+Initial Maximum residuals 4.41637e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.505899
+Time for SuperLUSolver solve [sec]       : 0.017175
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.523306
+
+Under-relaxing newton method by factor 0.1
+Newton Step 1: Maximum residuals 3.97473e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.593417
+Time for SuperLUSolver solve [sec]       : 0.019633
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.613308
+
+Under-relaxing newton method by factor 0.1
+Newton Step 2: Maximum residuals 3.57726e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.618349
+Time for SuperLUSolver solve [sec]       : 0.019385
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.637983
+
+Under-relaxing newton method by factor 0.1
+Newton Step 3: Maximum residuals 3.21953e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.537001
+Time for SuperLUSolver solve [sec]       : 0.017783
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.554995
+
+Under-relaxing newton method by factor 0.1
+Newton Step 4: Maximum residuals 2.89758e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.564764
+Time for SuperLUSolver solve [sec]       : 0.020934
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.585959
+
+Under-relaxing newton method by factor 0.1
+Newton Step 5: Maximum residuals 2.60782e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.548167
+Time for SuperLUSolver solve [sec]       : 0.018969
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.567371
+
+Under-relaxing newton method by factor 0.1
+Newton Step 6: Maximum residuals 2.34704e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.558354
+Time for SuperLUSolver solve [sec]       : 0.020327
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.578914
+
+Under-relaxing newton method by factor 0.1
+Newton Step 7: Maximum residuals 2.11233e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.517787
+Time for SuperLUSolver solve [sec]       : 0.017245
+
+Time for linear solver ( ndof = 818 ) [sec]: 0.535231
+
+Under-relaxing newton method by factor 0.1
+Newton Step 8: Maximum residuals 1.9011e-08
+
+Total time for linear solver (ndof=818) [sec]: 4.59707
+Total time for Newton solver (ndof=818) [sec]: 4.80593
+Time outside linear solver        : 4.34598 %
+
+ Contact force = (-3.06286, 2.9916).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.

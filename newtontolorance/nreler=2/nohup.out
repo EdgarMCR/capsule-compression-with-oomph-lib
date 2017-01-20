@@ -1,0 +1,3233 @@
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 1e-05
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-05_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-05_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 9.41405e-06
+
+Total time for linear solver (ndof=2606) [sec]: 0
+Total time for Newton solver (ndof=2606) [sec]: 0.023527
+Time outside linear solver        : 100 %
+
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 1e-06
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=5.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=5.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 3.38906e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.559166
+Time for SuperLUSolver solve [sec]       : 0.058904
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.618353
+
+Under-relaxing newton method by factor 0.4
+Newton Step 1: Maximum residuals 2.03343e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.569259
+Time for SuperLUSolver solve [sec]       : 0.058107
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.6277
+
+Under-relaxing newton method by factor 0.4
+Newton Step 2: Maximum residuals 1.22006e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.581159
+Time for SuperLUSolver solve [sec]       : 0.061081
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.642512
+
+Under-relaxing newton method by factor 0.4
+Newton Step 3: Maximum residuals 7.32037e-07
+
+Total time for linear solver (ndof=2606) [sec]: 1.88857
+Total time for Newton solver (ndof=2606) [sec]: 1.98463
+Time outside linear solver        : 4.84026 %
+
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 5e-07
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 7.32037e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.545676
+Time for SuperLUSolver solve [sec]       : 0.057007
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.602988
+
+Under-relaxing newton method by factor 0.4
+Newton Step 1: Maximum residuals 5.42397
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.562001
+Time for SuperLUSolver solve [sec]       : 0.05867
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.620998
+
+Under-relaxing newton method by factor 0.4
+Newton Step 2: Maximum residuals 5.42381
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.573139
+Time for SuperLUSolver solve [sec]       : 0.060144
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.633606
+
+Under-relaxing newton method by factor 0.4
+Newton Step 3: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.575119
+Time for SuperLUSolver solve [sec]       : 0.060505
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.635951
+
+Under-relaxing newton method by factor 0.4
+Newton Step 4: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.56608
+Time for SuperLUSolver solve [sec]       : 0.058722
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.625131
+
+Under-relaxing newton method by factor 0.4
+Newton Step 5: Maximum residuals 5.42406
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.575021
+Time for SuperLUSolver solve [sec]       : 0.060275
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.635633
+
+Under-relaxing newton method by factor 0.4
+Newton Step 6: Maximum residuals 5.42401
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.578092
+Time for SuperLUSolver solve [sec]       : 0.06105
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.639471
+
+Under-relaxing newton method by factor 0.4
+Newton Step 7: Maximum residuals 5.42406
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.615078
+Time for SuperLUSolver solve [sec]       : 0.065116
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.680536
+
+Under-relaxing newton method by factor 0.4
+Newton Step 8: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.594826
+Time for SuperLUSolver solve [sec]       : 0.062216
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.657372
+
+Under-relaxing newton method by factor 0.4
+Newton Step 9: Maximum residuals 5.4241
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.590614
+Time for SuperLUSolver solve [sec]       : 0.0595
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.650436
+
+Under-relaxing newton method by factor 0.4
+Newton Step 10: Maximum residuals 5.5712
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.591835
+Time for SuperLUSolver solve [sec]       : 0.070505
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.66269
+
+Under-relaxing newton method by factor 0.4
+Newton Step 11: Maximum residuals 228.915
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.611578
+Time for SuperLUSolver solve [sec]       : 0.071
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.68293
+
+Under-relaxing newton method by factor 0.4
+Newton Step 12: Maximum residuals 3294.85
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.607
+Time for SuperLUSolver solve [sec]       : 0.062834
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.670175
+
+Under-relaxing newton method by factor 0.4
+Newton Step 13: Maximum residuals 119902
+Max. residual (10000) has been exceeded in Newton solver.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 8e-07
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 7.32037e-07
+
+Total time for linear solver (ndof=2606) [sec]: 0
+Total time for Newton solver (ndof=2606) [sec]: 0.023533
+Time outside linear solver        : 100 %
+
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 6e-07
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 7.32037e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.582365
+Time for SuperLUSolver solve [sec]       : 0.059177
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.641841
+
+Under-relaxing newton method by factor 0.4
+Newton Step 1: Maximum residuals 5.42397
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.587672
+Time for SuperLUSolver solve [sec]       : 0.063756
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.651756
+
+Under-relaxing newton method by factor 0.4
+Newton Step 2: Maximum residuals 5.42381
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.583915
+Time for SuperLUSolver solve [sec]       : 0.060362
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.644601
+
+Under-relaxing newton method by factor 0.4
+Newton Step 3: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.598712
+Time for SuperLUSolver solve [sec]       : 0.061461
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.660516
+
+Under-relaxing newton method by factor 0.4
+Newton Step 4: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.595662
+Time for SuperLUSolver solve [sec]       : 0.061119
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.657113
+
+Under-relaxing newton method by factor 0.4
+Newton Step 5: Maximum residuals 5.42406
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.600639
+Time for SuperLUSolver solve [sec]       : 0.061233
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.66222
+
+Under-relaxing newton method by factor 0.4
+Newton Step 6: Maximum residuals 5.42401
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.612725
+Time for SuperLUSolver solve [sec]       : 0.063682
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.676745
+
+Under-relaxing newton method by factor 0.4
+Newton Step 7: Maximum residuals 5.42406
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.620191
+Time for SuperLUSolver solve [sec]       : 0.063526
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.684084
+
+Under-relaxing newton method by factor 0.4
+Newton Step 8: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.606352
+Time for SuperLUSolver solve [sec]       : 0.061837
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.66853
+
+Under-relaxing newton method by factor 0.4
+Newton Step 9: Maximum residuals 5.4241
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.619054
+Time for SuperLUSolver solve [sec]       : 0.065404
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.684793
+
+Under-relaxing newton method by factor 0.4
+Newton Step 10: Maximum residuals 5.5712
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.618756
+Time for SuperLUSolver solve [sec]       : 0.07299
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.692102
+
+Under-relaxing newton method by factor 0.4
+Newton Step 11: Maximum residuals 228.915
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.647724
+Time for SuperLUSolver solve [sec]       : 0.069434
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.717528
+
+Under-relaxing newton method by factor 0.4
+Newton Step 12: Maximum residuals 3294.85
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.646691
+Time for SuperLUSolver solve [sec]       : 0.066091
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.713116
+
+Under-relaxing newton method by factor 0.4
+Newton Step 13: Maximum residuals 119902
+Max. residual (10000) has been exceeded in Newton solver.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 5e-07
+--underrelaxation 0.2
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-06_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 7.32037e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.541996
+Time for SuperLUSolver solve [sec]       : 0.056693
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.598974
+
+Under-relaxing newton method by factor 0.2
+Newton Step 1: Maximum residuals 5.85629e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.549364
+Time for SuperLUSolver solve [sec]       : 0.057027
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.606666
+
+Under-relaxing newton method by factor 0.2
+Newton Step 2: Maximum residuals 5.42397
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.547665
+Time for SuperLUSolver solve [sec]       : 0.057795
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.605751
+
+Under-relaxing newton method by factor 0.2
+Newton Step 3: Maximum residuals 3.74803e-07
+
+Total time for linear solver (ndof=2606) [sec]: 1.81139
+Total time for Newton solver (ndof=2606) [sec]: 1.90038
+Time outside linear solver        : 4.68249 %
+
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 1e-07
+--underrelaxation 0.2
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=5.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=5.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 3.74803e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.565329
+Time for SuperLUSolver solve [sec]       : 0.05919
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.624866
+
+Under-relaxing newton method by factor 0.2
+Newton Step 1: Maximum residuals 2.99842e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.560894
+Time for SuperLUSolver solve [sec]       : 0.059136
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.620374
+
+Under-relaxing newton method by factor 0.2
+Newton Step 2: Maximum residuals 2.39874e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.581762
+Time for SuperLUSolver solve [sec]       : 0.061542
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.643642
+
+Under-relaxing newton method by factor 0.2
+Newton Step 3: Maximum residuals 1.91899e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.579258
+Time for SuperLUSolver solve [sec]       : 0.059057
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.638653
+
+Under-relaxing newton method by factor 0.2
+Newton Step 4: Maximum residuals 1.53519e-07
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.579713
+Time for SuperLUSolver solve [sec]       : 0.062638
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.642699
+
+Under-relaxing newton method by factor 0.2
+Newton Step 5: Maximum residuals 5.42403
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.620374
+Time for SuperLUSolver solve [sec]       : 0.063246
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.683975
+
+Under-relaxing newton method by factor 0.2
+Newton Step 6: Maximum residuals 2.71182
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.611631
+Time for SuperLUSolver solve [sec]       : 0.062611
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.674591
+
+Under-relaxing newton method by factor 0.2
+Newton Step 7: Maximum residuals 5.42409
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.639281
+Time for SuperLUSolver solve [sec]       : 0.064103
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.703748
+
+Under-relaxing newton method by factor 0.2
+Newton Step 8: Maximum residuals 5.42409
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.649793
+Time for SuperLUSolver solve [sec]       : 0.061873
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.711994
+
+Under-relaxing newton method by factor 0.2
+Newton Step 9: Maximum residuals 5.42407
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.647111
+Time for SuperLUSolver solve [sec]       : 0.064391
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.711838
+
+Under-relaxing newton method by factor 0.2
+Newton Step 10: Maximum residuals 5.42405
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.624575
+Time for SuperLUSolver solve [sec]       : 0.061069
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.685989
+
+Under-relaxing newton method by factor 0.2
+Newton Step 11: Maximum residuals 2.71191
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.630287
+Time for SuperLUSolver solve [sec]       : 0.059946
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.690568
+
+Under-relaxing newton method by factor 0.2
+Newton Step 12: Maximum residuals 2.71178
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.628531
+Time for SuperLUSolver solve [sec]       : 0.061396
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.690273
+
+Under-relaxing newton method by factor 0.2
+Newton Step 13: Maximum residuals 5.42401
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.607639
+Time for SuperLUSolver solve [sec]       : 0.05883
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.666773
+
+Under-relaxing newton method by factor 0.2
+Newton Step 14: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.600312
+Time for SuperLUSolver solve [sec]       : 0.059583
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.66022
+
+Under-relaxing newton method by factor 0.2
+Newton Step 15: Maximum residuals 1.67694e-08
+
+Total time for linear solver (ndof=2606) [sec]: 10.0502
+Total time for Newton solver (ndof=2606) [sec]: 10.4409
+Time outside linear solver        : 3.74218 %
+
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 5e-08
+--underrelaxation 0.2
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 1.67694e-08
+
+Total time for linear solver (ndof=2606) [sec]: 0
+Total time for Newton solver (ndof=2606) [sec]: 0.021115
+Time outside linear solver        : 100 %
+
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 1e-08
+--underrelaxation 0.2
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 1.67694e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.56809
+Time for SuperLUSolver solve [sec]       : 0.054676
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.623051
+
+Under-relaxing newton method by factor 0.2
+Newton Step 1: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.5828
+Time for SuperLUSolver solve [sec]       : 0.056037
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.639137
+
+Under-relaxing newton method by factor 0.2
+Newton Step 2: Maximum residuals 1.67704e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.581523
+Time for SuperLUSolver solve [sec]       : 0.054569
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.636377
+
+Under-relaxing newton method by factor 0.2
+Newton Step 3: Maximum residuals 2.7118
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.58426
+Time for SuperLUSolver solve [sec]       : 0.056254
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.640812
+
+Under-relaxing newton method by factor 0.2
+Newton Step 4: Maximum residuals 5.42405
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.582714
+Time for SuperLUSolver solve [sec]       : 0.055666
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.638665
+
+Under-relaxing newton method by factor 0.2
+Newton Step 5: Maximum residuals 5.42404
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.600949
+Time for SuperLUSolver solve [sec]       : 0.059662
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.660915
+
+Under-relaxing newton method by factor 0.2
+Newton Step 6: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.615252
+Time for SuperLUSolver solve [sec]       : 0.057324
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.672864
+
+Under-relaxing newton method by factor 0.2
+Newton Step 7: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.612595
+Time for SuperLUSolver solve [sec]       : 0.057549
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.670474
+
+Under-relaxing newton method by factor 0.2
+Newton Step 8: Maximum residuals 2.7118
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.621164
+Time for SuperLUSolver solve [sec]       : 0.059569
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.681083
+
+Under-relaxing newton method by factor 0.2
+Newton Step 9: Maximum residuals 5.42408
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.640494
+Time for SuperLUSolver solve [sec]       : 0.059734
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.700569
+
+Under-relaxing newton method by factor 0.2
+Newton Step 10: Maximum residuals 5.42407
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.658323
+Time for SuperLUSolver solve [sec]       : 0.060781
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.719435
+
+Under-relaxing newton method by factor 0.2
+Newton Step 11: Maximum residuals 5.42404
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.646206
+Time for SuperLUSolver solve [sec]       : 0.060185
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.706745
+
+Under-relaxing newton method by factor 0.2
+Newton Step 12: Maximum residuals 5.42403
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.638826
+Time for SuperLUSolver solve [sec]       : 0.060582
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.699761
+
+Under-relaxing newton method by factor 0.2
+Newton Step 13: Maximum residuals 5.42413
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.641556
+Time for SuperLUSolver solve [sec]       : 0.060499
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.702377
+
+Under-relaxing newton method by factor 0.2
+Newton Step 14: Maximum residuals 5.85031
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.631123
+Time for SuperLUSolver solve [sec]       : 0.063183
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.694663
+
+Under-relaxing newton method by factor 0.2
+Newton Step 15: Maximum residuals 5.24481
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.637432
+Time for SuperLUSolver solve [sec]       : 0.064847
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.702632
+
+Under-relaxing newton method by factor 0.2
+Newton Step 16: Maximum residuals 9.42812
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.667687
+Time for SuperLUSolver solve [sec]       : 0.065988
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.734071
+
+Under-relaxing newton method by factor 0.2
+Newton Step 17: Maximum residuals 7.5425
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.681117
+Time for SuperLUSolver solve [sec]       : 0.064352
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.745836
+
+Under-relaxing newton method by factor 0.2
+Newton Step 18: Maximum residuals 0.0038125
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.705953
+Time for SuperLUSolver solve [sec]       : 0.071116
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.777458
+
+Under-relaxing newton method by factor 0.2
+Newton Step 19: Maximum residuals 0.00305
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.694919
+Time for SuperLUSolver solve [sec]       : 0.065909
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.761196
+
+Under-relaxing newton method by factor 0.2
+Newton Step 20: Maximum residuals 0.00244
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.691327
+Time for SuperLUSolver solve [sec]       : 0.06921
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.760883
+
+Under-relaxing newton method by factor 0.2
+Newton Step 21: Maximum residuals 0.001952
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.707696
+Time for SuperLUSolver solve [sec]       : 0.066675
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.774722
+
+Under-relaxing newton method by factor 0.2
+Newton Step 22: Maximum residuals 0.0015616
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.67607
+Time for SuperLUSolver solve [sec]       : 0.065773
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.742203
+
+Under-relaxing newton method by factor 0.2
+Newton Step 23: Maximum residuals 0.00124928
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.687542
+Time for SuperLUSolver solve [sec]       : 0.067895
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.755828
+
+Under-relaxing newton method by factor 0.2
+Newton Step 24: Maximum residuals 2.76797
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.670362
+Time for SuperLUSolver solve [sec]       : 0.064958
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.735679
+
+Under-relaxing newton method by factor 0.2
+Newton Step 25: Maximum residuals 0.00079954
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.653712
+Time for SuperLUSolver solve [sec]       : 0.062505
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.716551
+
+Under-relaxing newton method by factor 0.2
+Newton Step 26: Maximum residuals 0.000639632
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.673521
+Time for SuperLUSolver solve [sec]       : 0.065998
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.73987
+
+Under-relaxing newton method by factor 0.2
+Newton Step 27: Maximum residuals 0.000511706
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.671448
+Time for SuperLUSolver solve [sec]       : 0.065228
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.737032
+
+Under-relaxing newton method by factor 0.2
+Newton Step 28: Maximum residuals 2.74074
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.681421
+Time for SuperLUSolver solve [sec]       : 0.065629
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.747417
+
+Under-relaxing newton method by factor 0.2
+Newton Step 29: Maximum residuals 0.000327492
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.675816
+Time for SuperLUSolver solve [sec]       : 0.065508
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.741688
+
+Under-relaxing newton method by factor 0.2
+Newton Step 30: Maximum residuals 0.000261993
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.69218
+Time for SuperLUSolver solve [sec]       : 0.064931
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.757482
+
+Under-relaxing newton method by factor 0.2
+Newton Step 31: Maximum residuals 0.000209595
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.678209
+Time for SuperLUSolver solve [sec]       : 0.068683
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.747277
+
+Under-relaxing newton method by factor 0.2
+Newton Step 32: Maximum residuals 2.72003
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.672719
+Time for SuperLUSolver solve [sec]       : 0.065156
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.738234
+
+Under-relaxing newton method by factor 0.2
+Newton Step 33: Maximum residuals 7.22079
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.671562
+Time for SuperLUSolver solve [sec]       : 0.063516
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.73544
+
+Under-relaxing newton method by factor 0.2
+Newton Step 34: Maximum residuals 5.42385
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.676914
+Time for SuperLUSolver solve [sec]       : 0.06699
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.744274
+
+Under-relaxing newton method by factor 0.2
+Newton Step 35: Maximum residuals 7.36746
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.67667
+Time for SuperLUSolver solve [sec]       : 0.069162
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.746221
+
+Under-relaxing newton method by factor 0.2
+Newton Step 36: Maximum residuals 5.89397
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.708699
+Time for SuperLUSolver solve [sec]       : 0.069414
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.778497
+
+Under-relaxing newton method by factor 0.2
+Newton Step 37: Maximum residuals 4.71517
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.680076
+Time for SuperLUSolver solve [sec]       : 0.068639
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.74912
+
+Under-relaxing newton method by factor 0.2
+Newton Step 38: Maximum residuals 3.77214
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.68062
+Time for SuperLUSolver solve [sec]       : 0.069941
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.750959
+
+Under-relaxing newton method by factor 0.2
+Newton Step 39: Maximum residuals 0.0931031
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.673787
+Time for SuperLUSolver solve [sec]       : 0.066655
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.740782
+
+Under-relaxing newton method by factor 0.2
+Newton Step 40: Maximum residuals 0.0744825
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.666127
+Time for SuperLUSolver solve [sec]       : 0.062757
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.729216
+
+Under-relaxing newton method by factor 0.2
+Newton Step 41: Maximum residuals 0.059586
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.673434
+Time for SuperLUSolver solve [sec]       : 0.065339
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.739105
+
+Under-relaxing newton method by factor 0.2
+Newton Step 42: Maximum residuals 0.0476688
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.693522
+Time for SuperLUSolver solve [sec]       : 0.070079
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.763955
+
+Under-relaxing newton method by factor 0.2
+Newton Step 43: Maximum residuals 0.038135
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.706936
+Time for SuperLUSolver solve [sec]       : 0.069707
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.77701
+
+Under-relaxing newton method by factor 0.2
+Newton Step 44: Maximum residuals 0.030508
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.723869
+Time for SuperLUSolver solve [sec]       : 0.068909
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.793133
+
+Under-relaxing newton method by factor 0.2
+Newton Step 45: Maximum residuals 0.0244064
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.723367
+Time for SuperLUSolver solve [sec]       : 0.062445
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.786168
+
+Under-relaxing newton method by factor 0.2
+Newton Step 46: Maximum residuals 0.0195251
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.678544
+Time for SuperLUSolver solve [sec]       : 0.063931
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.74281
+
+Under-relaxing newton method by factor 0.2
+Newton Step 47: Maximum residuals 0.0156201
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.683766
+Time for SuperLUSolver solve [sec]       : 0.063833
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.747937
+
+Under-relaxing newton method by factor 0.2
+Newton Step 48: Maximum residuals 0.0124961
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.685234
+Time for SuperLUSolver solve [sec]       : 0.066093
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.751663
+
+Under-relaxing newton method by factor 0.2
+Newton Step 49: Maximum residuals 0.00999687
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.6766
+Time for SuperLUSolver solve [sec]       : 0.065002
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.741987
+
+Under-relaxing newton method by factor 0.2
+Newton Step 50: Maximum residuals 0.0079975
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.668623
+Time for SuperLUSolver solve [sec]       : 0.066712
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.735701
+
+Under-relaxing newton method by factor 0.2
+Newton Step 51: Maximum residuals 0.006398
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.671871
+Time for SuperLUSolver solve [sec]       : 0.067054
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.73933
+
+Under-relaxing newton method by factor 0.2
+Newton Step 52: Maximum residuals 0.0051184
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.694786
+Time for SuperLUSolver solve [sec]       : 0.068246
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.763405
+
+Under-relaxing newton method by factor 0.2
+Newton Step 53: Maximum residuals 0.00409472
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.674002
+Time for SuperLUSolver solve [sec]       : 0.067298
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.741672
+
+Under-relaxing newton method by factor 0.2
+Newton Step 54: Maximum residuals 0.00327578
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.681135
+Time for SuperLUSolver solve [sec]       : 0.067362
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.748863
+
+Under-relaxing newton method by factor 0.2
+Newton Step 55: Maximum residuals 0.00262062
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.682427
+Time for SuperLUSolver solve [sec]       : 0.061869
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.744644
+
+Under-relaxing newton method by factor 0.2
+Newton Step 56: Maximum residuals 0.0020965
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.663093
+Time for SuperLUSolver solve [sec]       : 0.066768
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.730222
+
+Under-relaxing newton method by factor 0.2
+Newton Step 57: Maximum residuals 5.38786
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.664487
+Time for SuperLUSolver solve [sec]       : 0.063912
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.728763
+
+Under-relaxing newton method by factor 0.2
+Newton Step 58: Maximum residuals 5.4304
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.6787
+Time for SuperLUSolver solve [sec]       : 0.063169
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.742247
+
+Under-relaxing newton method by factor 0.2
+Newton Step 59: Maximum residuals 6.03729
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.674096
+Time for SuperLUSolver solve [sec]       : 0.070523
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.744998
+
+Under-relaxing newton method by factor 0.2
+Newton Step 60: Maximum residuals 7.60481
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.675551
+Time for SuperLUSolver solve [sec]       : 0.064985
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.740899
+
+Under-relaxing newton method by factor 0.2
+Newton Step 61: Maximum residuals 11.1437
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.691243
+Time for SuperLUSolver solve [sec]       : 0.066792
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.758435
+
+Under-relaxing newton method by factor 0.2
+Newton Step 62: Maximum residuals 9.12416
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.677178
+Time for SuperLUSolver solve [sec]       : 0.067758
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.745323
+
+Under-relaxing newton method by factor 0.2
+Newton Step 63: Maximum residuals 7.29933
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.680923
+Time for SuperLUSolver solve [sec]       : 0.070727
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.752046
+
+Under-relaxing newton method by factor 0.2
+Newton Step 64: Maximum residuals 3.58777
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.680486
+Time for SuperLUSolver solve [sec]       : 0.0688
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.74967
+
+Under-relaxing newton method by factor 0.2
+Newton Step 65: Maximum residuals 0.00166633
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.680202
+Time for SuperLUSolver solve [sec]       : 0.06612
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.746662
+
+Under-relaxing newton method by factor 0.2
+Newton Step 66: Maximum residuals 0.00133307
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.680121
+Time for SuperLUSolver solve [sec]       : 0.067229
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.74769
+
+Under-relaxing newton method by factor 0.2
+Newton Step 67: Maximum residuals 2.82866
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.668979
+Time for SuperLUSolver solve [sec]       : 0.066104
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.735413
+
+Under-relaxing newton method by factor 0.2
+Newton Step 68: Maximum residuals 0.000853163
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.68407
+Time for SuperLUSolver solve [sec]       : 0.063901
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.748298
+
+Under-relaxing newton method by factor 0.2
+Newton Step 69: Maximum residuals 0.000682531
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.663481
+Time for SuperLUSolver solve [sec]       : 0.066991
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.730819
+
+Under-relaxing newton method by factor 0.2
+Newton Step 70: Maximum residuals 0.000546025
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.664902
+Time for SuperLUSolver solve [sec]       : 0.065762
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.730993
+
+Under-relaxing newton method by factor 0.2
+Newton Step 71: Maximum residuals 0.00043682
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.67948
+Time for SuperLUSolver solve [sec]       : 0.064173
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.743976
+
+Under-relaxing newton method by factor 0.2
+Newton Step 72: Maximum residuals 0.000349456
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.655519
+Time for SuperLUSolver solve [sec]       : 0.065347
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.72121
+
+Under-relaxing newton method by factor 0.2
+Newton Step 73: Maximum residuals 0.000279565
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.666365
+Time for SuperLUSolver solve [sec]       : 0.065586
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.732321
+
+Under-relaxing newton method by factor 0.2
+Newton Step 74: Maximum residuals 0.000223652
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.679425
+Time for SuperLUSolver solve [sec]       : 0.06364
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.743389
+
+Under-relaxing newton method by factor 0.2
+Newton Step 75: Maximum residuals 0.000178921
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.670778
+Time for SuperLUSolver solve [sec]       : 0.066997
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.738126
+
+Under-relaxing newton method by factor 0.2
+Newton Step 76: Maximum residuals 2.74022
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.686366
+Time for SuperLUSolver solve [sec]       : 0.066104
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.752802
+
+Under-relaxing newton method by factor 0.2
+Newton Step 77: Maximum residuals 6.06449
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.673339
+Time for SuperLUSolver solve [sec]       : 0.063368
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.737022
+
+Under-relaxing newton method by factor 0.2
+Newton Step 78: Maximum residuals 2.74043
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.663738
+Time for SuperLUSolver solve [sec]       : 0.068784
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.73286
+
+Under-relaxing newton method by factor 0.2
+Newton Step 79: Maximum residuals 2.76473
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.664654
+Time for SuperLUSolver solve [sec]       : 0.068452
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.73346
+
+Under-relaxing newton method by factor 0.2
+Newton Step 80: Maximum residuals 5.63401
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.666295
+Time for SuperLUSolver solve [sec]       : 0.067066
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.733719
+
+Under-relaxing newton method by factor 0.2
+Newton Step 81: Maximum residuals 6.02202
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.657908
+Time for SuperLUSolver solve [sec]       : 0.067453
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.72572
+
+Under-relaxing newton method by factor 0.2
+Newton Step 82: Maximum residuals 5.21031
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.667706
+Time for SuperLUSolver solve [sec]       : 0.065076
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.733118
+
+Under-relaxing newton method by factor 0.2
+Newton Step 83: Maximum residuals 5.86841
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.649883
+Time for SuperLUSolver solve [sec]       : 0.066251
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.71648
+
+Under-relaxing newton method by factor 0.2
+Newton Step 84: Maximum residuals 3.56596
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.654886
+Time for SuperLUSolver solve [sec]       : 0.066077
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.721212
+
+Under-relaxing newton method by factor 0.2
+Newton Step 85: Maximum residuals 0.000608943
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.66947
+Time for SuperLUSolver solve [sec]       : 0.065825
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.735608
+
+Under-relaxing newton method by factor 0.2
+Newton Step 86: Maximum residuals 0.000487155
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.667292
+Time for SuperLUSolver solve [sec]       : 0.064956
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.732611
+
+Under-relaxing newton method by factor 0.2
+Newton Step 87: Maximum residuals 5.84008
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.659928
+Time for SuperLUSolver solve [sec]       : 0.069479
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.729765
+
+Under-relaxing newton method by factor 0.2
+Newton Step 88: Maximum residuals 0.000311779
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.647056
+Time for SuperLUSolver solve [sec]       : 0.063052
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.710423
+
+Under-relaxing newton method by factor 0.2
+Newton Step 89: Maximum residuals 0.000249423
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.657262
+Time for SuperLUSolver solve [sec]       : 0.06467
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.722247
+
+Under-relaxing newton method by factor 0.2
+Newton Step 90: Maximum residuals 0.000199539
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.649496
+Time for SuperLUSolver solve [sec]       : 0.064699
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.71451
+
+Under-relaxing newton method by factor 0.2
+Newton Step 91: Maximum residuals 0.000159631
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.663503
+Time for SuperLUSolver solve [sec]       : 0.064063
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.727865
+
+Under-relaxing newton method by factor 0.2
+Newton Step 92: Maximum residuals 0.000127705
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.658277
+Time for SuperLUSolver solve [sec]       : 0.06467
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.723253
+
+Under-relaxing newton method by factor 0.2
+Newton Step 93: Maximum residuals 0.000102164
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.653534
+Time for SuperLUSolver solve [sec]       : 0.064728
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.718597
+
+Under-relaxing newton method by factor 0.2
+Newton Step 94: Maximum residuals 8.1731e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.653362
+Time for SuperLUSolver solve [sec]       : 0.063199
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.716862
+
+Under-relaxing newton method by factor 0.2
+Newton Step 95: Maximum residuals 6.53848e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.652924
+Time for SuperLUSolver solve [sec]       : 0.064697
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.717951
+
+Under-relaxing newton method by factor 0.2
+Newton Step 96: Maximum residuals 2.71849
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.665387
+Time for SuperLUSolver solve [sec]       : 0.066543
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.73226
+
+Under-relaxing newton method by factor 0.2
+Newton Step 97: Maximum residuals 0.000201891
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.650916
+Time for SuperLUSolver solve [sec]       : 0.062476
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.713696
+
+Under-relaxing newton method by factor 0.2
+Newton Step 98: Maximum residuals 0.000161513
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.644158
+Time for SuperLUSolver solve [sec]       : 0.064896
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.709359
+
+Under-relaxing newton method by factor 0.2
+Newton Step 99: Maximum residuals 0.00012921
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.679447
+Time for SuperLUSolver solve [sec]       : 0.066998
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.746742
+
+Under-relaxing newton method by factor 0.2
+Newton Step 100: Maximum residuals 0.000103368
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.673488
+Time for SuperLUSolver solve [sec]       : 0.064013
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.737812
+
+Under-relaxing newton method by factor 0.2
+Newton Step 101: Maximum residuals 8.26946e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.655851
+Time for SuperLUSolver solve [sec]       : 0.064545
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.720692
+
+Under-relaxing newton method by factor 0.2
+Newton Step 102: Maximum residuals 6.61557e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.661349
+Time for SuperLUSolver solve [sec]       : 0.063521
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.725171
+
+Under-relaxing newton method by factor 0.2
+Newton Step 103: Maximum residuals 5.29245e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.671051
+Time for SuperLUSolver solve [sec]       : 0.061836
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.733185
+
+Under-relaxing newton method by factor 0.2
+Newton Step 104: Maximum residuals 4.23396e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.671504
+Time for SuperLUSolver solve [sec]       : 0.067594
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.739427
+
+Under-relaxing newton method by factor 0.2
+Newton Step 105: Maximum residuals 3.38717e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.667218
+Time for SuperLUSolver solve [sec]       : 0.064
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.731525
+
+Under-relaxing newton method by factor 0.2
+Newton Step 106: Maximum residuals 2.70974e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.673801
+Time for SuperLUSolver solve [sec]       : 0.063748
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.737854
+
+Under-relaxing newton method by factor 0.2
+Newton Step 107: Maximum residuals 2.16779e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.669259
+Time for SuperLUSolver solve [sec]       : 0.062476
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.732035
+
+Under-relaxing newton method by factor 0.2
+Newton Step 108: Maximum residuals 1.73423e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.66444
+Time for SuperLUSolver solve [sec]       : 0.067815
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.732587
+
+Under-relaxing newton method by factor 0.2
+Newton Step 109: Maximum residuals 1.38739e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.67831
+Time for SuperLUSolver solve [sec]       : 0.064199
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.74281
+
+Under-relaxing newton method by factor 0.2
+Newton Step 110: Maximum residuals 1.10991e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.665404
+Time for SuperLUSolver solve [sec]       : 0.064239
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.729955
+
+Under-relaxing newton method by factor 0.2
+Newton Step 111: Maximum residuals 8.87927e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.690466
+Time for SuperLUSolver solve [sec]       : 0.065321
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.756111
+
+Under-relaxing newton method by factor 0.2
+Newton Step 112: Maximum residuals 7.10341e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.650061
+Time for SuperLUSolver solve [sec]       : 0.06725
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.717644
+
+Under-relaxing newton method by factor 0.2
+Newton Step 113: Maximum residuals 5.68273e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.675049
+Time for SuperLUSolver solve [sec]       : 0.067135
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.742542
+
+Under-relaxing newton method by factor 0.2
+Newton Step 114: Maximum residuals 4.54618e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.665615
+Time for SuperLUSolver solve [sec]       : 0.066981
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.732953
+
+Under-relaxing newton method by factor 0.2
+Newton Step 115: Maximum residuals 3.63695e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.664858
+Time for SuperLUSolver solve [sec]       : 0.068053
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.733258
+
+Under-relaxing newton method by factor 0.2
+Newton Step 116: Maximum residuals 2.90956e-06
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.660246
+Time for SuperLUSolver solve [sec]       : 0.068267
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.728857
+
+Under-relaxing newton method by factor 0.2
+Newton Step 117: Maximum residuals 2.71208
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.66678
+Time for SuperLUSolver solve [sec]       : 0.067176
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.734295
+
+Under-relaxing newton method by factor 0.2
+Newton Step 118: Maximum residuals 5.4637
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.658725
+Time for SuperLUSolver solve [sec]       : 0.067732
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.726838
+
+Under-relaxing newton method by factor 0.2
+Newton Step 119: Maximum residuals 8.61229
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.652144
+Time for SuperLUSolver solve [sec]       : 0.065155
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.717673
+
+Under-relaxing newton method by factor 0.2
+Newton Step 120: Maximum residuals 3.05836
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.658505
+Time for SuperLUSolver solve [sec]       : 0.068659
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.727543
+
+Under-relaxing newton method by factor 0.2
+Newton Step 121: Maximum residuals 6.87832
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.659107
+Time for SuperLUSolver solve [sec]       : 0.062919
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.72243
+
+Under-relaxing newton method by factor 0.2
+Newton Step 122: Maximum residuals 6.05521
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.659713
+Time for SuperLUSolver solve [sec]       : 0.06704
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.727154
+
+Under-relaxing newton method by factor 0.2
+Newton Step 123: Maximum residuals 2.76666
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.668878
+Time for SuperLUSolver solve [sec]       : 0.076093
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.745369
+
+Under-relaxing newton method by factor 0.2
+Newton Step 124: Maximum residuals 0.000695422
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.675586
+Time for SuperLUSolver solve [sec]       : 0.066721
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.742686
+
+Under-relaxing newton method by factor 0.2
+Newton Step 125: Maximum residuals 0.000556338
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.670592
+Time for SuperLUSolver solve [sec]       : 0.064995
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.735958
+
+Under-relaxing newton method by factor 0.2
+Newton Step 126: Maximum residuals 0.00044507
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.680157
+Time for SuperLUSolver solve [sec]       : 0.068418
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.748972
+
+Under-relaxing newton method by factor 0.2
+Newton Step 127: Maximum residuals 0.000356056
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.672847
+Time for SuperLUSolver solve [sec]       : 0.066658
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.739882
+
+Under-relaxing newton method by factor 0.2
+Newton Step 128: Maximum residuals 0.000284845
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.66901
+Time for SuperLUSolver solve [sec]       : 0.062294
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.731654
+
+Under-relaxing newton method by factor 0.2
+Newton Step 129: Maximum residuals 0.000227876
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.657486
+Time for SuperLUSolver solve [sec]       : 0.063272
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.721118
+
+Under-relaxing newton method by factor 0.2
+Newton Step 130: Maximum residuals 0.000182301
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.657745
+Time for SuperLUSolver solve [sec]       : 0.063709
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.721828
+
+Under-relaxing newton method by factor 0.2
+Newton Step 131: Maximum residuals 0.000145841
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.692389
+Time for SuperLUSolver solve [sec]       : 0.065534
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.75831
+
+Under-relaxing newton method by factor 0.2
+Newton Step 132: Maximum residuals 0.000116672
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.674908
+Time for SuperLUSolver solve [sec]       : 0.066777
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.742029
+
+Under-relaxing newton method by factor 0.2
+Newton Step 133: Maximum residuals 9.3338e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.679195
+Time for SuperLUSolver solve [sec]       : 0.067829
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.747394
+
+Under-relaxing newton method by factor 0.2
+Newton Step 134: Maximum residuals 7.46704e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.681724
+Time for SuperLUSolver solve [sec]       : 0.069521
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.751638
+
+Under-relaxing newton method by factor 0.2
+Newton Step 135: Maximum residuals 5.97363e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.673933
+Time for SuperLUSolver solve [sec]       : 0.065125
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.739434
+
+Under-relaxing newton method by factor 0.2
+Newton Step 136: Maximum residuals 4.7789e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.661141
+Time for SuperLUSolver solve [sec]       : 0.066506
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.728013
+
+Under-relaxing newton method by factor 0.2
+Newton Step 137: Maximum residuals 5.48038
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.681085
+Time for SuperLUSolver solve [sec]       : 0.063879
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.745338
+
+Under-relaxing newton method by factor 0.2
+Newton Step 138: Maximum residuals 0.000273617
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.699382
+Time for SuperLUSolver solve [sec]       : 0.066678
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.766434
+
+Under-relaxing newton method by factor 0.2
+Newton Step 139: Maximum residuals 0.000218894
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.699147
+Time for SuperLUSolver solve [sec]       : 0.069325
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.768851
+
+Under-relaxing newton method by factor 0.2
+Newton Step 140: Maximum residuals 0.000175115
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.671977
+Time for SuperLUSolver solve [sec]       : 0.064158
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.736485
+
+Under-relaxing newton method by factor 0.2
+Newton Step 141: Maximum residuals 0.000140092
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.666348
+Time for SuperLUSolver solve [sec]       : 0.064816
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.731513
+
+Under-relaxing newton method by factor 0.2
+Newton Step 142: Maximum residuals 0.000112074
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.674465
+Time for SuperLUSolver solve [sec]       : 0.066434
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.741265
+
+Under-relaxing newton method by factor 0.2
+Newton Step 143: Maximum residuals 8.96589e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.67669
+Time for SuperLUSolver solve [sec]       : 0.064651
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.741699
+
+Under-relaxing newton method by factor 0.2
+Newton Step 144: Maximum residuals 7.17271e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.663634
+Time for SuperLUSolver solve [sec]       : 0.063299
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.727291
+
+Under-relaxing newton method by factor 0.2
+Newton Step 145: Maximum residuals 5.73817e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.68052
+Time for SuperLUSolver solve [sec]       : 0.066937
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.747811
+
+Under-relaxing newton method by factor 0.2
+Newton Step 146: Maximum residuals 4.59054e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.698435
+Time for SuperLUSolver solve [sec]       : 0.067621
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.766418
+
+Under-relaxing newton method by factor 0.2
+Newton Step 147: Maximum residuals 3.67243e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.663791
+Time for SuperLUSolver solve [sec]       : 0.063401
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.727548
+
+Under-relaxing newton method by factor 0.2
+Newton Step 148: Maximum residuals 2.93794e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.678857
+Time for SuperLUSolver solve [sec]       : 0.062922
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.742145
+
+Under-relaxing newton method by factor 0.2
+Newton Step 149: Maximum residuals 2.35035e-05
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.665712
+Time for SuperLUSolver solve [sec]       : 0.06598
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.732067
+
+Under-relaxing newton method by factor 0.2
+Newton Step 150: Maximum residuals 2.7142
+Reached max. number of iterations (150) in Newton solver.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 1e-08
+--underrelaxation 0.05
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 1.67694e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.56194
+Time for SuperLUSolver solve [sec]       : 0.056614
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.618865
+
+Under-relaxing newton method by factor 0.05
+Newton Step 1: Maximum residuals 1.67706e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.581615
+Time for SuperLUSolver solve [sec]       : 0.060145
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.642099
+
+Under-relaxing newton method by factor 0.05
+Newton Step 2: Maximum residuals 1.67717e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.584274
+Time for SuperLUSolver solve [sec]       : 0.059162
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.64377
+
+Under-relaxing newton method by factor 0.05
+Newton Step 3: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.585649
+Time for SuperLUSolver solve [sec]       : 0.060837
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.646844
+
+Under-relaxing newton method by factor 0.05
+Newton Step 4: Maximum residuals 1.67725e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.604202
+Time for SuperLUSolver solve [sec]       : 0.058428
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.662986
+
+Under-relaxing newton method by factor 0.05
+Newton Step 5: Maximum residuals 1.67731e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.595549
+Time for SuperLUSolver solve [sec]       : 0.058569
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.654474
+
+Under-relaxing newton method by factor 0.05
+Newton Step 6: Maximum residuals 1.67741e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.601324
+Time for SuperLUSolver solve [sec]       : 0.05841
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.660098
+
+Under-relaxing newton method by factor 0.05
+Newton Step 7: Maximum residuals 1.6775e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.61503
+Time for SuperLUSolver solve [sec]       : 0.058123
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.673541
+
+Under-relaxing newton method by factor 0.05
+Newton Step 8: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.608986
+Time for SuperLUSolver solve [sec]       : 0.061911
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.67126
+
+Under-relaxing newton method by factor 0.05
+Newton Step 9: Maximum residuals 5.42402
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.620718
+Time for SuperLUSolver solve [sec]       : 0.063059
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.684162
+
+Under-relaxing newton method by factor 0.05
+Newton Step 10: Maximum residuals 1.67749e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.615481
+Time for SuperLUSolver solve [sec]       : 0.061882
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.677721
+
+Under-relaxing newton method by factor 0.05
+Newton Step 11: Maximum residuals 1.67758e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.618985
+Time for SuperLUSolver solve [sec]       : 0.063671
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.683028
+
+Under-relaxing newton method by factor 0.05
+Newton Step 12: Maximum residuals 1.67763e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.635705
+Time for SuperLUSolver solve [sec]       : 0.060791
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.696863
+
+Under-relaxing newton method by factor 0.05
+Newton Step 13: Maximum residuals 1.67772e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.624033
+Time for SuperLUSolver solve [sec]       : 0.062919
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687325
+
+Under-relaxing newton method by factor 0.05
+Newton Step 14: Maximum residuals 2.71181
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.642732
+Time for SuperLUSolver solve [sec]       : 0.064673
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.707797
+
+Under-relaxing newton method by factor 0.05
+Newton Step 15: Maximum residuals 1.67774e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.634936
+Time for SuperLUSolver solve [sec]       : 0.061846
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.697145
+
+Under-relaxing newton method by factor 0.05
+Newton Step 16: Maximum residuals 1.67782e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.623003
+Time for SuperLUSolver solve [sec]       : 0.063126
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.686479
+
+Under-relaxing newton method by factor 0.05
+Newton Step 17: Maximum residuals 1.67789e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.637194
+Time for SuperLUSolver solve [sec]       : 0.062033
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.699561
+
+Under-relaxing newton method by factor 0.05
+Newton Step 18: Maximum residuals 1.67796e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.632946
+Time for SuperLUSolver solve [sec]       : 0.06209
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.695376
+
+Under-relaxing newton method by factor 0.05
+Newton Step 19: Maximum residuals 1.678e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.627672
+Time for SuperLUSolver solve [sec]       : 0.063074
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.691089
+
+Under-relaxing newton method by factor 0.05
+Newton Step 20: Maximum residuals 1.67801e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.626981
+Time for SuperLUSolver solve [sec]       : 0.062185
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.689499
+
+Under-relaxing newton method by factor 0.05
+Newton Step 21: Maximum residuals 1.67802e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.621324
+Time for SuperLUSolver solve [sec]       : 0.062634
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.684308
+
+Under-relaxing newton method by factor 0.05
+Newton Step 22: Maximum residuals 1.67803e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.638531
+Time for SuperLUSolver solve [sec]       : 0.061929
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.700801
+
+Under-relaxing newton method by factor 0.05
+Newton Step 23: Maximum residuals 1.67804e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.613474
+Time for SuperLUSolver solve [sec]       : 0.059003
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.6728
+
+Under-relaxing newton method by factor 0.05
+Newton Step 24: Maximum residuals 1.67804e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.624236
+Time for SuperLUSolver solve [sec]       : 0.063663
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.688245
+
+Under-relaxing newton method by factor 0.05
+Newton Step 25: Maximum residuals 1.67805e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.640899
+Time for SuperLUSolver solve [sec]       : 0.062959
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.704204
+
+Under-relaxing newton method by factor 0.05
+Newton Step 26: Maximum residuals 1.67806e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.63983
+Time for SuperLUSolver solve [sec]       : 0.064145
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.70432
+
+Under-relaxing newton method by factor 0.05
+Newton Step 27: Maximum residuals 1.67806e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.662842
+Time for SuperLUSolver solve [sec]       : 0.065085
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.72829
+
+Under-relaxing newton method by factor 0.05
+Newton Step 28: Maximum residuals 1.67807e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.64659
+Time for SuperLUSolver solve [sec]       : 0.063678
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.710645
+
+Under-relaxing newton method by factor 0.05
+Newton Step 29: Maximum residuals 1.67807e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.655605
+Time for SuperLUSolver solve [sec]       : 0.063033
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.718972
+
+Under-relaxing newton method by factor 0.05
+Newton Step 30: Maximum residuals 1.67808e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.641646
+Time for SuperLUSolver solve [sec]       : 0.061809
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.703801
+
+Under-relaxing newton method by factor 0.05
+Newton Step 31: Maximum residuals 1.67808e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.631627
+Time for SuperLUSolver solve [sec]       : 0.06177
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.693738
+
+Under-relaxing newton method by factor 0.05
+Newton Step 32: Maximum residuals 1.67809e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.628862
+Time for SuperLUSolver solve [sec]       : 0.062039
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.691249
+
+Under-relaxing newton method by factor 0.05
+Newton Step 33: Maximum residuals 1.67809e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.630346
+Time for SuperLUSolver solve [sec]       : 0.060335
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.69101
+
+Under-relaxing newton method by factor 0.05
+Newton Step 34: Maximum residuals 1.6781e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.625176
+Time for SuperLUSolver solve [sec]       : 0.060998
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.686514
+
+Under-relaxing newton method by factor 0.05
+Newton Step 35: Maximum residuals 1.6781e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.631184
+Time for SuperLUSolver solve [sec]       : 0.058437
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.689941
+
+Under-relaxing newton method by factor 0.05
+Newton Step 36: Maximum residuals 1.6781e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.625474
+Time for SuperLUSolver solve [sec]       : 0.058689
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.684492
+
+Under-relaxing newton method by factor 0.05
+Newton Step 37: Maximum residuals 1.67811e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.625687
+Time for SuperLUSolver solve [sec]       : 0.061236
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687255
+
+Under-relaxing newton method by factor 0.05
+Newton Step 38: Maximum residuals 1.67811e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.622685
+Time for SuperLUSolver solve [sec]       : 0.060086
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.683107
+
+Under-relaxing newton method by factor 0.05
+Newton Step 39: Maximum residuals 1.67811e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.636561
+Time for SuperLUSolver solve [sec]       : 0.062174
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.699058
+
+Under-relaxing newton method by factor 0.05
+Newton Step 40: Maximum residuals 1.67812e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.620542
+Time for SuperLUSolver solve [sec]       : 0.060324
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.681203
+
+Under-relaxing newton method by factor 0.05
+Newton Step 41: Maximum residuals 1.67812e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.630239
+Time for SuperLUSolver solve [sec]       : 0.060007
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.690581
+
+Under-relaxing newton method by factor 0.05
+Newton Step 42: Maximum residuals 1.67812e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.615912
+Time for SuperLUSolver solve [sec]       : 0.060213
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.676464
+
+Under-relaxing newton method by factor 0.05
+Newton Step 43: Maximum residuals 1.67812e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.649053
+Time for SuperLUSolver solve [sec]       : 0.065321
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.714742
+
+Under-relaxing newton method by factor 0.05
+Newton Step 44: Maximum residuals 1.67813e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.646649
+Time for SuperLUSolver solve [sec]       : 0.061445
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.708426
+
+Under-relaxing newton method by factor 0.05
+Newton Step 45: Maximum residuals 1.67813e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.670068
+Time for SuperLUSolver solve [sec]       : 0.064546
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.734958
+
+Under-relaxing newton method by factor 0.05
+Newton Step 46: Maximum residuals 1.67813e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.64595
+Time for SuperLUSolver solve [sec]       : 0.06373
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.710012
+
+Under-relaxing newton method by factor 0.05
+Newton Step 47: Maximum residuals 1.67813e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.636544
+Time for SuperLUSolver solve [sec]       : 0.061881
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.698757
+
+Under-relaxing newton method by factor 0.05
+Newton Step 48: Maximum residuals 1.67813e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.625563
+Time for SuperLUSolver solve [sec]       : 0.061241
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687125
+
+Under-relaxing newton method by factor 0.05
+Newton Step 49: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.627922
+Time for SuperLUSolver solve [sec]       : 0.064455
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.692713
+
+Under-relaxing newton method by factor 0.05
+Newton Step 50: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.656144
+Time for SuperLUSolver solve [sec]       : 0.062772
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.719259
+
+Under-relaxing newton method by factor 0.05
+Newton Step 51: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.658393
+Time for SuperLUSolver solve [sec]       : 0.062059
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.720782
+
+Under-relaxing newton method by factor 0.05
+Newton Step 52: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.659275
+Time for SuperLUSolver solve [sec]       : 0.067086
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.726714
+
+Under-relaxing newton method by factor 0.05
+Newton Step 53: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.659213
+Time for SuperLUSolver solve [sec]       : 0.064605
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.724177
+
+Under-relaxing newton method by factor 0.05
+Newton Step 54: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.670694
+Time for SuperLUSolver solve [sec]       : 0.065448
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.736485
+
+Under-relaxing newton method by factor 0.05
+Newton Step 55: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.657695
+Time for SuperLUSolver solve [sec]       : 0.063469
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.721508
+
+Under-relaxing newton method by factor 0.05
+Newton Step 56: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.643219
+Time for SuperLUSolver solve [sec]       : 0.065039
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.708617
+
+Under-relaxing newton method by factor 0.05
+Newton Step 57: Maximum residuals 1.67814e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.658419
+Time for SuperLUSolver solve [sec]       : 0.067183
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.725942
+
+Under-relaxing newton method by factor 0.05
+Newton Step 58: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.652897
+Time for SuperLUSolver solve [sec]       : 0.062922
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.716155
+
+Under-relaxing newton method by factor 0.05
+Newton Step 59: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.677778
+Time for SuperLUSolver solve [sec]       : 0.063359
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.74148
+
+Under-relaxing newton method by factor 0.05
+Newton Step 60: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.638168
+Time for SuperLUSolver solve [sec]       : 0.061106
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.6996
+
+Under-relaxing newton method by factor 0.05
+Newton Step 61: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.633304
+Time for SuperLUSolver solve [sec]       : 0.062339
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.695978
+
+Under-relaxing newton method by factor 0.05
+Newton Step 62: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.640905
+Time for SuperLUSolver solve [sec]       : 0.062167
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.703422
+
+Under-relaxing newton method by factor 0.05
+Newton Step 63: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.625991
+Time for SuperLUSolver solve [sec]       : 0.061109
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687442
+
+Under-relaxing newton method by factor 0.05
+Newton Step 64: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.63647
+Time for SuperLUSolver solve [sec]       : 0.061719
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.698533
+
+Under-relaxing newton method by factor 0.05
+Newton Step 65: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.661561
+Time for SuperLUSolver solve [sec]       : 0.064348
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.726234
+
+Under-relaxing newton method by factor 0.05
+Newton Step 66: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.637789
+Time for SuperLUSolver solve [sec]       : 0.062667
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.700789
+
+Under-relaxing newton method by factor 0.05
+Newton Step 67: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.629413
+Time for SuperLUSolver solve [sec]       : 0.062555
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.692297
+
+Under-relaxing newton method by factor 0.05
+Newton Step 68: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.651821
+Time for SuperLUSolver solve [sec]       : 0.063766
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.715925
+
+Under-relaxing newton method by factor 0.05
+Newton Step 69: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.648262
+Time for SuperLUSolver solve [sec]       : 0.062979
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.711599
+
+Under-relaxing newton method by factor 0.05
+Newton Step 70: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.641497
+Time for SuperLUSolver solve [sec]       : 0.061604
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.70345
+
+Under-relaxing newton method by factor 0.05
+Newton Step 71: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.625597
+Time for SuperLUSolver solve [sec]       : 0.061593
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687533
+
+Under-relaxing newton method by factor 0.05
+Newton Step 72: Maximum residuals 1.67815e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.637608
+Time for SuperLUSolver solve [sec]       : 0.068409
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.706371
+
+Under-relaxing newton method by factor 0.05
+Newton Step 73: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.639568
+Time for SuperLUSolver solve [sec]       : 0.062043
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.701967
+
+Under-relaxing newton method by factor 0.05
+Newton Step 74: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.657345
+Time for SuperLUSolver solve [sec]       : 0.065921
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.723611
+
+Under-relaxing newton method by factor 0.05
+Newton Step 75: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.667067
+Time for SuperLUSolver solve [sec]       : 0.068162
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.735594
+
+Under-relaxing newton method by factor 0.05
+Newton Step 76: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.646866
+Time for SuperLUSolver solve [sec]       : 0.061027
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.708241
+
+Under-relaxing newton method by factor 0.05
+Newton Step 77: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.631659
+Time for SuperLUSolver solve [sec]       : 0.06136
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.69336
+
+Under-relaxing newton method by factor 0.05
+Newton Step 78: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.615609
+Time for SuperLUSolver solve [sec]       : 0.05995
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.67592
+
+Under-relaxing newton method by factor 0.05
+Newton Step 79: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.622689
+Time for SuperLUSolver solve [sec]       : 0.06464
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687672
+
+Under-relaxing newton method by factor 0.05
+Newton Step 80: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.628294
+Time for SuperLUSolver solve [sec]       : 0.060711
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.689351
+
+Under-relaxing newton method by factor 0.05
+Newton Step 81: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.633167
+Time for SuperLUSolver solve [sec]       : 0.060299
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.693811
+
+Under-relaxing newton method by factor 0.05
+Newton Step 82: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.627683
+Time for SuperLUSolver solve [sec]       : 0.063649
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.691688
+
+Under-relaxing newton method by factor 0.05
+Newton Step 83: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.630869
+Time for SuperLUSolver solve [sec]       : 0.066706
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.697936
+
+Under-relaxing newton method by factor 0.05
+Newton Step 84: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.648434
+Time for SuperLUSolver solve [sec]       : 0.064228
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.713019
+
+Under-relaxing newton method by factor 0.05
+Newton Step 85: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.644472
+Time for SuperLUSolver solve [sec]       : 0.062859
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.707687
+
+Under-relaxing newton method by factor 0.05
+Newton Step 86: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.641733
+Time for SuperLUSolver solve [sec]       : 0.062939
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.705033
+
+Under-relaxing newton method by factor 0.05
+Newton Step 87: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.630833
+Time for SuperLUSolver solve [sec]       : 0.062074
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.693247
+
+Under-relaxing newton method by factor 0.05
+Newton Step 88: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.637873
+Time for SuperLUSolver solve [sec]       : 0.06452
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.702748
+
+Under-relaxing newton method by factor 0.05
+Newton Step 89: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.652458
+Time for SuperLUSolver solve [sec]       : 0.061413
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.714228
+
+Under-relaxing newton method by factor 0.05
+Newton Step 90: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.638019
+Time for SuperLUSolver solve [sec]       : 0.061874
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.700247
+
+Under-relaxing newton method by factor 0.05
+Newton Step 91: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.623357
+Time for SuperLUSolver solve [sec]       : 0.060829
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.684535
+
+Under-relaxing newton method by factor 0.05
+Newton Step 92: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.636135
+Time for SuperLUSolver solve [sec]       : 0.06481
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.701308
+
+Under-relaxing newton method by factor 0.05
+Newton Step 93: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.618508
+Time for SuperLUSolver solve [sec]       : 0.066405
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.685274
+
+Under-relaxing newton method by factor 0.05
+Newton Step 94: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.647072
+Time for SuperLUSolver solve [sec]       : 0.063281
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.710709
+
+Under-relaxing newton method by factor 0.05
+Newton Step 95: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.645
+Time for SuperLUSolver solve [sec]       : 0.067049
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.71237
+
+Under-relaxing newton method by factor 0.05
+Newton Step 96: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.668265
+Time for SuperLUSolver solve [sec]       : 0.06798
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.736628
+
+Under-relaxing newton method by factor 0.05
+Newton Step 97: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.67717
+Time for SuperLUSolver solve [sec]       : 0.062745
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.740289
+
+Under-relaxing newton method by factor 0.05
+Newton Step 98: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.647157
+Time for SuperLUSolver solve [sec]       : 0.061302
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.708815
+
+Under-relaxing newton method by factor 0.05
+Newton Step 99: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.656117
+Time for SuperLUSolver solve [sec]       : 0.068286
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.724788
+
+Under-relaxing newton method by factor 0.05
+Newton Step 100: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.658606
+Time for SuperLUSolver solve [sec]       : 0.062791
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.721765
+
+Under-relaxing newton method by factor 0.05
+Newton Step 101: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.671252
+Time for SuperLUSolver solve [sec]       : 0.066759
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.738397
+
+Under-relaxing newton method by factor 0.05
+Newton Step 102: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.68061
+Time for SuperLUSolver solve [sec]       : 0.064844
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.74582
+
+Under-relaxing newton method by factor 0.05
+Newton Step 103: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.655428
+Time for SuperLUSolver solve [sec]       : 0.063224
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.719032
+
+Under-relaxing newton method by factor 0.05
+Newton Step 104: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.627093
+Time for SuperLUSolver solve [sec]       : 0.05966
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687099
+
+Under-relaxing newton method by factor 0.05
+Newton Step 105: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.632518
+Time for SuperLUSolver solve [sec]       : 0.063904
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.696768
+
+Under-relaxing newton method by factor 0.05
+Newton Step 106: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.635922
+Time for SuperLUSolver solve [sec]       : 0.062773
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.699068
+
+Under-relaxing newton method by factor 0.05
+Newton Step 107: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.636265
+Time for SuperLUSolver solve [sec]       : 0.06246
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.699061
+
+Under-relaxing newton method by factor 0.05
+Newton Step 108: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.649816
+Time for SuperLUSolver solve [sec]       : 0.066446
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.716621
+
+Under-relaxing newton method by factor 0.05
+Newton Step 109: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.636184
+Time for SuperLUSolver solve [sec]       : 0.064391
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.700935
+
+Under-relaxing newton method by factor 0.05
+Newton Step 110: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.624278
+Time for SuperLUSolver solve [sec]       : 0.06024
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.684846
+
+Under-relaxing newton method by factor 0.05
+Newton Step 111: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.632657
+Time for SuperLUSolver solve [sec]       : 0.064039
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.697051
+
+Under-relaxing newton method by factor 0.05
+Newton Step 112: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.639185
+Time for SuperLUSolver solve [sec]       : 0.061125
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.700638
+
+Under-relaxing newton method by factor 0.05
+Newton Step 113: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.628284
+Time for SuperLUSolver solve [sec]       : 0.062047
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.690668
+
+Under-relaxing newton method by factor 0.05
+Newton Step 114: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.629916
+Time for SuperLUSolver solve [sec]       : 0.064803
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.695067
+
+Under-relaxing newton method by factor 0.05
+Newton Step 115: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.655925
+Time for SuperLUSolver solve [sec]       : 0.061831
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.718083
+
+Under-relaxing newton method by factor 0.05
+Newton Step 116: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.647005
+Time for SuperLUSolver solve [sec]       : 0.064936
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.71229
+
+Under-relaxing newton method by factor 0.05
+Newton Step 117: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.633672
+Time for SuperLUSolver solve [sec]       : 0.061416
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.695419
+
+Under-relaxing newton method by factor 0.05
+Newton Step 118: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.65096
+Time for SuperLUSolver solve [sec]       : 0.062026
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.713318
+
+Under-relaxing newton method by factor 0.05
+Newton Step 119: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.621364
+Time for SuperLUSolver solve [sec]       : 0.068201
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.689913
+
+Under-relaxing newton method by factor 0.05
+Newton Step 120: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.635462
+Time for SuperLUSolver solve [sec]       : 0.061084
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.696881
+
+Under-relaxing newton method by factor 0.05
+Newton Step 121: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.615073
+Time for SuperLUSolver solve [sec]       : 0.05817
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.673574
+
+Under-relaxing newton method by factor 0.05
+Newton Step 122: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.621393
+Time for SuperLUSolver solve [sec]       : 0.058921
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.680638
+
+Under-relaxing newton method by factor 0.05
+Newton Step 123: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.612516
+Time for SuperLUSolver solve [sec]       : 0.059216
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.672057
+
+Under-relaxing newton method by factor 0.05
+Newton Step 124: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.617848
+Time for SuperLUSolver solve [sec]       : 0.063628
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.681827
+
+Under-relaxing newton method by factor 0.05
+Newton Step 125: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.626326
+Time for SuperLUSolver solve [sec]       : 0.064428
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.691109
+
+Under-relaxing newton method by factor 0.05
+Newton Step 126: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.619787
+Time for SuperLUSolver solve [sec]       : 0.060156
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.680284
+
+Under-relaxing newton method by factor 0.05
+Newton Step 127: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.627956
+Time for SuperLUSolver solve [sec]       : 0.06417
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.692463
+
+Under-relaxing newton method by factor 0.05
+Newton Step 128: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.633241
+Time for SuperLUSolver solve [sec]       : 0.060926
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.694523
+
+Under-relaxing newton method by factor 0.05
+Newton Step 129: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.627028
+Time for SuperLUSolver solve [sec]       : 0.060468
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687835
+
+Under-relaxing newton method by factor 0.05
+Newton Step 130: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.623523
+Time for SuperLUSolver solve [sec]       : 0.060115
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.683978
+
+Under-relaxing newton method by factor 0.05
+Newton Step 131: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.624913
+Time for SuperLUSolver solve [sec]       : 0.062004
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.687283
+
+Under-relaxing newton method by factor 0.05
+Newton Step 132: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.638855
+Time for SuperLUSolver solve [sec]       : 0.060723
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.699912
+
+Under-relaxing newton method by factor 0.05
+Newton Step 133: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.613475
+Time for SuperLUSolver solve [sec]       : 0.06148
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.675289
+
+Under-relaxing newton method by factor 0.05
+Newton Step 134: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.626671
+Time for SuperLUSolver solve [sec]       : 0.065457
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.692464
+
+Under-relaxing newton method by factor 0.05
+Newton Step 135: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.644528
+Time for SuperLUSolver solve [sec]       : 0.06054
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.705424
+
+Under-relaxing newton method by factor 0.05
+Newton Step 136: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.627178
+Time for SuperLUSolver solve [sec]       : 0.061791
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.689321
+
+Under-relaxing newton method by factor 0.05
+Newton Step 137: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.647416
+Time for SuperLUSolver solve [sec]       : 0.069718
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.7175
+
+Under-relaxing newton method by factor 0.05
+Newton Step 138: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.676633
+Time for SuperLUSolver solve [sec]       : 0.068812
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.745822
+
+Under-relaxing newton method by factor 0.05
+Newton Step 139: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.650406
+Time for SuperLUSolver solve [sec]       : 0.06159
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.712329
+
+Under-relaxing newton method by factor 0.05
+Newton Step 140: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.629461
+Time for SuperLUSolver solve [sec]       : 0.063262
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.693083
+
+Under-relaxing newton method by factor 0.05
+Newton Step 141: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.651388
+Time for SuperLUSolver solve [sec]       : 0.062505
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.714227
+
+Under-relaxing newton method by factor 0.05
+Newton Step 142: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.649916
+Time for SuperLUSolver solve [sec]       : 0.062885
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.713157
+
+Under-relaxing newton method by factor 0.05
+Newton Step 143: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.633103
+Time for SuperLUSolver solve [sec]       : 0.063761
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.697194
+
+Under-relaxing newton method by factor 0.05
+Newton Step 144: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.626417
+Time for SuperLUSolver solve [sec]       : 0.05959
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.686339
+
+Under-relaxing newton method by factor 0.05
+Newton Step 145: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.639487
+Time for SuperLUSolver solve [sec]       : 0.061327
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.701133
+
+Under-relaxing newton method by factor 0.05
+Newton Step 146: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.630444
+Time for SuperLUSolver solve [sec]       : 0.062142
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.69291
+
+Under-relaxing newton method by factor 0.05
+Newton Step 147: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.622099
+Time for SuperLUSolver solve [sec]       : 0.059866
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.682287
+
+Under-relaxing newton method by factor 0.05
+Newton Step 148: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.615715
+Time for SuperLUSolver solve [sec]       : 0.063395
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.679439
+
+Under-relaxing newton method by factor 0.05
+Newton Step 149: Maximum residuals 1.67816e-08
+
+Time to set up CRDoubleMatrix Jacobian [sec]: 0.628266
+Time for SuperLUSolver solve [sec]       : 0.060031
+
+Time for linear solver ( ndof = 2606 ) [sec]: 0.68865
+
+Under-relaxing newton method by factor 0.05
+Newton Step 150: Maximum residuals 1.67816e-08
+Reached max. number of iterations (150) in Newton solver.
+spherical_solid_w_contact.cc log info
+
+Specified (and recognised) command line flags:
+----------------------------------------------
+--H 0.4
+--lambda 1
+--newtontol 2e-08
+--underrelaxation 0.05
+--enfvol 1
+--maxnsteps 150
+--nreler 2
+--load sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+--program reloadSolution
+
+Using Gauss scheme
+Setting number of radial elements =2
+Preinflation (lambda)  =1
+Setting constitutive law to MooneyRivlin
+Starting program reload_solution_fresh_test()
+Thickness = 0.1 with 2, 93 elements in the r and theta direction
+
+assign_eqn_numbers()  = 2606
+Loading solution: sol_nreler=2_nreletheta=93_H=0.4000_lambda=1.00_vol=0.2430_t=0.10_nt=1.00e-07_CL=MR_C1=1.3000_C2=1.1000.dat
+
+Number of equations in Problem::read(): 2606
+
+Restart file exists
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0
+Initial Newton Solve, have doc'ed solution H = 0.4 Volume = 0.243 P = -2.70818
+Initial Maximum residuals 1.67694e-08
+
+Total time for linear solver (ndof=2606) [sec]: 0
+Total time for Newton solver (ndof=2606) [sec]: 0.023238
+Time outside linear solver        : 100 %
+
+ Contact force = (-3.05882, 2.98778).
+
+
+
+Total Volume is (raw) 0.243
+ doc'ed solution, now saving restart file.
+Saved restart file.
