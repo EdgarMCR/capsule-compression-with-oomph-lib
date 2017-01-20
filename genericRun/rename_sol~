@@ -1,5 +1,0 @@
-#!/bin/bash
-
-for filename in $1/sol_*.dat; do
-    echo $filename 
-done
