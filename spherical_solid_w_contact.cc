@@ -292,189 +292,12 @@ public:
  /// Update function (empty)
 void actions_after_newton_solve() {}
 
- /// Update function (empty)
+ /// Update function, keep track of volume
  void actions_before_newton_solve() {
    newton_step=0;
-
    //Update Volume in case lambda has been changed
    Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
-    /*
-   std::cout << "solid mesh" << std::endl;
-    /// Loop over all nodes in the mesh
-    unsigned n_node = Solid_mesh_pt->nnode();
-    for(unsigned inod=0;inod<n_node;inod++)
-    {
-     SolidNode* nod_pt=dynamic_cast<SolidNode*>(Solid_mesh_pt->node_pt(inod));
-     
-     std::cout << "(" <<nod_pt->x(0) << ", " << nod_pt->xi(1) + nod_pt->x(1) << "): ";
-     
-      std::cout <<" | ";
-      unsigned n_value=nod_pt->nvalue();
-      for(unsigned ival=0;ival<n_value;ival++){
-        std::cout<<nod_pt->eqn_number(ival)<<" ";
-      }
-      std::cout <<" | ";
-      
-      unsigned n_position_type=nod_pt->nposition_type();
-      for(unsigned k=0;k<n_position_type;k++)
-      {
-        for(unsigned i=0;i<2;i++)
-        {
-          std::cout << nod_pt->position_eqn_number(k,i)<<" ";
-        }
-      }
-
-      std::cout<<std::endl;
-    }
-    
-    
-    if(Global_Physical_Variables::enforce_volume_constraint){
-            /// Loop over all nodes in the mesh
-        unsigned n_node = Vol_const_mesh_pt->nnode();
-        
-        cout << " Vol_const_mesh_pt->nnode()  = " << n_node << 
-          " and Vol_const_mesh_pt->nelement() = " << 
-          Vol_const_mesh_pt->nelement() << endl;
-           
-
-        AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>* el_pt = dynamic_cast<AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>* >(
-            Vol_const_mesh_pt->element_pt(0));
-        cout << "Vol_const_mesh_pt->element_pt(0)->node_pt(0)->x_position_pt(0) = " << el_pt->node_pt(0)->x(0) << endl;
-        
-        //Loop over all elements and then all nodes
-        // This will mean nodes on the egde will eb duplicated but
-        // for some reason the mesh function nnode() returns 0 
-        // even when the mesh is filled with elements? 
-        // TODO: track down issue with nnode() called from mesh
-        unsigned nel = Vol_const_mesh_pt->nelement();
-        for(unsigned e=0; e<nel;e++){
-          AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>* el_pt = dynamic_cast<AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>* >(
-            Vol_const_mesh_pt->element_pt(e));
-          std::cout << "ele " << e << " # Ndof = " << el_pt->ndof() << " int: " 
-            << el_pt->ninternal_data() << " ext: " <<  el_pt->nexternal_data() << std::endl; 
-          unsigned nr_node = el_pt->nnode();
-          for(unsigned inod=0;inod<nr_node;inod++)
-              {
-                
-              SolidNode* nod_pt=dynamic_cast<SolidNode*>(el_pt->node_pt(inod));
-              std::cout << nod_pt->x(0) << " " << nod_pt->xi(1) + nod_pt->x(1) << " ";
-//              std::cout << nod_pt->eqn_number(0) << " ";
-              
-              std::cout <<" | ";
-              unsigned n_value=nod_pt->nvalue();
-              for(unsigned ival=0;ival<n_value;ival++){
-                std::cout<<nod_pt->eqn_number(ival)<<" ";
-              }
-              std::cout <<" | ";
-          
-               unsigned n_position_type=nod_pt->nposition_type();
-               for(unsigned k=0;k<n_position_type;k++)
-                {
-                 for(unsigned i=0;i<2;i++)
-                  {
-          //        if(nod_pt->position_eqn_number(k,i)>=0)
-          //         {
-                   std::cout << nod_pt->position_eqn_number(k,i)<<" ";
-          //         }
-                  }
-                }
-
-              std::cout<<std::endl;
-              }
-        }
-    }
-    
-    AxisSymSolidVolumeConstraintElement<ELEMENT>* el_pt = 
-      dynamic_cast<AxisSymSolidVolumeConstraintElement<ELEMENT>* >(
-      Vol_const_master_mesh_pt->element_pt(0));
-    
-    std::cout << "Master Vol Control Ele p = " << el_pt->internal_data_pt(0)->value(0) <<
-      " with eqn nr " << el_pt->internal_data_pt(0)->eqn_number(0) << ".";
-        std::cout<<std::endl;
-    
-        std::cout << " el_pt->ndof() = " << el_pt->ndof() << 
-          " el_pt->ninternal_data() = " <<
-          el_pt->ninternal_data() << " el_pt->nexternal_data() " <<  
-          el_pt->nexternal_data() << std::endl; 
-          
-//     DenseMatrix<double> ele_jacobian;
-//     Vector<double> ele_residuals;          
-//     el_pt->get_jacobian(ele_residuals,ele_jacobian);
-// 
-//     char filename_0[100];
-//     sprintf(filename_0,"%s/ele_jacobian%i.dat",
-//             Doc_info.directory().c_str(),
-//             Doc_info.number()); 
-
-          
-    std::cout << "Contact mesh" << std::endl;
-   n_node = Surface_contact_mesh_pt->nnode();
-   std::cout << "n_node = " << n_node << std::endl;
-   
-    unsigned nel = Surface_contact_mesh_pt->nelement();
-    for(unsigned e=0; e<nel;e++){
-        AxiSymNonlinearSurfaceContactElement<ELEMENT>* el_pt = 
-          dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>*>(
-            Surface_contact_mesh_pt->element_pt(e));
-          
-        unsigned nr_node = el_pt->nnode();
-        
-        for(unsigned inod=0;inod<nr_node;inod++){
-          SolidNode* nod_pt=dynamic_cast<SolidNode*>(el_pt->node_pt(inod));
-          std::cout << "(" <<nod_pt->x(0) << ", " << nod_pt->xi(1) + nod_pt->x(1) << "): ";
-          
-          std::cout <<" | ";
-          unsigned n_value=nod_pt->nvalue();
-          for(unsigned ival=0;ival<n_value;ival++){
-            std::cout<<nod_pt->eqn_number(ival)<<" ";
-          }
-          std::cout <<" | ";
-          
-
-            unsigned n_position_type=nod_pt->nposition_type();
-            for(unsigned k=0;k<n_position_type;k++)
-            {
-              for(unsigned i=0;i<2;i++)
-              {
-                std::cout << nod_pt->position_eqn_number(k,i)<<" ";
-              }
-            }
-
-            std::cout<<std::endl;
-          }
-    }
-    std::cout << std::endl;
-    */
-    /*
-   ofstream descr_file;
-    char filename_dof[100];
-    sprintf(filename_dof,"%s/dof%i.dat",
-            Doc_info.directory().c_str(),
-            Doc_info.number());
-   descr_file.open(filename_dof);
-   describe_dofs(descr_file);
-   descr_file.close();
-
-      
-    DenseDoubleMatrix jacobian;
-    DoubleVector residuals;          
-    this->get_jacobian(residuals,jacobian);
-
-    char filename_1[100];
-    sprintf(filename_1,"%s/jacobian%i.dat",
-            Doc_info.directory().c_str(),
-            Doc_info.number());
-
-    char filename_2[100];
-    sprintf(filename_2,"%s/residuals%i.dat",
-            Doc_info.directory().c_str(),
-            Doc_info.number());
-    
-    jacobian.output(filename_1);
-    residuals.output(filename_2); 
-    */
 }
-
  
   /// Output contact element situation
  void actions_after_newton_step() { newton_step++; }
@@ -1036,8 +859,13 @@ void CantileverProblem<ELEMENT>::create_contact_elements()
 
      //Add the contact element to the surface mesh
      Surface_contact_mesh_pt->add_element_pt(contact_element_pt);
-     
+     if(e==0){
+       std::cout << "The contact surface elements are used with the following options:" << std::endl;
+       std::cout << contact_element_pt->get_contact_options_in_string() << std::endl;
+     }  
     } //end of loop over bulk elements adjacent to boundary b
+
+   
   }
 
   
