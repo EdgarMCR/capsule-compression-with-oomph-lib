@@ -1069,8 +1069,10 @@ void CantileverProblem<ELEMENT>::doc_solution()
 
  ofstream some_file;
  ofstream some_file2;
+ ofstream some_file3;
  char filename[200];
  char filename2[200];
+ char filename3[200];
 
  // Number of plot points
  unsigned n_plot = 5; 
@@ -1104,6 +1106,8 @@ sprintf(filename,"%s/soln%i_coarse.dat",Doc_info.directory().c_str(),
  solid_mesh_pt()->output(some_file, 2);
  some_file.close();
 #endif
+
+ //Vol_const_mesh_pt
 
  // Write trace file: Load/displacement characteristics
  Trace_file << Global_Physical_Variables::P  << " " 
@@ -1161,11 +1165,11 @@ some_file2 <<  get_global_variables_as_string() << std::endl ;
 		    Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
            << std::endl;
 
- unsigned nel=Surface_contact_mesh_pt->nelement();
-
  double f_normal =0;
  double f_orthoganal = 0;
  Vector<double> cont_f(2);
+ unsigned nel= Surface_contact_mesh_pt->nelement();
+
 for (unsigned e=0;e<nel;e++)
 {
 #ifndef HTCONDOR
@@ -1174,7 +1178,6 @@ for (unsigned e=0;e<nel;e++)
 #endif
   dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
       Surface_contact_mesh_pt->element_pt(e))->output(some_file2,n_plot);
-
 
   /*
   force += dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
@@ -1198,6 +1201,24 @@ for (unsigned e=0;e<nel;e++)
   f_normal += cont_f[0];
   f_orthoganal += cont_f[1];
 }
+
+ sprintf(filename3,"%s/volume_output_%s_%d.dat",Doc_info.directory().c_str(),
+	 global_val.c_str(),
+	 Doc_info.number());
+ some_file3.open(filename3);
+ some_file3.precision(17);
+ some_file3.setf(ios::fixed);
+ some_file3.setf(ios::showpoint);
+
+ nel=Vol_const_mesh_pt->nelement();
+
+ for (unsigned e=0; e<nel;e++)
+{
+  dynamic_cast<AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>* >(
+      Vol_const_mesh_pt->element_pt(e))->output(some_file3,n_plot);
+}
+
+
 
  std::cout << " Contact force = (" <<f_normal << ", " 
 	   << f_orthoganal << ")."  << std::endl;
@@ -1523,7 +1544,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
 	    }
         
         // Doc solution
-        doc_solution();
+        //doc_solution();
 
         Solution_output_file.open(filename);
 	Solution_output_file.precision(17);

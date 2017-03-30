@@ -469,14 +469,6 @@ if(writeEverythingToFileCSV){
 
 //Added by Edgar 12/07/2016
 
-
-  
-
-
-
-
-
-
 // Forward declaration, otherwise the compiler complains
 template <class ELEMENT>
 class AxisymmetricSolidTractionVolumeConstraintElement;
@@ -586,7 +578,9 @@ public:
 
  /// Return the residuals
  void fill_in_contribution_to_residuals(Vector<double> &residuals);
- 
+
+
+
 /// Return the jacobian
 //  void fill_in_contribution_to_jacobian(Vector<double> &residuals, 
 //                                    DenseMatrix<double> &jacobian)
@@ -598,15 +592,292 @@ public:
 //    //Do I nned to add in derivativs w.r.t. to external data? Not in original...
 //   }
 
+ // Get positions Xr, Xtheta at each integration point
+ void get_positions(Vector<double> &Xr, Vector<double> &Xtheta)
+ {
+//Find out how many nodes there are
+ unsigned n_node = nnode();
+
+ //Find out how many positional dofs there are
+ //unsigned n_position_type = nnodal_position_type(); //Old version
+ unsigned n_position_type = this->nnodal_position_type();
+
+ //Set up memory for the shape functions
+ //The surface is 1D, so we only have one local derivative
+ Shape psi(n_node,n_position_type);
+ DShape dpsids(n_node,n_position_type,1); 
+
+ //Set the value of n_intpt
+ unsigned n_intpt = integral_pt()->nweight();
+
+ //Loop over the integration points
+ for(unsigned ipt=0;ipt<n_intpt;ipt++)
+  { 
+   //Only need to call the local derivatives
+   dshape_local_at_knot(ipt,psi,dpsids);
+
+   //Calculate the global position and lagrangian coordinate
+   Vector<double> interpolated_x(2,0.0); 
+   Vector<double> interpolated_xi(2,0.0);
+
+   //Calculate the global and lagrangian derivtives wrt the local coordinates
+   //Vector<double> interpolated_dxds(2,0.0); 
+   //Vector<double> interpolated_dxids(2,0.0);
+ 
+   //Calculate displacements and derivatives
+   for(unsigned l=0;l<n_node;l++) 
+    {
+     //Loop over positional dofs
+     for(unsigned k=0;k<n_position_type;k++)
+      {
+       //Loop over the number of lagrangian coordinates (2)
+       for(unsigned i=0;i<2;i++)
+        {
+         //Calculate the global position
+         interpolated_x[i] += 
+          nodal_position_gen(l,bulk_position_type(k),i)*psi(l,k);
+
+         interpolated_xi[i] += 
+          this->lagrangian_position_gen(l,bulk_position_type(k),i)*psi(l,k);
+
+         //Calculate the derivatives of the global and lagrangian coordinates
+         //interpolated_dxds[i] += 
+         // nodal_position_gen(l,bulk_position_type(k),i)*dpsids(l,k,0);
+
+         //interpolated_dxids[i] += 
+         // this->lagrangian_position_gen(l,bulk_position_type(k),i)
+         // *dpsids(l,k,0);
+        }
+      }
+    }
+
+   if(Xr.size() == n_intpt)
+     {
+       Xr[ipt] = interpolated_x[0];
+       Xtheta[ipt] = interpolated_x[1];
+     }
+   else
+     {
+       Xr.push_back(interpolated_x[0]);
+       Xtheta.push_back(interpolated_x[1]);
+     }
+  }
+ }
+
  /// Overload the output function
  void output(std::ostream &outfile, const unsigned &n_plot) 
-        {FiniteElement::output(outfile,n_plot);}
+        {
+	  //FiniteElement::output(outfile,n_plot);
+
+    unsigned n_dim = this->nodal_dimension();
+
+    //The following did not work for some reason. 
+    //As a stop gap fix I will just output at the integration points
+		/*
+    Vector<double> x(n_dim);
+    Vector<double> xi(n_dim);
+    Vector<double> s(n_dim-1);
+
+    // Tecplot header info
+    outfile << this->tecplot_zone_string(n_plot);
+
+    // Loop over plot points
+    unsigned num_plot_points=this->nplot_points(n_plot);
+    for (unsigned iplot=0;iplot<num_plot_points;iplot++)
+      {
+	// Get local coordinates of plot point
+	this->get_s_plot(iplot,n_plot,s);
+
+	// Get Eulerian and Lagrangian coordinates and outer unit normal
+	this->interpolated_x(s,x);
+	this->interpolated_xi(s,xi);
+
+	//Output the Xr,Xtheta,..
+	//double actual_angel = x[1] + xi[1];
+        //outfile << x[0] * sin( actual_angel) << " "  << x[0] * cos( actual_angel) << " " ; 
+
+	outfile << x[0]*sin(xi[1]) + x[1]*cos(xi[1]) << " " <<
+	  x[0]*cos(xi[1]) - x[1]*sin(xi[1]) << " ";
+
+	for(unsigned i=0;i<n_dim;i++)
+	  {outfile << x[i] << " ";}//1,2
+
+	//Output the r,theta,..
+	for(unsigned i=0;i<n_dim;i++)
+	  {outfile << xi[i] << " ";}//1,2
+
+	outfile << s << " ";
+	outfile << std::endl;
+      }
+
+	  */
+
+  // Set volume to zero
+ volume = 0.0;
+  
+ //Find out how many nodes there are
+ unsigned n_node = nnode();
+
+ //Find out how many positional dofs there are
+ //unsigned n_position_type = nnodal_position_type(); //Old version
+ unsigned n_position_type = this->nnodal_position_type();
+
+ //Set up memory for the shape functions
+ //The surface is 1D, so we only have one local derivative
+ Shape psi(n_node,n_position_type);
+ DShape dpsids(n_node,n_position_type,1); 
+
+ //Set the value of n_intpt
+ unsigned n_intpt = integral_pt()->nweight();
+
+ //Loop over the integration points
+ for(unsigned ipt=0;ipt<n_intpt;ipt++)
+  { 
+   //Get the integral weight
+   double w = integral_pt()->weight(ipt);
+   
+   //Only need to call the local derivatives
+   dshape_local_at_knot(ipt,psi,dpsids);
+
+   //Calculate the global position and lagrangian coordinate
+   Vector<double> interpolated_x(2,0.0); 
+   Vector<double> interpolated_xi(2,0.0);
+
+   //Calculate the global and lagrangian derivtives wrt the local coordinates
+   Vector<double> interpolated_dxds(2,0.0); 
+   Vector<double> interpolated_dxids(2,0.0);
+ 
+   //Calculate displacements and derivatives
+   for(unsigned l=0;l<n_node;l++) 
+    {
+     //Loop over positional dofs
+     for(unsigned k=0;k<n_position_type;k++)
+      {
+       //Loop over the number of lagrangian coordinates (2)
+       for(unsigned i=0;i<2;i++)
+        {
+         //Calculate the global position
+         interpolated_x[i] += 
+          nodal_position_gen(l,bulk_position_type(k),i)*psi(l,k);
+
+         interpolated_xi[i] += 
+          this->lagrangian_position_gen(l,bulk_position_type(k),i)*psi(l,k);
+
+         //Calculate the derivatives of the global and lagrangian coordinates
+         interpolated_dxds[i] += 
+          nodal_position_gen(l,bulk_position_type(k),i)*dpsids(l,k,0);
+
+         interpolated_dxids[i] += 
+          this->lagrangian_position_gen(l,bulk_position_type(k),i)
+          *dpsids(l,k,0);
+        }
+      }
+    }
+
+   //Now calculate the entries of the deformed surface metric tensor
+   //Now find the local deformed metric tensor from the tangent Vectors
+   DenseMatrix<double> A(2);
+   //The off-diagonal terms are Zero 
+   A(0,1) = A(1,0) = 0.0;
+   //The diagonal terms are a little complicated
+   A(0,0) =  
+    (interpolated_dxds[0] - interpolated_x[1]*interpolated_dxids[1])*
+    (interpolated_dxds[0] - interpolated_x[1]*interpolated_dxids[1]) +
+    (interpolated_dxds[1] + interpolated_x[0]*interpolated_dxids[1])*
+    (interpolated_dxds[1] + interpolated_x[0]*interpolated_dxids[1]);
+
+
+   A(1,1) =  (interpolated_x[0]*sin(interpolated_xi[1]) +
+               interpolated_x[1]*cos(interpolated_xi[1]))*
+    (interpolated_x[0]*sin(interpolated_xi[1]) +
+     interpolated_x[1]*cos(interpolated_xi[1]));
+
+   //Premultiply the weights and the square-root of the determinant of 
+   //the metric tensor
+   double W = w*sqrt(A(0,0)*A(1,1));
+     
+   //Get the outer unit normal
+   Vector<double> interpolated_normal(2);
+   
+   //New method of finding outer unit normal is to call function
+   //outer_unit_normal(ipt,interpolated_normal);
+   
+   
+   //std::cout << "Modern normel: " << interpolated_normal[0] << ", " << interpolated_normal[1] << std::endl;
+   
+   //Old way
+
+   //Also find the normal -- just the cross product of the metric tensors
+   //but I want to express it in terms of e_r and e_theta components
+   //N.B. There is an issue at theta = 0,pi, where the normal is e_{r},
+   //but given that I never assemble it, should be OK!
+   //The minus sign is chosen to ensure that the normal is really outward 
+
+   //Component in the e_{r} direction
+   interpolated_normal[0] = -1.0*
+    (interpolated_x[0]*sin(interpolated_xi[1]) +
+     interpolated_x[1]*cos(interpolated_xi[1]))*
+    (interpolated_dxds[1] + interpolated_x[0]*interpolated_dxids[1]);
+   //Component in the e_{theta} direction
+   interpolated_normal[1] =  -1.0*
+    (interpolated_x[0]*sin(interpolated_xi[1]) +
+     interpolated_x[1]*cos(interpolated_xi[1]))*
+    (interpolated_x[1]*interpolated_dxids[1] - interpolated_dxds[0]);
+   
+   //TODO: Fix normal direction!
+   //Huge assumption: we are not going to be on north or south face
+   //If we're on the north or south face need to flip normal
+   //if(s_fixed_value()==-1)
+    //{
+    // interpolated_normal[0] *= -1.0;
+    // interpolated_normal[1] *= -1.0;
+    //}
+
+   //Now adjust and scale the normal
+   double length = 0.0;
+   for(unsigned i=0;i<2;i++)
+    {
+     interpolated_normal[i] *= normal_sign();
+     length += interpolated_normal[i]*interpolated_normal[i];
+    }
+   for(unsigned i=0;i<2;i++)
+    {
+     interpolated_normal[i] /= sqrt(length);
+    }
+    
+   //std::cout << "Old normel: " << interpolated_normal[0] << ", " << interpolated_normal[1] << std::endl;
+
+   //=====LOAD TERMS  FROM PRINCIPLE OF VIRTUAL DISPLACEMENTS========
+   Vector<double> cart_pos(2);
+//   Vector<double> cart_normal(2);
+       
+  //Get volume from surface integral via divergence theorem
+  // integrating r . n dS 
+  volume += interpolated_x[0]*interpolated_normal[0]*W*-1/3.0;
+  
+   outfile << interpolated_x[0]*sin(interpolated_xi[1]) + interpolated_x[1]*cos(interpolated_xi[1]) << " " <<
+	  interpolated_x[0]*cos(interpolated_xi[1]) - interpolated_x[1]*sin(interpolated_xi[1]) << " ";
+
+   for(unsigned i=0;i<n_dim;i++)
+     {outfile << interpolated_x[i] << " ";}//1,2
+
+    //Output the r,theta,..
+    for(unsigned i=0;i<n_dim;i++)
+      {outfile << interpolated_xi[i] << " ";}//1,2
+
+    for(unsigned i=0;i<n_dim;i++)
+      {outfile << interpolated_normal[i] << " ";}//1,2
+    
+    outfile << std::endl;
+  }
+}
+
 
  /// Output function: x,y,[z],u,v,[w],p in tecplot format
  void output(std::ostream &outfile) //Changed this
   {
       unsigned n_plot=5;  
-      FiniteElement::output(outfile,n_plot);
+      output(outfile,n_plot);
   }
 
  /// Overload the output function
@@ -614,7 +885,9 @@ public:
 
  /// Output function: x,y,[z],u,v,[w],p in tecplot format
  void output(FILE* file_pt, const unsigned &n_plot)
-  {FiniteElement::output(file_pt,n_plot);}
+  {
+    FiniteElement::output(file_pt,n_plot); //Originally just called this
+  }
 
 
  /////////////////////////////////////////////////////////////////////////
@@ -695,7 +968,7 @@ fill_in_contribution_to_residuals(Vector<double> &residuals)
 {
   
  //Debug flag
-  bool writeEverythingToFileCSV = false;
+   bool writeEverythingToFileCSV = false;
   
  // Set volume to zero
  volume = 0.0;
@@ -847,8 +1120,6 @@ if(writeEverythingToFileCSV){
    //=====LOAD TERMS  FROM PRINCIPLE OF VIRTUAL DISPLACEMENTS========
    Vector<double> cart_pos(2);
 //   Vector<double> cart_normal(2);
-   
-   double actual_angle = interpolated_x[1] + interpolated_xi[1] ;
        
    if(writeEverythingToFileCSV){
     std::ofstream csvfile;
@@ -857,12 +1128,10 @@ if(writeEverythingToFileCSV){
     csvfile.close();
    }
 
-//   volume += W; //to check area,  should be 2*pi*r^2
-
   //Get volume from surface integral via divergence theorem
+  // integrating r . n dS 
   volume += interpolated_x[0]*interpolated_normal[0]*W*-1/3.0;
-  volume += actual_angle*interpolated_normal[1]*W*-1/3.0;
-
+  
    //Loop over the test functions, nodes of the element
    for(unsigned l=0;l<n_node;l++)
     {
@@ -877,10 +1146,10 @@ if(writeEverythingToFileCSV){
          /*IF it's not a boundary condition*/
          if(local_eqn >= 0)
           {
-            
+	    // Dynamics cast the pointer to the the single control element that stores the global pressure
           AxisSymSolidVolumeConstraintElement<ELEMENT> *el_pt = dynamic_cast<AxisSymSolidVolumeConstraintElement<ELEMENT>*>(this->pressur_control_element_pt);
           
-           //Add the loading terms to the residuals
+           //Add the loading terms to the residuals - the pressure that enforce the volume constraint
            residuals[local_eqn] -= el_pt->internal_data_pt(0)->value(0)  * interpolated_normal[i]*psi(l,k)*W;
 //            residuals[local_eqn] -= this->pressur_control_element_pt->internal_data_pt(0)->value(0)  * interpolated_normal[i]*psi(l,k)*W;
            
@@ -952,6 +1221,8 @@ fill_in_contribution_to_residuals(Vector<double> &residuals)
     set_mesh_pt_and_external(SolidMesh* traction_vol_const_mesh_pt){
     
     ///Need to loop over all traction elements and make them external data
+
+    // First make sure that we add it only once
     if(added_external){
       std::cout << "Already added external data!" << 
         " Function AxisSymSolidVolumeConstraintElement::" << 
