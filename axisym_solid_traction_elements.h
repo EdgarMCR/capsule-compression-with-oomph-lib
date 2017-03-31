@@ -579,8 +579,6 @@ public:
  /// Return the residuals
  void fill_in_contribution_to_residuals(Vector<double> &residuals);
 
-
-
 /// Return the jacobian
 //  void fill_in_contribution_to_jacobian(Vector<double> &residuals, 
 //                                    DenseMatrix<double> &jacobian)
@@ -671,7 +669,8 @@ public:
 
     unsigned n_dim = this->nodal_dimension();
 
-    //The following did not work for some reason. 
+    //The following does not work - I think I need to overload the 
+    // relevant functions. 
     //As a stop gap fix I will just output at the integration points
 		/*
     Vector<double> x(n_dim);
@@ -854,6 +853,7 @@ public:
   //Get volume from surface integral via divergence theorem
   // integrating r . n dS 
   volume += interpolated_x[0]*interpolated_normal[0]*W*-1/3.0;
+  volume += interpolated_x[1]*interpolated_normal[1]*W*-1/3.0;
   
    outfile << interpolated_x[0]*sin(interpolated_xi[1]) + interpolated_x[1]*cos(interpolated_xi[1]) << " " <<
 	  interpolated_x[0]*cos(interpolated_xi[1]) - interpolated_x[1]*sin(interpolated_xi[1]) << " ";
@@ -1205,12 +1205,7 @@ fill_in_contribution_to_residuals(Vector<double> &residuals)
       // Now get volume
       vol += el_pt->get_volume();
     }
-  
-//   const int local_eqn = this->ptraded_local_eqn();
-//   if(local_eqn >= 0)
-//    {
   residuals[0] -= vol - *Prescribed_volume_pt;
-//    }
 }
 
   /// Function to set pointer to surface element mesh and external data

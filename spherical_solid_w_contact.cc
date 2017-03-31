@@ -134,13 +134,13 @@ namespace Global_Physical_Variables
 {
 
  /// thickness
- double t=0.1;
+ double t=0.2;
 
  /// degrees
  double theta=1.57079632679;
 
  //number of elements
- unsigned n_ele_r = 4;
+ unsigned n_ele_r = 1;
  unsigned n_ele_theta = 40;
  /// Pointer to strain energy function
  StrainEnergyFunction*Strain_energy_function_pt;
@@ -155,8 +155,8 @@ namespace Global_Physical_Variables
  double Nu=0.3;
 
  //Material constants for Neo-Hookian, Moony-Rivlin and Yeoh
- double C1 = 1.3;
- double C2 = 1.1;
+ double C1 = 1.0;
+ double C2 = 1.0;
  double C3 = 1.0;
 
  /// Uniform pressure
@@ -166,10 +166,10 @@ namespace Global_Physical_Variables
  double Volume = 0.243;
  
  //Compression Height H
- double H = 1.0;
+ double H = 1.1;
  
   //Preinflation of the capsule, 1 being the undeformed state
-  double lambda = 1.0; 
+  double lambda = 1.1; 
 
   // 0 =false, != 0  true 
  int printDebugInfo = 0;  
@@ -198,7 +198,7 @@ namespace Global_Physical_Variables
  // Switches code between either using traction elements that impose a
  // set pressure,P, defined above or enforces a volume constraint set by
  // the variable Volume defined above.
- int enforce_volume_constraint = false;
+ int enforce_volume_constraint = true;
 
   //Boolean values to set the options for the contact elements
   // Default is false = 0
@@ -1275,10 +1275,12 @@ if(Global_Physical_Variables::enforce_volume_constraint){
   AxisSymSolidVolumeConstraintElement<ELEMENT> *el_pt = 
       dynamic_cast<AxisSymSolidVolumeConstraintElement<ELEMENT>*>
         (Vol_const_master_mesh_pt->element_pt(0));
- 
+  Vector<double> res(1, 0.0);
+  el_pt->fill_in_contribution_to_residuals(res);
   some_file << "H = \t" <<  Global_Physical_Variables::H 
 	   << "\t Volume = \t" << vol 
 	    << "\t Pressure = \t" << el_pt->internal_data_pt(0)->value(0) 
+	    << "\t Residual = \t" << res[0]
 	    << "\t Radial Contact Force = \t" << f_normal<< std:: endl;
  }
  some_file.close();
@@ -2276,7 +2278,8 @@ int main(int argc, char **argv){
   }
  else
   {
-   oomph_info << "Using default number (4) of radial elemens" << std::endl;
+    oomph_info << "Using default number " <<
+      Global_Physical_Variables::n_ele_r << " of radial elemens" << std::endl;
   }
   if (CommandLineArgs::command_line_flag_has_been_set("--lambda"))
   {
