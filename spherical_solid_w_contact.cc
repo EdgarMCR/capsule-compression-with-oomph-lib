@@ -159,6 +159,7 @@ namespace Global_Physical_Variables
  double C2 = 1.0;
  double C3 = 1.0;
 
+  double cTarget=1.0;
  /// Uniform pressure
  double P = 0.0;
  
@@ -1929,7 +1930,14 @@ bool incompressible = true;
      
 }
 
+/// function to set number of elements
+void set_number_of_elements()
+{
+  //for debuging
+  // Global_Physical_Variables::n_ele_theta = 2.0* Global_Physical_Variables::n_ele_r;
 
+  Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*3;
+}
 
 //===================================================================
 /// Function for standard run
@@ -1945,12 +1953,7 @@ void standard_run(double step_increment){
  Global_Physical_Variables::Penetrator_pt =
   new AxiSymPenetrator(&Global_Physical_Variables::H);
   
-if(false){
- Global_Physical_Variables::n_ele_theta = 2.0* Global_Physical_Variables::n_ele_r;
-}
-else{
- Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*3;
-}
+ set_number_of_elements();
 
  cout << "Thickness = " << Global_Physical_Variables::t << " with " <<
         Global_Physical_Variables::n_ele_r << ", " << 
@@ -2126,9 +2129,9 @@ else{
   Solution_input_file.close();
 
    //Lets check how ti looks
-   problem2.doc_solution();
+   //problem2.doc_solution();
 
-   std::cout << "Initial Newton Solve, have doc'ed solution "
+   std::cout << "Initial Newton Solve "
 	     << "H = " << Global_Physical_Variables::H
 	     << " Volume = " << Global_Physical_Variables::Volume
 	     << " P = " << problem2.get_interal_pressure() << std::endl;
@@ -2140,7 +2143,7 @@ else{
    problem2.doc_solution();
    std::cout << " doc'ed solution, now saving restart file." << std::endl;
    problem2.save_solution();
-   problem2.save_solution(".");
+   //problem2.save_solution(".");
    std::cout << "Saved restart file." << std::endl;
 
 }
@@ -2242,6 +2245,9 @@ int main(int argc, char **argv){
 
  CommandLineArgs::specify_command_line_flag("--underrelaxation",
                                             &Global_Physical_Variables::under_relaxation);
+
+ CommandLineArgs::specify_command_line_flag("--cTarget",
+                                            &Global_Physical_Variables::cTarget);
 
  // set the contact options
   ///Set whether or not to use isoparametric basis function for pressure
@@ -2365,6 +2371,14 @@ int main(int argc, char **argv){
    if(!Global_Physical_Variables::program.compare("lowerC1")){
      std::cout << "lower_C1()" <<std::endl;
      change_parameter(Global_Physical_Variables::C1, 0.1, 0.2);
+   }
+   if(!Global_Physical_Variables::program.compare("changeC2")){
+     std::cout << "change_C2()" <<std::endl;
+     change_parameter(Global_Physical_Variables::C2, Global_Physical_Variables::cTarget, 0.1);
+   }
+   if(!Global_Physical_Variables::program.compare("changeC3")){
+     std::cout << "change_C3()" <<std::endl;
+     change_parameter(Global_Physical_Variables::C3, Global_Physical_Variables::cTarget, 0.1);
    }
    if(!Global_Physical_Variables::program.compare("lowerHto0.8")){
      std::cout << "lowerHto0.8()" <<std::endl;
