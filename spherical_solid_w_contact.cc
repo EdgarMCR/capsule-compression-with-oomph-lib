@@ -1240,15 +1240,22 @@ some_file2.close();
     unsigned n_element=Vol_const_mesh_pt->nelement();
     for(unsigned i=0;i<n_element;i++)
     {
-    //Cast to a solid traction element
-    AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT> *el_pt = 
+      //Cast to a solid traction element
+      AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT> *el_pt = 
         dynamic_cast<AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>*>
         (Vol_const_mesh_pt->element_pt(i));
+  
+      // We need to call residual function first so that the volume gets update first
+      //Vector<double> residualVec(el_pt->ndof());
 
-    //Set the traction function
-    vol += el_pt->get_volume();
+      // TODO: possible speed up by writing dedicated calc_volume
+      // function in AxisymmetricSolidTractionVolumeConstraintElement
+      //el_pt->fill_in_contribution_to_residuals(residualVec);  
+
+      //Set the traction function
+      vol += el_pt->get_volume();
     
-    //cout << "Element " << i << " has volume " << el_pt->get_volume() << endl;
+      //cout << "Element " << i << " has volume " << el_pt->get_volume() << endl;
     }
   }
  else{
@@ -1260,8 +1267,8 @@ some_file2.close();
         dynamic_cast<AxisymmetricSolidTractionElement<ELEMENT>*>
         (traction_mesh_pt()->element_pt(i));
 
-    //Set the traction function
-    vol += el_pt->get_volume();
+      //get volume
+      vol += el_pt->get_volume();
     
     //cout << "Element " << i << " has volume " << el_pt->get_volume() << endl;
     }
@@ -1277,11 +1284,13 @@ if(Global_Physical_Variables::enforce_volume_constraint){
         (Vol_const_master_mesh_pt->element_pt(0));
   Vector<double> res(1, 0.0);
   el_pt->fill_in_contribution_to_residuals(res);
-  some_file << "H = \t" <<  Global_Physical_Variables::H 
-	   << "\t Volume = \t" << vol 
-	    << "\t Pressure = \t" << el_pt->internal_data_pt(0)->value(0) 
-	    << "\t Residual = \t" << res[0]
-	    << "\t Radial Contact Force = \t" << f_normal<< std:: endl;
+  some_file << "H=" <<  Global_Physical_Variables::H 
+	   << " VolumeFromMesh=" << vol 
+	    << " VolumeFromControlElement=" << el_pt->get_current_volume_under_mesh()
+	    << " Pressure=" << el_pt->internal_data_pt(0)->value(0) 
+	    << " Residual=" << res[0]
+	    << " TargetVolume=" << el_pt->get_prescribed_volume()
+	    << std:: endl;
  }
  some_file.close();
  

@@ -498,7 +498,10 @@ class AxisSymSolidVolumeConstraintElement : public GeneralisedElement{
  
   // To ensure I only add the external values once.
   bool added_external;
-  
+
+  /// Volume under mesh
+  double vol;
+
   public:
   
   /// \short Constructor: pass wanted volume
@@ -528,6 +531,13 @@ class AxisSymSolidVolumeConstraintElement : public GeneralisedElement{
   
   // Set to pressure via the difference in volume
   void fill_in_contribution_to_residuals(Vector<double> &residuals);
+
+
+  /// Returns target volume
+  double get_prescribed_volume(){return *Prescribed_volume_pt;}
+
+  /// Returns measured volume (last time the residual was run)
+  double get_current_volume_under_mesh(){return vol;}
 };
 
 
@@ -575,6 +585,7 @@ public:
    // add pressure as external data
    add_external_data(pressur_control_element_pt->internal_data_pt(0));
   }
+
 
  /// Return the residuals
  void fill_in_contribution_to_residuals(Vector<double> &residuals);
@@ -1131,6 +1142,7 @@ if(writeEverythingToFileCSV){
   //Get volume from surface integral via divergence theorem
   // integrating r . n dS 
   volume += interpolated_x[0]*interpolated_normal[0]*W*-1/3.0;
+  volume += interpolated_x[1]*interpolated_normal[1]*W*-1/3.0;
   
    //Loop over the test functions, nodes of the element
    for(unsigned l=0;l<n_node;l++)
@@ -1186,7 +1198,7 @@ fill_in_contribution_to_residuals(Vector<double> &residuals)
     std::cerr << " Traction_vol_const_mesh_pt has not been set. Residual won't work." << std::endl;
   }
   //volume under the mesh
-  double vol =0.0;
+  vol =0.0;
   
   //Get volume from face elements
   unsigned n_element=Traction_vol_const_mesh_pt->nelement();
@@ -1198,14 +1210,21 @@ fill_in_contribution_to_residuals(Vector<double> &residuals)
           Traction_vol_const_mesh_pt->element_pt(i));
         
       // We need to call residual function first so that the volume gets update first
-      Vector<double> residualVec(el_pt->ndof());
+      Vector<double> residualVec(el_pt->ndof(), 0.0);
       // TODO: possible speed up by writing dedicated calc_volume
       // function in AxisymmetricSolidTractionVolumeConstraintElement
       el_pt->fill_in_contribution_to_residuals(residualVec);  
       // Now get volume
       vol += el_pt->get_volume();
     }
-  residuals[0] -= vol - *Prescribed_volume_pt;
+  residuals[0] = vol - *Prescribed_volume_pt;
+
+  /*    std::ofstream csvfile;
+    csvfile.open ("AxisSymSolidVolumeConstraintElement_debug.txt", std::ios::app );
+    csvfile << residuals[0] << " " << vol << " " << *Prescribed_volume_pt << std::endl;
+    csvfile.close();
+  */
+
 }
 
   /// Function to set pointer to surface element mesh and external data
