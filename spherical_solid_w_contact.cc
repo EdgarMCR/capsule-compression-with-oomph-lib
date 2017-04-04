@@ -270,7 +270,7 @@ namespace Global_Physical_Variables
 
   // double to hold unde-relaxation factor to be set via
   // command line
-  double under_relaxation=0.4;
+  double under_relaxation=0.5;
 
   //Pressure pre-factor for the contact equations
   double contact_pressure_prefactor = 1;
@@ -454,6 +454,7 @@ CantileverProblem<ELEMENT>::CantileverProblem(const bool& incompress)
     
   // 0.65 appears to be best value: faster than 0.55 and at 0.7 it never converges
   // If the contact pressure is pre-multiplied by 1e4, then 0.95 is optimal for 1 ele in r
+  //Max_newton_iterations
   under_relaxation_factor = 0.5; 
   
   newton_step=0; //counter variable, duplicate, clean up 
@@ -1476,6 +1477,8 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
   ofstream Solution_output_file;
   ifstream Solution_input_file;
 
+  bool sucess = false;
+
   //Assumes problem is currently solved
   // Let's solve once more just to be certain
   std::cout << " Initial Newton solve, should converge immediatly." << std::endl;
@@ -1506,9 +1509,27 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
     {
       ds = target - parameter;
     }
+
+
   // Check whether the parameter is equal to the target with
   // a given tolerance tol
   double tol = 1e-4;
+
+  while(!sucess){
+    sucess = true;
+
+    // If this is not the first time in this loop
+    if(nr_errors > 0){
+      //Half under-relaxation
+      Max_newton_iterations = Max_newton_iterations*1.25;
+      under_relaxation_factor = under_relaxation_factor/2.0;
+      
+      if(under_relaxation_factor < 1e-2){
+	std::cout << "Under-relaxation reach less than 1e-2. Ending Function" << std::endl;
+	return 1;
+      }
+    }
+
   while(abs(parameter -  target) > tol)
     {
       // Stop loop if next step takes parameter beyond target
@@ -1579,7 +1600,8 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
         
         if(abs(ds) < 1e-5){
           std::cout << "Step is too small, aborting!" << std::endl;
-          return 1;
+	  sucess = false;
+          break;
         }
         
         //load previous soltution
@@ -1590,6 +1612,9 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
         nr_errors++;
       }
     } 
+  }
+
+  if(sucess){
   //Save previous height
   double final = parameter;
 
@@ -1640,9 +1665,10 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
     nr_errors++;
   }
 
+
   std::cout << "The 'lower_parameter' function took " << kk +1 << " steps and" <<
     " had to lower the step-size " << nr_errors << " times. " << std::endl;
-
+  }
   return returnValue; 
 }
 
