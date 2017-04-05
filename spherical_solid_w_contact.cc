@@ -270,7 +270,7 @@ namespace Global_Physical_Variables
 
   // double to hold unde-relaxation factor to be set via
   // command line
-  double under_relaxation=0.5;
+  double under_relaxation=1.0;
 
   //Pressure pre-factor for the contact equations
   double contact_pressure_prefactor = 1;
@@ -1478,6 +1478,16 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
   ifstream Solution_input_file;
 
   bool sucess = false;
+  double startParameter = parameter;
+  ofstream Solution_start;
+  char filenameS[100];
+  sprintf(filenameS,"sol_initial.dat");
+  Solution_start.open(filenameS);
+  Solution_start.precision(17);
+  Solution_start.setf(ios::fixed);
+  Solution_start.setf(ios::showpoint);
+  dump(Solution_start);    
+  Solution_start.close();
 
   //Assumes problem is currently solved
   // Let's solve once more just to be certain
@@ -1495,6 +1505,41 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
   dump(Solution_output_file);    
   Solution_output_file.close();
 
+  // Check whether the parameter is equal to the target with
+  // a given tolerance tol
+  double tol = 1e-4;
+
+  while(!sucess){
+    sucess = true;
+
+    // If this is not the first time in this loop
+    if(nr_errors > 0){
+
+      //Reset parameter and solution
+      parameter = startParameter;
+      
+      //load previous soltution
+      Solution_input_file.open(filenameS);
+      read(Solution_input_file);
+      Solution_input_file.close();
+
+
+      //Half under-relaxation and increase number of allowed steps by 50%
+      std::cout << "================================================================" << std::endl;
+      std::cout << "Halfing under-relaxation and increasing max newton steps by 75 %" << std::endl;
+      std::cout << " Under-relaxation = " << under_relaxation_factor << std::endl;
+      std::cout << " Max Newton Iterations = " << Max_newton_iterations << std::endl;
+      std::cout << "================================================================" << std::endl;
+      Max_newton_iterations = Max_newton_iterations*1.75;
+      under_relaxation_factor = under_relaxation_factor/2.0;
+      
+      if(under_relaxation_factor < 1e-2){
+	std::cout << "Under-relaxation reach less than 1e-2. Ending Function" << std::endl;
+	return 1;
+      }
+
+      
+    }
   if(parameter > target)
     {
 	  ds = -1e-2;
@@ -1510,25 +1555,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
       ds = target - parameter;
     }
 
-
-  // Check whether the parameter is equal to the target with
-  // a given tolerance tol
-  double tol = 1e-4;
-
-  while(!sucess){
-    sucess = true;
-
-    // If this is not the first time in this loop
-    if(nr_errors > 0){
-      //Half under-relaxation
-      Max_newton_iterations = Max_newton_iterations*1.25;
-      under_relaxation_factor = under_relaxation_factor/2.0;
-      
-      if(under_relaxation_factor < 1e-2){
-	std::cout << "Under-relaxation reach less than 1e-2. Ending Function" << std::endl;
-	return 1;
-      }
-    }
+  
 
   while(abs(parameter -  target) > tol)
     {
@@ -1598,7 +1625,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
         
         steps_since_reset = 0;
         
-        if(abs(ds) < 1e-5){
+        if(abs(ds) < 5e-4){
           std::cout << "Step is too small, aborting!" << std::endl;
 	  sucess = false;
           break;
