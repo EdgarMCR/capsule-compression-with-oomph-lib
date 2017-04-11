@@ -142,6 +142,8 @@ namespace Global_Physical_Variables
  //number of elements
  unsigned n_ele_r = 1;
  unsigned n_ele_theta = 40;
+ double element_aspect_ratio = 3.0;
+
  /// Pointer to strain energy function
  StrainEnergyFunction*Strain_energy_function_pt;
 
@@ -1510,6 +1512,10 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
   double tol = 1e-4;
 
   while(!sucess){
+    if(under_relaxation_factor < 1e-2){
+	break;      
+    }
+    
     sucess = true;
 
     // If this is not the first time in this loop
@@ -1525,13 +1531,14 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
 
 
       //Half under-relaxation and increase number of allowed steps by 50%
-      std::cout << "================================================================" << std::endl;
-      std::cout << "Halfing under-relaxation and increasing max newton steps by 75 %" << std::endl;
-      std::cout << " Under-relaxation = " << under_relaxation_factor << std::endl;
-      std::cout << " Max Newton Iterations = " << Max_newton_iterations << std::endl;
-      std::cout << "================================================================" << std::endl;
       Max_newton_iterations = Max_newton_iterations*1.75;
       under_relaxation_factor = under_relaxation_factor/2.0;
+      std::cout << "================================================================" << std::endl;
+      std::cout << "Reseting solution and halfing under-relaxation and increasing max newton steps by 75 %" << std::endl;
+      std::cout << " Under-relaxation = " << under_relaxation_factor << std::endl;
+      std::cout << " Max Newton Iterations = " << Max_newton_iterations << std::endl;
+      std::cout << " H = " << Global_Physical_Variables::H << " parameter = " << parameter << std::endl;
+      std::cout << "================================================================" << std::endl;
       
       if(under_relaxation_factor < 1e-2){
 	std::cout << "Under-relaxation reach less than 1e-2. Ending Function" << std::endl;
@@ -1790,7 +1797,7 @@ void change_parameter(double &parameter, double target, double stepsize){
 
  //The number of elements such that after so they stay approximatlly
  // square even after some streching 
- Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*3;
+ Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*Global_Physical_Variables::element_aspect_ratio;
 
 
  cout << "Thickness = " << Global_Physical_Variables::t << " with " <<
@@ -2301,6 +2308,11 @@ int main(int argc, char **argv){
 
  CommandLineArgs::specify_command_line_flag("--cTarget",
                                             &Global_Physical_Variables::cTarget);
+
+ CommandLineArgs::specify_command_line_flag("--aspectratio",
+                                            &Global_Physical_Variables::element_aspect_ratio);
+
+
 
  // set the contact options
   ///Set whether or not to use isoparametric basis function for pressure
