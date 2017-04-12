@@ -1543,6 +1543,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
       if(under_relaxation_factor < 1e-2){
 	std::cout << "Under-relaxation reach less than 1e-2. Ending Function" << std::endl;
 	return 1;
+	break;
       }
 
       
@@ -1785,7 +1786,6 @@ std::string CantileverProblem<ELEMENT>::get_global_variables_as_string()
 //===================================================================
 /// Function to lower a parameter passed by reference
 //===================================================================
-
 void change_parameter(double &parameter, double target, double stepsize){
  // Initial values for parameter values
  Global_Physical_Variables::P=0.0; 
@@ -1925,20 +1925,25 @@ bool incompressible = true;
 	 // check for sucess
 	 if(change_parameter_flag != 0){
 	   // didn't change parameter correctly
+	   break;
 	   // try lowering under-relaxation 
-	   problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
+	   //problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
 	   
-	   std::cout << "Try running change_parameter again with halfed under-relaxation of "
-		     << problem2.get_under_relaxation_factor() << "." << std::endl;
+	   //std::cout << "Try running change_parameter again with halfed under-relaxation of "
+	   //	     << problem2.get_under_relaxation_factor() << "." << std::endl;
            //try reaching the same target again
-	   change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+	   // change_parameter_flag = problem2.change_parameter(parameter, current_Target);
 	 }
+	 else{
+	   problem2.save_solution();//to have something to restart from in futur
+	 
 
-	 problem2.save_solution();//to have something to restart from in futur
-	 //Whne runing for testing, also make a second save in current direcotry
+	 //When runing for testing, also make a second save in current direcotry
  #ifndef HTCONDOR
 	 problem2.save_solution("."); 
  #endif
+
+	 }
 	 std::cout << "Current parameter = " << parameter 
 		   << " Target parameter = " << target
 		   << std::endl;
@@ -1966,19 +1971,21 @@ bool incompressible = true;
 	 // check for sucess
 	 if(change_parameter_flag != 0){
 	   // didn't change parameter correctly
+	   break;
 	   // try lowering under-relaxation 
-	   problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
+	   //problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
 	   
-	   std::cout << "Try running change_parameter again with halfed under-relaxation of "
-		     << problem2.get_under_relaxation_factor() << "." << std::endl;
+	   //std::cout << "Try running change_parameter again with halfed under-relaxation of "
+	   //	     << problem2.get_under_relaxation_factor() << "." << std::endl;
            //try reaching the same target again
-	   change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+	   //change_parameter_flag = problem2.change_parameter(parameter, current_Target);
 	 }
-
+	 else{
 	 problem2.save_solution();//to have something to restart from in futur
 #ifndef HTCONDOR
 	 problem2.save_solution(".");
 #endif
+	 }
 	 std::cout << "Current parameter = " << parameter 
 		   << " Target parameter = " << target
 		   << std::endl;
