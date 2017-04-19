@@ -619,9 +619,12 @@ CantileverProblem<ELEMENT>::CantileverProblem(const bool& incompress)
   // Build 'em 
   create_contact_elements();
 
-  // Set contact pointer
-  set_contact_pt();
- 
+  //If we are doing hard contact we need to set the contact pointer
+  if (Global_Physical_Variables::hard_contact)
+    {
+      // Set contact pointer
+      set_contact_pt();
+    }
   // Set boundary condition and complete the build of all elements
   //complete_problem_setup();
 
@@ -760,9 +763,12 @@ void CantileverProblem<ELEMENT>::actions_after_adapt()
   // Build 'em 
   create_contact_elements();
 
-  // Set contact pointer
-  set_contact_pt();
- 
+  // If we are doing hard contact, we need to set the contact pointer
+  if (Global_Physical_Variables::hard_contact)
+    {
+      // Set contact pointer
+      set_contact_pt();
+    }
    
   // Rebuild the Problem's global mesh from its various sub-meshes
   rebuild_global_mesh();
@@ -1103,6 +1109,11 @@ template<class ELEMENT>
 void CantileverProblem<ELEMENT>::doc_solution()
 {
 
+  if (Global_Physical_Variables::printDebugInfo)
+    {
+      std::cout << "Starting doc_solution()..." << std::endl;
+    }
+
   ofstream some_file;
   ofstream some_file2;
   ofstream some_file3;
@@ -1143,8 +1154,6 @@ void CantileverProblem<ELEMENT>::doc_solution()
   some_file.close();
 #endif
 
-  //Vol_const_mesh_pt
-
   // Write trace file: Load/displacement characteristics
   Trace_file << Global_Physical_Variables::P  << " " 
 	     << Trace_node_pt->x(0) << " " 
@@ -1167,7 +1176,6 @@ void CantileverProblem<ELEMENT>::doc_solution()
   //  else{}
 
   // Output contact elements
-
   sprintf(filename2,"%s/contact_output_%s_%d.dat",Doc_info.directory().c_str(),
 	  global_val.c_str(),
 	  Doc_info.number());
@@ -1185,11 +1193,14 @@ void CantileverProblem<ELEMENT>::doc_solution()
   some_file << "#Contact mesh details for the compression of a sphere." << std::endl;
   some_file <<  get_global_variables_as_string() << std::endl ;
  
-  //document contact options
-  some_file << "# Contact options are: " << std::endl;
-  some_file <<  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
-									      Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
-	    << std::endl;
+  if (Global_Physical_Variables::hard_contact)
+    {
+      //document contact options
+      some_file << "# Contact options are: " << std::endl;
+      some_file <<  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
+		   Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
+		<< std::endl;
+    }
 #endif
 
   some_file2 << "#Contact mesh details for the compression of a sphere." << std::endl;
@@ -1197,67 +1208,57 @@ void CantileverProblem<ELEMENT>::doc_solution()
  
   //document contact options
   some_file2 << "# Contact options are: " << std::endl;
-  some_file2 <<  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
-									       Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
+  if (Global_Physical_Variables::hard_contact)
+    {
+      some_file2 <<  dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
+		       Surface_contact_mesh_pt->element_pt(0))->get_contact_options_in_string()
 	     << std::endl;
+    }
 
-  double f_normal =0;
-  double f_orthoganal = 0;
-  Vector<double> cont_f(2);
   unsigned nel= Surface_contact_mesh_pt->nelement();
 
   for (unsigned e=0;e<nel;e++)
     {
+  if (Global_Physical_Variables::hard_contact)
+    {
 #ifndef HTCONDOR
       dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
-								    Surface_contact_mesh_pt->element_pt(e))->output(some_file,n_plot);
+		   Surface_contact_mesh_pt->element_pt(e))->output(some_file,n_plot);
 #endif
       dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
-								    Surface_contact_mesh_pt->element_pt(e))->output(some_file2,n_plot);
+		   Surface_contact_mesh_pt->element_pt(e))->output(some_file2,n_plot);
+    }
+  else{
+#ifndef HTCONDOR
+      dynamic_cast<AxisymmetricSolidTractionSoftContactElement<ELEMENT>* >(
+		  Surface_contact_mesh_pt->element_pt(e))->output(some_file,n_plot);
+#endif
+      dynamic_cast<AxisymmetricSolidTractionSoftContactElement<ELEMENT>* >(
+		  Surface_contact_mesh_pt->element_pt(e))->output(some_file2,n_plot);
+  }
 
-      /*
-	force += dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
-	Surface_contact_mesh_pt->element_pt(e))->get_force();
-	area += dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
-	Surface_contact_mesh_pt->element_pt(e))->get_area();
-      */
-      dynamic_cast<AxiSymNonlinearSurfaceContactElement<ELEMENT>* >(
-								    Surface_contact_mesh_pt->element_pt(e))->resulting_contact_force(cont_f);
-
-
-      ///Set whether or not to use isoparametric basis function for pressure
-      //bool* Use_isoparametric_flag_pt;
-
-      ///Set options for basis/test functions for penetration and pressure
-      //bool* Use_collocated_penetration_flag_pt;
-
-      ///Set options for basis/test functions for penetration and pressure
-      //bool* Use_collocated_contact_pressure_flag_pt;
-
-      f_normal += cont_f[0];
-      f_orthoganal += cont_f[1];
     }
 
-  sprintf(filename3,"%s/volume_output_%s_%d.dat",Doc_info.directory().c_str(),
+
+  if (Global_Physical_Variables::enforce_volume_constraint)
+    {
+      sprintf(filename3,"%s/volume_output_%s_%d.dat",Doc_info.directory().c_str(),
 	  global_val.c_str(),
 	  Doc_info.number());
-  some_file3.open(filename3);
-  some_file3.precision(17);
-  some_file3.setf(ios::fixed);
-  some_file3.setf(ios::showpoint);
+      some_file3.open(filename3);
+      some_file3.precision(17);
+      some_file3.setf(ios::fixed);
+      some_file3.setf(ios::showpoint);
 
-  nel=Vol_const_mesh_pt->nelement();
+      nel=Vol_const_mesh_pt->nelement();
 
-  for (unsigned e=0; e<nel;e++)
-    {
-      dynamic_cast<AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>* >(
-										Vol_const_mesh_pt->element_pt(e))->output(some_file3,n_plot);
+      for (unsigned e=0; e<nel;e++)
+	{
+	  dynamic_cast<AxisymmetricSolidTractionVolumeConstraintElement<ELEMENT>* >(
+				Vol_const_mesh_pt->element_pt(e))->output(some_file3,n_plot);
+	} 
     }
 
-
-
-  std::cout << " Contact force = (" <<f_normal << ", " 
-	    << f_orthoganal << ")."  << std::endl;
 #ifndef HTCONDOR
   some_file.close();
 #endif
@@ -1330,11 +1331,10 @@ void CantileverProblem<ELEMENT>::doc_solution()
   }
   some_file.close();
  
-  //   std::ofstream myfile;
-  //    myfile.open ("traction_elements_debug.txt", std::ios::app );   
-  //    myfile << "\n\n\n############################## \nFinished Newton Solve \n############################## " << Doc_info.number() -1 << std::endl;
-  //    myfile.close();
-
+  if (Global_Physical_Variables::printDebugInfo)
+    {
+      std::cout << " ... finished doc_solution()." << std::endl;
+    }
 } //end doc
 
 template<class ELEMENT>
@@ -1911,18 +1911,26 @@ void change_parameter(double &parameter, double target, double stepsize){
     //run the function that increases volume
     problem2.set_under_relaxation_factor(1.0); //when there is no contact, can use normal newton solve
 
-    std::cout << " Aiming for volume of " << problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda) <<
-      " corrseponding to lambda of " << Global_Physical_Variables::lambda << " from a volume of " << Global_Physical_Variables::Volume <<
-      " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
 
-    // Ensure that the penetrator is above the capsule so no contact occures
-    Global_Physical_Variables::H = save_lambda + 0.01;
-    //Increase the volumn to the prescribed volume
-    problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
+    if (Global_Physical_Variables::enforce_volume_constraint)
+      {
+	std::cout << " Aiming for volume of " 
+	      << problem2.calc_inflated_vol(Global_Physical_Variables::t, 
+					    Global_Physical_Variables::lambda) 
+	      << " corrseponding to lambda of " << Global_Physical_Variables::lambda 
+	      << " from a volume of " << Global_Physical_Variables::Volume 
+	      << " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
 
-    problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
-    // set the penetrator to the height of the capsule
-    Global_Physical_Variables::H = Global_Physical_Variables::lambda;
+	// Ensure that the penetrator is above the capsule so no contact occures
+	Global_Physical_Variables::H = save_lambda + 0.01;
+
+	//Increase the volumn to the prescribed volume
+	problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
+
+	problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
+	// set the penetrator to the height of the capsule
+	Global_Physical_Variables::H = Global_Physical_Variables::lambda;
+      }
   }
   // Holds intermediate target
   double current_Target = parameter;
