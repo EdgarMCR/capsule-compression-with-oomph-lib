@@ -2322,7 +2322,7 @@ public:
  /// the value of the index and its limit
  AxisymmetricSolidTractionSoftContactElement(FiniteElement* const &element_pt, 
 					     const int &face_index, 
-					     double* H_pt, double* k_pt) : 
+					     double &H, double  &k) : 
   FaceGeometry<ELEMENT>(), FaceElement()
   { 
     
@@ -2332,8 +2332,8 @@ public:
    element_pt->build_face_element(face_index,this);
 
    // Assign the points for the maximum height and pseudo spring stiffness
-   max_H_pt  = H_pt;
-   k_pt = k_pt;
+   max_H_pt  = &H;
+   k_pt = &k;
  
   }
 
