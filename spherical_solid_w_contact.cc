@@ -53,24 +53,6 @@ using namespace std;
 
 using namespace oomph;
 
-#ifndef HTCONDOR
-/// To redirect a copy of cout to a log file
-// If this gives an error, need to install boost
-// 'sudo apt-get install libboost-iostreams-dev' 
-#include <boost/iostreams/tee.hpp>
-#include <boost/iostreams/stream.hpp>
-#include <fstream>
-#include <iostream>
-
-using std::ostream;
-using std::ofstream;
-//using std::cout;
-
-namespace bio = boost::iostreams;
-using bio::tee_device;
-using bio::stream;
-#endif
-
 //=============================================================================
 /// One-dimensional integration scheme that locates integration points
 /// uniformly along boundary (if elements are equal sized, that is...)
@@ -136,7 +118,17 @@ namespace Global_Physical_Variables
   /// thickness
   double t=0.2;
 
-  /// degrees
+  /// Thickness after inflation
+  double tinf = -1;
+
+  double calc_t_from_tinf(const double &tinf, const double &lam)
+  {
+    double term = 1.0 - pow(lam, 3) + pow(lam - tinf, 3);
+    double t = 1.0 - pow(term, 1/3.0);
+    return t;
+  }
+
+
   double theta=1.57079632679;
 
   //number of elements
@@ -2260,23 +2252,6 @@ void reload_solution_fresh_test(){
 /// gravity
 //======================================================================
 int main(int argc, char **argv){
-#ifndef HTCONDOR
-  typedef boost::iostreams::tee_device<ostream, ofstream> TeeDevice;
-  typedef boost::iostreams::stream<TeeDevice> TeeStream;
-
-  /// Redirect a copy of cout to file
-  remove("spherical_solid_w_contact.log");
-  ofstream logFile;
-  logFile.open("spherical_solid_w_contact.log");
-
-  ostream tmp(cout.rdbuf()); // <----
-  TeeDevice outputDevice(tmp, logFile); // <----
-  TeeStream logger(outputDevice);    
-
-  cout.rdbuf(logger.rdbuf());
-  cout << "spherical_solid_w_contact.cc log info" << endl;
-#endif
-
   //Output the time and date at which the code was compiled
   std::cout << "Code was compiled on the " 
 	    << __DATE__ << " at " << __TIME__
@@ -2376,9 +2351,13 @@ int main(int argc, char **argv){
 
   CommandLineArgs::specify_command_line_flag("--debugInfo",
 					     &Global_Physical_Variables::printDebugInfo);
-
+  
   CommandLineArgs::specify_command_line_flag("--hardContact",
 					     &Global_Physical_Variables::hard_contact);
+
+ CommandLineArgs::specify_command_line_flag("--tshellFromInflated",
+					     &Global_Physical_Variables::tinf);
+
 
 
 
@@ -2388,6 +2367,21 @@ int main(int argc, char **argv){
   // Doc what has actually been specified on the command line
   CommandLineArgs::doc_specified_flags();
  
+
+  // Set correct membrane thickness
+  if (CommandLineArgs::command_line_flag_has_been_set("--tshellFromInflated"))
+    {
+      if(Global_Physical_Variables::tinf < 0) 
+	{
+	  std::cout << " tinf not correctly set." << std::endl;
+	  return 0;
+	}
+      Global_Physical_Variables::t =   Global_Physical_Variables::calc_t_from_tinf(
+					              Global_Physical_Variables::tinf, 
+						      Global_Physical_Variables::lambda);
+      oomph_info << "Setting membrane thickness from inflated thickness to "
+		 << Global_Physical_Variables::t << "." << std::endl;
+    }
  
   // Doc use of integration scheme
   if (CommandLineArgs::command_line_flag_has_been_set("--nintpt"))
@@ -2524,13 +2518,6 @@ int main(int argc, char **argv){
 	reload_solution_fresh_test();
       } 
   }
-
-  //reload_solution_test();
-  // reload_solution_fresh_test();
-#ifndef HTCONDOR
-  std::cout << "Closing logger" << std::endl;   
-  logger.close();
-#endif
 
   std::cout << "Returning 0" << std::endl; 
   return 0;
