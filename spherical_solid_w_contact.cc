@@ -154,6 +154,8 @@ namespace Global_Physical_Variables
   double C3 = 1.0;
 
   double cTarget=1.0;
+
+
   /// Uniform pressure
   double P = 0.0;
  
@@ -166,6 +168,8 @@ namespace Global_Physical_Variables
   //Preinflation of the capsule, 1 being the undeformed state
   double lambda = 1.1; 
 
+  // Store target when changing lambda
+  double lambdaTarget = lambda;
   // 0 =false, != 0  true 
   int printDebugInfo = 0;  
   bool printTractionInfo = false;
@@ -1488,7 +1492,7 @@ void CantileverProblem<ELEMENT>::save_solution(const char * directory){
 
 template<class ELEMENT>
 /// Function to lower the parameter adaptivly 
-int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double target){
+int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double target){
 
   // step size
   double ds;
@@ -1532,11 +1536,16 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
   Solution_output_file.close();
 
   // Check whether the parameter is equal to the target with
-  // a given tolerance tol
-  double tol = 1e-4;
+  // a given tolerance tol - this also sets the minimum step size
+  double tol = 5e-5;
 
-  while(!sucess){
+  while(!sucess && returnValue == 0){
     if(under_relaxation_factor < 1e-2){
+      std::cout << "At beginning of loop. " 
+		<< "Under-relaxation reach less than 1e-2. Ending Function" 
+		<< std::endl;
+      returnValue =1;
+      //      return 1; //Doesn't terminate otherwise? 
       break;      
     }
     
@@ -1565,8 +1574,10 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
       std::cout << "================================================================" << std::endl;
       
       if(under_relaxation_factor < 1e-2){
-	std::cout << "Under-relaxation reach less than 1e-2. Ending Function" << std::endl;
-	return 1;
+	std::cout << "Under-relaxation reach less than 1e-2. Ending continuation." << std::endl;
+	returnValue =1;
+	sucess = false;
+	//return 1; //Doesn't terminate otherwise? 
 	break;
       }
 
@@ -1587,9 +1598,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
 	ds = target - parameter;
       }
 
-  
-
-    while(abs(parameter -  target) > tol)
+    while(abs(parameter -  target) > tol && returnValue == 0)
       {
 	// Stop loop if next step takes parameter beyond target
 	// add small value to prevent round-off errors causing
@@ -1657,7 +1666,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
         
 	  steps_since_reset = 0;
         
-	  if(abs(ds) < 5e-4){
+	  if(abs(ds) < tol){
 	    std::cout << "Step is too small, aborting!" << std::endl;
 	    sucess = false;
 	    break;
@@ -1673,7 +1682,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
       } 
   }
 
-  if(sucess){
+  if(sucess && returnValue == 0){
     //Save previous height
     double final = parameter;
 
@@ -1728,6 +1737,10 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, double targe
     std::cout << "The 'lower_parameter' function took " << kk +1 << " steps and" <<
       " had to lower the step-size " << nr_errors << " times. " << std::endl;
   }
+  else
+    {
+      std::cout << " Unsuccesfull, returning " << returnValue << std::endl;
+    }
   return returnValue; 
 }
 
@@ -1810,7 +1823,7 @@ std::string CantileverProblem<ELEMENT>::get_global_variables_as_string()
 //===================================================================
 /// Function to lower a parameter passed by reference
 //===================================================================
-void change_parameter(double &parameter, double target, double stepsize){
+int change_parameter(double &parameter, double target, double stepsize){
   // Initial values for parameter values
   Global_Physical_Variables::P=0.0; 
   Global_Physical_Variables::Gravity=0.0;
@@ -1938,7 +1951,7 @@ void change_parameter(double &parameter, double target, double stepsize){
       stepsize = stepsize*-1.0;
       // While the parameter is above the target, decrement it in steps
       // of stepsize until target is reached
-      while(parameter > target){
+      while(parameter > target  && change_parameter_flag == 0){
 
 	//check whether next step will overshoot and adjust 
 	// step size if needed. Added a small amount to 
@@ -1954,27 +1967,20 @@ void change_parameter(double &parameter, double target, double stepsize){
 		  << std::endl;
 	current_Target += stepsize;
 	change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+
 	// check for sucess
 	if(change_parameter_flag != 0){
 	  // didn't change parameter correctly
-	  break;
-	  // try lowering under-relaxation 
-	  //problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
-	   
-	  //std::cout << "Try running change_parameter again with halfed under-relaxation of "
-	  //	     << problem2.get_under_relaxation_factor() << "." << std::endl;
-	  //try reaching the same target again
-	  // change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+	  std::cout << "Step unsucessfull, breaking change_parameter() function." << std::endl;
+	  return 1;
 	}
 	else{
 	  problem2.save_solution();//to have something to restart from in futur
-	 
-
+     
 	  //When runing for testing, also make a second save in current direcotry
 #ifndef HTCONDOR
 	  problem2.save_solution("."); 
 #endif
-
 	}
 	std::cout << "Current parameter = " << parameter 
 		  << " Target parameter = " << target
@@ -1983,7 +1989,7 @@ void change_parameter(double &parameter, double target, double stepsize){
     }
   else
     {
-      while(parameter < target){
+      while(parameter < target && change_parameter_flag == 0){
 
 	//check whether next step will overshoot and adjust 
 	// step size if needed. Added a small amount to 
@@ -1999,18 +2005,12 @@ void change_parameter(double &parameter, double target, double stepsize){
 		  << std::endl;
 	current_Target += stepsize;
 	change_parameter_flag = problem2.change_parameter(parameter, current_Target);
-
+       
 	// check for sucess
 	if(change_parameter_flag != 0){
 	  // didn't change parameter correctly
-	  break;
-	  // try lowering under-relaxation 
-	  //problem2.set_under_relaxation_factor( problem2.get_under_relaxation_factor()/2.0  );  
-	   
-	  //std::cout << "Try running change_parameter again with halfed under-relaxation of "
-	  //	     << problem2.get_under_relaxation_factor() << "." << std::endl;
-	  //try reaching the same target again
-	  //change_parameter_flag = problem2.change_parameter(parameter, current_Target);
+	  std::cout << "Step unsucessfull, breaking change_parameter() function." << std::endl;
+	  return 1;
 	}
 	else{
 	  problem2.save_solution();//to have something to restart from in futur
@@ -2025,8 +2025,7 @@ void change_parameter(double &parameter, double target, double stepsize){
 
     }
    
-  return;
-     
+  return 0;
 }
 
 /// function to set number of elements
@@ -2036,151 +2035,6 @@ void set_number_of_elements()
   // Global_Physical_Variables::n_ele_theta = 2.0* Global_Physical_Variables::n_ele_r;
 
   Global_Physical_Variables::n_ele_theta =(int) (1.571/(Global_Physical_Variables::t/   Global_Physical_Variables::n_ele_r)  + 0.5)*3;
-}
-
-//===================================================================
-/// Function for standard run
-//===================================================================
-void standard_run(double step_increment){
-  // Set the consitutive law via command line argument
-
-  // Initial values for parameter values
-  Global_Physical_Variables::P=0.0; 
-  Global_Physical_Variables::Gravity=0.0;
-
-  // Create penetrator
-  Global_Physical_Variables::Penetrator_pt =
-    new AxiSymPenetrator(&Global_Physical_Variables::H);
-  
-  set_number_of_elements();
-
-  cout << "Thickness = " << Global_Physical_Variables::t << " with " <<
-    Global_Physical_Variables::n_ele_r << ", " << 
-    Global_Physical_Variables::n_ele_theta << 
-    " elements in the r and theta direction" << endl;
-
-  bool incompressible = true;
-#ifdef REFINE
-  //TODO: Write refinable element
-#else
-  CantileverProblem<AxisymQPVDElementWithPressure> problem2(incompressible);
-#endif
-  cout << endl;
-
-  //  std::cout << "Press Enter\n";
-  //  std::cin.ignore(); 
-  
-  ifstream Solution_input_file; //for loading solution
- 
-
-  if(!Global_Physical_Variables::loadSol.empty()){
-    //char filename[100];
-    //sprintf(filename,"RESLT/sol_nreler=1_nreletheta=32_H=0.6000_vol=0.8243_t=0.10.dat");
-  
-    ofstream Solution_output_file;
-    ifstream Solution_input_file;
-
-    //load previous soltution
-    std::cout << "Loading solution: " << Global_Physical_Variables::loadSol << std::endl;
-    Solution_input_file.open(Global_Physical_Variables::loadSol.c_str());
-    problem2.read(Solution_input_file);
-    Solution_input_file.close();
-
-    //Lets check how ti looks
-    problem2.doc_solution();
-    problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);  
-    Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
-    std::cout << "Initial Newton Solve, shoudl converge immediatly. "
-	      << "H = " << Global_Physical_Variables::H
-	      << " Volume = " << Global_Physical_Variables::Volume
-	      << " P = " << problem2.get_interal_pressure() << std::endl;
-    //solve once in undeformed configuration, hopefully this should converge immediatly
-#ifdef REFINE
-    Global_Physical_Variables::max_adapt=1;
-    problem2.newton_solve(Global_Physical_Variables::max_adapt);
-#else
-    problem2.newton_solve();
-#endif
-
-    //Lets check that displacement is zero
-    problem2.doc_solution();
-
-    double H_stepsize = step_increment; //0.02 * 0.6 * Global_Physical_Variables::lambda;
-    double currentH_Target = Global_Physical_Variables::H;
-    while(Global_Physical_Variables::H > 0.39*Global_Physical_Variables::lambda){
-      std::cout << "Current height = " << Global_Physical_Variables::H 
-		<< " Target height = " << 0.39*Global_Physical_Variables::lambda
-		<< " Target for next solution = " << currentH_Target
-		<< std::endl;
-      currentH_Target -= H_stepsize;
-      problem2.change_parameter(Global_Physical_Variables::H, currentH_Target);
-      problem2.save_solution();//to have something to restart from in futur
-      problem2.save_solution(".");
-      std::cout << "Current height = " << Global_Physical_Variables::H 
-		<< " Target height = " << 0.39*Global_Physical_Variables::lambda
-		<< std::endl;
-    }
-   
-  }
-  else{
-
-    Global_Physical_Variables::P =0.0;
-
-    //Set height to 0.01 aboe the predicted height of capsule
-    Global_Physical_Variables::H = Global_Physical_Variables::lambda; 
-
-    // save lambda
-    double  save_lambda = Global_Physical_Variables::lambda; 
- 
-    Global_Physical_Variables::lambda = 1.0;
-
-    cout << "Starting Newton Solve " << endl;
-    //solve once in undeformed configuration, hopefully this should converge immediatly
-#ifdef REFINE
-    Global_Physical_Variables::max_adapt=1;
-    problem2.newton_solve(Global_Physical_Variables::max_adapt);
-#else
-    problem2.newton_solve();
-#endif
- 
-    //Lets check that displacement is zero
-    problem2.doc_solution();
-
-    //Increase volume first
-    //run the function that increases volume
-    problem2.set_under_relaxation_factor(1.0); //when there is no contact, can use normal newton solve
-
-    Global_Physical_Variables::lambda = save_lambda;
-
-    std::cout << " Aiming for volume of " << problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda) <<
-      " corrseponding to lambda of " << Global_Physical_Variables::lambda << " from a volume of " << Global_Physical_Variables::Volume <<
-      " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
-
-    Global_Physical_Variables::lambda  = 1.0;
-    problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
-
-    problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
-
-    double H_stepsize = step_increment; //0.02 * 0.6 * Global_Physical_Variables::lambda;
-    double currentH_Target = Global_Physical_Variables::H -0.1;
-    while(Global_Physical_Variables::H > 0.39*Global_Physical_Variables::lambda){
-      std::cout << "Current height = " << Global_Physical_Variables::H 
-		<< " Target height = " << 0.39*Global_Physical_Variables::lambda
-		<< " Target for next solution = " << currentH_Target
-		<< std::endl;
-      currentH_Target -= H_stepsize; 
-      problem2.change_parameter(Global_Physical_Variables::H, currentH_Target);
-      problem2.save_solution();//to have something to restart from in futur
-      problem2.save_solution(".");
-      std::cout << "Current height = " << Global_Physical_Variables::H 
-		<< " Target height = " << 0.39*Global_Physical_Variables::lambda
-		<< std::endl;    
-    }
-  }
-}
-void standard()
-{
-  standard_run(0.2);
 }
 
 void reload_solution_fresh_test(){
@@ -2358,6 +2212,10 @@ int main(int argc, char **argv){
  CommandLineArgs::specify_command_line_flag("--tshellFromInflated",
 					     &Global_Physical_Variables::tinf);
 
+ CommandLineArgs::specify_command_line_flag("--lambdaTarget",
+					     &Global_Physical_Variables::lambdaTarget);
+
+
 
 
 
@@ -2459,50 +2317,57 @@ int main(int argc, char **argv){
   }
 
 
+  double returnValue=0;
   //=========================================================================
   // Switch which sub-routine to run 
   //=========================================================================
   if(!Global_Physical_Variables::program.compare("standard")){
     std::cout << "Starting standard_run()" <<std::endl;
-    standard();
+    returnValue = change_parameter(Global_Physical_Variables::H, 0.34 * Global_Physical_Variables::lambda, 0.1);
   }
   else{
     if(!Global_Physical_Variables::program.compare("standardSmallSteps")){
       std::cout << "standardSmallSteps" <<std::endl;
       //standard_run(0.01);
-      change_parameter(Global_Physical_Variables::H, 0.39 * Global_Physical_Variables::lambda, 0.01);
+      returnValue = change_parameter(Global_Physical_Variables::H, 0.39 * Global_Physical_Variables::lambda, 0.01);
     }
     if(!Global_Physical_Variables::program.compare("standard0.05Steps")){
       std::cout << "standard0.05Steps" <<std::endl;
       //standard_run(0.05);
-      change_parameter(Global_Physical_Variables::H, 0.39 * Global_Physical_Variables::lambda, 0.05);
+      returnValue = change_parameter(Global_Physical_Variables::H, 0.39 * Global_Physical_Variables::lambda, 0.05);
     }
     if(!Global_Physical_Variables::program.compare("lowerC1")){
       std::cout << "lower_C1()" <<std::endl;
-      change_parameter(Global_Physical_Variables::C1, 0.1, 0.2);
+      returnValue = change_parameter(Global_Physical_Variables::C1, 0.1, 0.2);
     }
     if(!Global_Physical_Variables::program.compare("changeC2")){
       std::cout << "change_C2()" <<std::endl;
-      change_parameter(Global_Physical_Variables::C2, Global_Physical_Variables::cTarget, 0.1);
+      returnValue = change_parameter(Global_Physical_Variables::C2, Global_Physical_Variables::cTarget, 0.1);
     }
     if(!Global_Physical_Variables::program.compare("changeC3")){
       std::cout << "change_C3()" <<std::endl;
-      change_parameter(Global_Physical_Variables::C3, Global_Physical_Variables::cTarget, 0.1);
+      returnValue = change_parameter(Global_Physical_Variables::C3, Global_Physical_Variables::cTarget, 0.1);
     }
     if(!Global_Physical_Variables::program.compare("lowerHto0.8")){
       std::cout << "lowerHto0.8()" <<std::endl;
-      change_parameter(Global_Physical_Variables::H, 0.8, 0.2);
+      returnValue = change_parameter(Global_Physical_Variables::H, 0.8, 0.2);
     }
     if(!Global_Physical_Variables::program.compare("lowerHto0.99")){
       std::cout << "lowerHto0.99()" <<std::endl;
-      change_parameter(Global_Physical_Variables::H, 0.99, 0.1);
+      returnValue = change_parameter(Global_Physical_Variables::H, 0.99, 0.1);
       std::cout << "finished lowerHto0.99()" << std::endl;
     }
     if(!Global_Physical_Variables::program.compare("lowerHto0.34")){
       std::cout << "lowerHto0.34()" <<std::endl;
-      change_parameter(Global_Physical_Variables::H, 0.34 * Global_Physical_Variables::lambda, 0.01);
+      returnValue = change_parameter(Global_Physical_Variables::H, 0.34 * Global_Physical_Variables::lambda, 0.01);
       std::cout << "finished lowerHto0.34()" << std::endl;
     }
+    if(!Global_Physical_Variables::program.compare("changeLambda")){
+      std::cout << "changeLambda" <<std::endl;
+      returnValue = change_parameter(Global_Physical_Variables::lambda, Global_Physical_Variables::lambdaTarget, 0.01);
+      std::cout << "finished changeLambda" << std::endl;
+    }
+
     if(!Global_Physical_Variables::program.compare("increaseVol"))
       {
 	std::cout << "Decreasing/increaseing Volume to lambda = 1.1."
@@ -2510,7 +2375,7 @@ int main(int argc, char **argv){
 		  << Global_Physical_Variables::lambda
 		  << " )"  <<std::endl;
 	//increase volume
-	change_parameter(Global_Physical_Variables::lambda, 1.1, 0.1);
+	returnValue = change_parameter(Global_Physical_Variables::lambda, 1.1, 0.1);
       }
     if(!Global_Physical_Variables::program.compare("reloadSolution"))
       {
@@ -2519,7 +2384,7 @@ int main(int argc, char **argv){
       } 
   }
 
-  std::cout << "Returning 0" << std::endl; 
-  return 0;
+  std::cout << "Returning " << returnValue << std::endl; 
+  return returnValue;
  
 } //end of main
