@@ -2353,7 +2353,84 @@ public:
 
  /// Overload the output function
  void output(std::ostream &outfile, const unsigned &n_plot) 
-        {FiniteElement::output(outfile,n_plot);}
+        {
+	   // Elemental dimension
+   unsigned dim_el=dim();
+
+   //Find the number of positional types
+   unsigned n_position_type = this->nnodal_position_type();
+   
+#ifdef PARANOID
+   if(n_position_type!=1)
+    {      
+     throw OomphLibError(
+      "AxisymmetricSolidTractionSoftContactElement cannot (currently) be used with elements that have generalised positional dofs",
+      OOMPH_CURRENT_FUNCTION,
+      OOMPH_EXCEPTION_LOCATION);
+    }
+#endif
+
+
+   //Local coord
+   Vector<double> s(dim_el);
+      
+   // # of nodes, 
+   unsigned n_node=nnode();
+   Shape psi(n_node,n_position_type);
+
+   // Tecplot header info
+   outfile << this->tecplot_zone_string(n_plot);
+   
+   // Loop over plot points
+   unsigned num_plot_points=this->nplot_points(n_plot);
+   for (unsigned iplot=0;iplot<num_plot_points;iplot++)
+    {
+     // Get local coordinates of plot point
+     this->get_s_plot(iplot,n_plot,s);
+     
+     // Get shape function
+     shape(s,psi);
+     
+     //Calculate the Eulerian coordinates
+     Vector<double> x(dim_el+1,0.0);
+     
+     //also need Lagrangian 
+     Vector<double> xi(dim_el+1, 0.0);
+     
+     for(unsigned j=0;j<n_node;j++) 
+      {       
+       // higher dimensional quantities
+       for(unsigned i=0;i<dim_el+1;i++)
+        {
+         x[i]+=nodal_position(j,i)*psi(j,0); // need to sort
+                                             // this out properly
+                                             // for generalised dofs
+         xi[i] += this->lagrangian_position(j,i)*psi(j,0);
+        }
+      }
+
+     // Output X and Z coordinates
+     outfile << x[0]*sin(xi[1]) + x[1]*cos(xi[1]) << " "
+	     << x[0]*cos(xi[1]) - x[1]*sin(xi[1]) << " ";
+
+     //Output Eulerian X_r, X_theta
+     for(unsigned i=0;i<dim_el+1;i++)
+      {
+       outfile << x[i] << " ";
+      }
+     //Lagrangian r, theta
+     for(unsigned i=0;i<dim_el+1;i++)
+      {
+       outfile << xi[i] << " ";
+      }
+
+     double pressure = get_contact_pressure(x, xi);
+     outfile << pressure << " ";
+     
+     outfile << std::endl;
+
+    }
+ }
 
  /// Output function: x,y,[z],u,v,[w],p in tecplot format
  void output(std::ostream &outfile) //Changed this

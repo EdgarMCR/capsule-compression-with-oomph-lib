@@ -162,10 +162,10 @@ namespace Global_Physical_Variables
   double Volume = 0.243;
  
   //Compression Height H
-  double H = 1.1;
+  double H = 1.0;
  
   //Preinflation of the capsule, 1 being the undeformed state
-  double lambda = 1.1; 
+  double lambda = 1.0; 
 
   // Store target when changing lambda
   double lambdaTarget = lambda;
@@ -1334,12 +1334,18 @@ void CantileverProblem<ELEMENT>::doc_solution()
 
 template<class ELEMENT>
 double CantileverProblem<ELEMENT>::get_interal_pressure(){
-  AxisSymSolidVolumeConstraintElement<ELEMENT> *el_pt = 
-    dynamic_cast<AxisSymSolidVolumeConstraintElement<ELEMENT>*>
-    (Vol_const_master_mesh_pt->element_pt(0));
+  if(Global_Physical_Variables::enforce_volume_constraint)
+    {
+      AxisSymSolidVolumeConstraintElement<ELEMENT> *el_pt = 
+	dynamic_cast<AxisSymSolidVolumeConstraintElement<ELEMENT>*>
+	(Vol_const_master_mesh_pt->element_pt(0));
  
-  return el_pt->internal_data_pt(0)->value(0);
-  
+      return el_pt->internal_data_pt(0)->value(0);
+    }
+  else
+    {
+      return -1;
+    }
 }
 
 
@@ -1618,11 +1624,18 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double
 	std::cout << std::endl;
 	std::cout << "Step " << kk << 
 	  ". Changing to " << parameter
-		  << " with step of " << ds << std::endl;
-	std::cout << "H = " << Global_Physical_Variables::H
-		  << " lambda = " << Global_Physical_Variables::lambda
-		  << " Volume = " << Global_Physical_Variables::Volume
-		  << " P = " << get_interal_pressure() << std::endl;
+		  << " with step of " << ds;
+	if(Global_Physical_Variables::printDebugInfo)
+	  {
+	    std::cout << " in function CanteleverProblem::change_parameter.";
+	  }
+	std::cout << std::endl;
+	
+	std::cout  << " lambda = " << Global_Physical_Variables::lambda;
+	std::cout  << " Volume = " << Global_Physical_Variables::Volume;
+	std::cout << " H = " << Global_Physical_Variables::H << std::flush;
+	std::cout << " P = " << get_interal_pressure() << std::endl;
+	
 	try{
 	  // Solve the problem    
 #ifdef REFINE
@@ -1848,9 +1861,6 @@ int change_parameter(double &parameter, double target, double stepsize){
   CantileverProblem<AxisymQPVDElementWithPressure> problem2(incompressible);
 #endif
   cout << endl;
-
-  //  std::cout << "Press Enter\n";
-  //  std::cin.ignore(); 
   
   ifstream Solution_input_file; //for loading solution
 
@@ -1870,7 +1880,9 @@ int change_parameter(double &parameter, double target, double stepsize){
 
     //Lets check how ti looks
     problem2.doc_solution();
-    Global_Physical_Variables::Volume = problem2.calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
+    Global_Physical_Variables::Volume = problem2.calc_inflated_vol(
+					   Global_Physical_Variables::t,
+					   Global_Physical_Variables::lambda);
     std::cout << "Initial Newton Solve, shoudl converge immediatly. "
 	      << "H = " << Global_Physical_Variables::H
 	      << " Volume = " << Global_Physical_Variables::Volume
@@ -1892,12 +1904,12 @@ int change_parameter(double &parameter, double target, double stepsize){
 	      << "Will try set-up problem. This might fail. " 
 	      << std::endl; 
 
-    //Set penetrator height to the predicted height of capsule
-    Global_Physical_Variables::H = Global_Physical_Variables::lambda; 
-
     // save lambda and set it to one
     double  save_lambda = Global_Physical_Variables::lambda;  
     Global_Physical_Variables::lambda  = 1.0;  
+
+    // Ensure that the penetrator is above the capsule so no contact occures
+    Global_Physical_Variables::H = save_lambda + 0.01;
 
     cout << "Starting Newton Solve, expect this to converge immeditatl " << endl;
     //solve once in undeformed configuration, hopefully this should converge immediatly
@@ -1912,8 +1924,6 @@ int change_parameter(double &parameter, double target, double stepsize){
     problem2.doc_solution();
 
     //Increase volume first
-    //run the function that increases volume
-    problem2.set_under_relaxation_factor(1.0); //when there is no contact, can use normal newton solve
 
 
     if (Global_Physical_Variables::enforce_volume_constraint)
@@ -1925,8 +1935,8 @@ int change_parameter(double &parameter, double target, double stepsize){
 	      << " from a volume of " << Global_Physical_Variables::Volume 
 	      << " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
 
-	// Ensure that the penetrator is above the capsule so no contact occures
-	Global_Physical_Variables::H = save_lambda + 0.01;
+	//when there is no contact, can use normal newton solve
+	problem2.set_under_relaxation_factor(1.0); 
 
 	//Increase the volumn to the prescribed volume
 	problem2.change_parameter(Global_Physical_Variables::lambda, save_lambda);
@@ -1934,6 +1944,15 @@ int change_parameter(double &parameter, double target, double stepsize){
 	problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
 	// set the penetrator to the height of the capsule
 	Global_Physical_Variables::H = Global_Physical_Variables::lambda;
+      }
+    else
+      {
+	std::cout << "Not enforcing a volume constraint under the mesh."
+		  << std::endl;
+	std::cout << "Lambda = " << Global_Physical_Variables::lambda 
+	      << " Volume = " << Global_Physical_Variables::Volume 
+	      << " H =  " << Global_Physical_Variables::H << "."
+	      << std::endl;
       }
   }
   // Holds intermediate target
