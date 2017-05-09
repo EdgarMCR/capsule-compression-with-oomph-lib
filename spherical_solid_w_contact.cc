@@ -155,7 +155,6 @@ namespace Global_Physical_Variables
 
   double cTarget=1.0;
 
-
   /// Uniform pressure
   double P = 0.0;
  
@@ -566,7 +565,7 @@ CantileverProblem<ELEMENT>::CantileverProblem(const bool& incompress)
  
   // Refine the mesh uniformly
   dynamic_cast<ElasticRefineableRectangularQuadMesh<ELEMENT>* >(
-								solid_mesh_pt())->refine_uniformly();
+			       solid_mesh_pt())->refine_uniformly();
   
 #endif
  

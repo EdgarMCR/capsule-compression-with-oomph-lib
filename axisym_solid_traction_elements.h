@@ -2359,7 +2359,7 @@ public:
  void output(std::ostream &outfile) //Changed this
   {
       unsigned n_plot=5;  
-      FiniteElement::output(outfile,n_plot);
+      output(outfile,n_plot);
   }
 
  /// Overload the output function
