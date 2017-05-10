@@ -25,7 +25,7 @@
 //LIC// The authors may be contacted at oomph-lib@maths.man.ac.uk.
 //LIC// 
 //LIC//====================================================================
-//Driver for Airy cantilever beam problem
+//Driver for the compression and/or inflation of a spherical capsule
 
 
 #include "axisym_solid_traction_elements.h"
@@ -180,6 +180,10 @@ namespace Global_Physical_Variables
   // Spring stiffness for soft contact
   double k = 10.0;
 
+  // flag to set iterative reaching of the stiffness
+  // I.e. lower k until solution converges and then raise it
+  int iterative_soft_contact =0;
+
   /// Set Newton Tolerance via command line
   double newton_tol = 1e-8;
 
@@ -304,8 +308,11 @@ public:
   void actions_before_newton_solve() {
     newton_step=0;
     //Update Volume in case lambda has been changed
-    Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, Global_Physical_Variables::lambda);
-  }
+    Global_Physical_Variables::Volume = calc_inflated_vol(Global_Physical_Variables::t, 
+							  Global_Physical_Variables::lambda);
+
+    if (Global_Physical_Variables::printDebugInfo){ output_soft_contact_pressure();}
+ }
  
   /// Output contact element situation
   void actions_after_newton_step() { newton_step++; }
@@ -314,6 +321,39 @@ public:
   void actions_before_adapt();        
   /// Update function (empty)
   void actions_after_adapt();
+
+
+  void output_soft_contact_pressure()
+  {
+    // check whether soft contact is working
+
+  unsigned nel= Surface_contact_mesh_pt->nelement();
+  
+
+  Vector<double> x_cart;
+  Vector<double> z_cart;
+  Vector<double> penetration; 
+  Vector<double> pressure;
+
+  for (unsigned e=0;e<nel;e++)
+    {
+      if (!Global_Physical_Variables::hard_contact)
+	{
+	  dynamic_cast<AxisymmetricSolidTractionSoftContactElement<ELEMENT>* >(
+		  Surface_contact_mesh_pt->element_pt(e))->get_pressure_and_penetration(
+										  x_cart,
+										  z_cart,										  
+										  pressure,
+										  penetration);
+	  for(unsigned ii=0; ii<x_cart.size(); ii++)
+	    {
+	      std::cout << "(" << x_cart[ii] << ", " << z_cart[ii] << "): "
+			<< penetration[ii] << " results in " << pressure[ii]
+			<< ". H = " << Global_Physical_Variables::H << std::endl;
+	    }
+	}
+    }
+  }
 
 #ifdef REFINE
 
@@ -350,6 +390,7 @@ public:
  
   /// Change a parameter via adaptive continuation
   int change_parameter(double &parameter, double target);
+  int change_parameter(double &parameter, double target, double ds);
  
   // Set and get the under_relaxation of the newton method
   void set_under_relaxation_factor(double ur){under_relaxation_factor = ur;}
@@ -359,6 +400,9 @@ public:
 
   /// Returns global variables in a string
   std::string get_global_variables_as_string();
+
+  // Several Newton Solve to gradually increase stiffness
+  int newton_solve_with_soft_contact();
 
 private:
 
@@ -1496,11 +1540,102 @@ void CantileverProblem<ELEMENT>::save_solution(const char * directory){
 
 
 template<class ELEMENT>
-/// Function to lower the parameter adaptivly 
-int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double target){
+/// Function iterativly increases the soft contact "spring" stiffness
+/// Two steps: 1. Find spring stiffness that allows solution of problem
+/// 2. Increase the spring stiffness until the target is reached
+int CantileverProblem<ELEMENT>::newton_solve_with_soft_contact()
+{
+  // Store targe value
+  double target_k = Global_Physical_Variables::k;
 
+  int returnValue =0 ; //return value of function -> 0 means success
+  
+  char filename[100];
+  sprintf(filename,"sol_adaptive_change_of_k_soft_contact.dat");
+  ofstream Solution_output_file;
+  ifstream Solution_input_file;
+
+  //Save the state of the solution
+  Solution_output_file.open(filename);
+  Solution_output_file.precision(17);
+  Solution_output_file.setf(ios::fixed);
+  Solution_output_file.setf(ios::showpoint);
+  dump(Solution_output_file);    
+  Solution_output_file.close();
+
+
+  bool sucess = false;
+  // Step 1. Find a stiffness that allows the solution of the problem
+  std::cout << "Initial Newton solve in newton_solve_with_soft_contact()." <<std::endl;
+  while(!sucess)
+    {
+      try
+	{
+	  // Try a Newton Solve and save solution if succesfuk
+	  newton_solve();
+	  sucess = true;
+
+	  //Save the state of the solution
+	  Solution_output_file.open(filename);
+	  Solution_output_file.precision(17);
+	  Solution_output_file.setf(ios::fixed);
+	  Solution_output_file.setf(ios::showpoint);
+	  dump(Solution_output_file);    
+	  Solution_output_file.close();
+
+	}
+      catch(...)
+	{
+	  // Lower the stiffness if not sucessful
+	  std::cout << "Did not work with k = " << Global_Physical_Variables::k
+		    << ". Halfing k to " << Global_Physical_Variables::k/2.0
+		    << " and retrying." << std::endl;
+
+	  Global_Physical_Variables::k =  Global_Physical_Variables::k/2.0;
+
+	  if( Global_Physical_Variables::k < 1e-5)
+	    {
+	      std::cout << "k < 1e-5. Function unsucessful." <<std::endl;
+	      returnValue = 1;
+	      break;
+	    }
+	  //load previous soltution
+	  Solution_input_file.open(filename);
+	  read(Solution_input_file);
+	  Solution_input_file.close();
+	}
+    }
+
+  // Step 2: increment the stiffness
+  // It would be good to use the change_parameter function but how do I avoid
+  // recursive calling of this function?
+  if (Global_Physical_Variables::k != target_k && returnValue == 0)
+    {
+      double ds = abs(Global_Physical_Variables::k - target_k) - 0.1;
+
+      std::cout << "Increasing k from " << Global_Physical_Variables::k
+		<< " to " << target_k << "." << std::endl;
+
+      Global_Physical_Variables::iterative_soft_contact = 0; 
+      returnValue = change_parameter(Global_Physical_Variables::k, target_k, ds);
+      Global_Physical_Variables::iterative_soft_contact = 1;
+    }
+  return returnValue;
+}
+
+
+template<class ELEMENT>
+/// Function to lower the parameter adaptivly 
+int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double target)
+{
   // step size
-  double ds;
+  double ds = 1e-2;
+  return change_parameter(parameter, target, ds);
+}
+
+template<class ELEMENT>
+/// Function to lower the parameter adaptivly 
+int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double target, double ds){
 
   int returnValue =0 ; //return value of function -> 0 means success
   int kk = 0; //number of steps
@@ -1530,7 +1665,14 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double
 #ifdef REFINE
   newton_solve(Global_Physical_Variables::max_adapt);
 #else
-  newton_solve();
+  if(Global_Physical_Variables::iterative_soft_contact)
+    {
+      newton_solve_with_soft_contact();
+    }
+  else
+    {
+      newton_solve();
+    }
 #endif
   
   Solution_output_file.open(filename);
@@ -1590,11 +1732,11 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double
     }
     if(parameter > target)
       {
-	ds = -1e-2;
+	ds = -1 * abs(ds);
       }
     else
       {
-	ds = 1e-2;
+	ds = abs(ds);
       }
 
     // Make sure initial step isn't too big
@@ -1641,7 +1783,14 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double
 #ifdef REFINE
           newton_solve(Global_Physical_Variables::max_adapt);
 #else
-          newton_solve();
+  if(Global_Physical_Variables::iterative_soft_contact)
+    {
+      newton_solve_with_soft_contact();
+    }
+  else
+    {
+      newton_solve();
+    }
 #endif
           
 	  //increase step size iff the number of newton steps is 
@@ -1707,7 +1856,14 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double
 #ifdef REFINE
       newton_solve(Global_Physical_Variables::max_adapt) ;
 #else
+  if(Global_Physical_Variables::iterative_soft_contact)
+    {
+      newton_solve_with_soft_contact();
+    }
+  else
+    {
       newton_solve();
+    }
 #endif  // Doc solution
       doc_solution();
     }
@@ -1809,16 +1965,26 @@ std::string CantileverProblem<ELEMENT>::get_global_variables_as_string()
 
   }
 
+  char soft_contact[50];
+  if(!Global_Physical_Variables::hard_contact)
+    {
+      sprintf(soft_contact, "_k=%.1e", Global_Physical_Variables::k);
+    }
+  else
+    {
+      sprintf(soft_contact, "_");
+    }
 
-  char buff[200];
-  sprintf(buff,"nreler=%d_nreletheta=%d_H=%.4f_lambda=%.2f_vol=%.4f_t=%.2f_nt=%.2e_%s",
+  char buff[300];
+  sprintf(buff,"nreler=%d_nt=%.1e_nreletheta=%d_H=%.3f_lambda=%.2f_vol=%.3f_t=%.3f%s_%s",
 	  Global_Physical_Variables::n_ele_r,
+	  Global_Physical_Variables::newton_tol,
 	  Global_Physical_Variables::n_ele_theta,
 	  Global_Physical_Variables::H,
 	  Global_Physical_Variables::lambda,
 	  Global_Physical_Variables::Volume,
 	  Global_Physical_Variables::t,
-	  Global_Physical_Variables::newton_tol,
+	  soft_contact,
 	  constitutivelaw);
 
   std::string globals = buff;
@@ -1892,7 +2058,14 @@ int change_parameter(double &parameter, double target, double stepsize){
     Global_Physical_Variables::max_adapt=1;
     problem2.newton_solve(Global_Physical_Variables::max_adapt);
 #else
-    problem2.newton_solve();
+  if(Global_Physical_Variables::iterative_soft_contact)
+    {
+      problem2.newton_solve_with_soft_contact();
+    }
+  else
+    {
+     problem2.newton_solve();
+    }
 #endif
 
     //Lets check that displacement is zero
@@ -1917,7 +2090,14 @@ int change_parameter(double &parameter, double target, double stepsize){
     Global_Physical_Variables::max_adapt=1;
     problem2.newton_solve(Global_Physical_Variables::max_adapt);
 #else
-    problem2.newton_solve();
+  if(Global_Physical_Variables::iterative_soft_contact)
+    {
+      problem2.newton_solve_with_soft_contact();
+    }
+  else
+    {
+     problem2.newton_solve();
+    }
 #endif
  
     //Lets check that displacement is zero
@@ -1935,6 +2115,9 @@ int change_parameter(double &parameter, double target, double stepsize){
 	      << " from a volume of " << Global_Physical_Variables::Volume 
 	      << " . Contact height is " << Global_Physical_Variables::H << "." << std::endl;
 
+	int iterativeC = Global_Physical_Variables::iterative_soft_contact;
+	Global_Physical_Variables::iterative_soft_contact = 0; 
+
 	//when there is no contact, can use normal newton solve
 	problem2.set_under_relaxation_factor(1.0); 
 
@@ -1944,6 +2127,8 @@ int change_parameter(double &parameter, double target, double stepsize){
 	problem2.set_under_relaxation_factor(Global_Physical_Variables::under_relaxation);      
 	// set the penetrator to the height of the capsule
 	Global_Physical_Variables::H = Global_Physical_Variables::lambda;
+	//Reset iterative soft contact variables
+	Global_Physical_Variables::iterative_soft_contact = iterativeC; 
       }
     else
       {
@@ -2226,6 +2411,14 @@ int main(int argc, char **argv){
   
   CommandLineArgs::specify_command_line_flag("--hardContact",
 					     &Global_Physical_Variables::hard_contact);
+
+  CommandLineArgs::specify_command_line_flag("--k",
+					     &Global_Physical_Variables::k);
+
+  CommandLineArgs::specify_command_line_flag("--iterativeSoftContact",
+					     &Global_Physical_Variables::iterative_soft_contact);
+
+
 
  CommandLineArgs::specify_command_line_flag("--tshellFromInflated",
 					     &Global_Physical_Variables::tinf);

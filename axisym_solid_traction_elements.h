@@ -2351,6 +2351,67 @@ public:
    //Do I nned to add in derivativs w.r.t. to external data? Not in original...
   }
 
+ // Returns pressure and penetration at each integration point
+ // The vectors that are provided should be empty
+ void get_pressure_and_penetration(Vector<double> &x_cart,
+				   Vector<double> &z_cart,
+				   Vector<double> &pressure, 
+				   Vector<double> &penetration)
+ {
+ //Find out how many nodes there are
+ unsigned n_node = nnode();
+
+ //Find out how many positional dofs there are
+ //unsigned n_position_type = nnodal_position_type(); //Old version
+ unsigned n_position_type = this->nnodal_position_type();
+
+ //Set up memory for the shape functions
+ //The surface is 1D, so we only have one local derivative
+ Shape psi(n_node,n_position_type);
+ DShape dpsids(n_node,n_position_type,1); 
+
+ //Set the value of n_intpt
+ unsigned n_intpt = integral_pt()->nweight();
+
+ //Loop over the integration points
+ for(unsigned ipt=0;ipt<n_intpt;ipt++)
+  {    
+   //Only need to call the local derivatives
+   dshape_local_at_knot(ipt,psi,dpsids);
+
+   //Calculate the global position and lagrangian coordinate
+   Vector<double> x(2,0.0); 
+   Vector<double> xi(2,0.0);
+ 
+   //Calculate displacements and derivatives
+   for(unsigned l=0;l<n_node;l++) 
+    {
+     //Loop over positional dofs
+     for(unsigned k=0;k<n_position_type;k++)
+      {
+       //Loop over the number of lagrangian coordinates (2)
+       for(unsigned i=0;i<2;i++)
+        {
+         //Calculate the global position
+         x[i] += 
+          nodal_position_gen(l,bulk_position_type(k),i)*psi(l,k);
+
+         xi[i] += 
+          this->lagrangian_position_gen(l,bulk_position_type(k),i)*psi(l,k);
+        }
+      }
+    }
+
+     // Carthesia positions
+   x_cart.push_back( x[0]*sin(xi[1]) + x[1]*cos(xi[1]) );
+   z_cart.push_back( x[0]*cos(xi[1]) - x[1]*sin(xi[1]) );
+
+   double pen =0.0;
+   pressure.push_back(get_contact_pressure(x, xi, pen));
+   penetration.push_back(pen);
+    }
+ } 
+
  /// Overload the output function
  void output(std::ostream &outfile, const unsigned &n_plot) 
         {
@@ -2502,14 +2563,24 @@ public:
  }
 
  double get_contact_pressure(const Vector<double> &x, 
-			   const Vector<double> &xi)
+			     const Vector<double> &xi)
+ {
+   double pen = 0;
+   return get_contact_pressure(x, xi, pen);
+
+ }
+
+
+ double get_contact_pressure(const Vector<double> &x, 
+			     const Vector<double> &xi,
+			     double &pen)
  {
    // Calculate Cartesian z position of node
    //double x = interpolated_x[0]*sin(interpolated_xi[1]) + interpolated_x[1]*cos(interpolated_xi[1]);
    double z = x[0]*cos(xi[1]) - x[1]*sin(xi[1]);
    
    // Calculate penetration depth - positive means penetration
-   double pen = z - *max_H_pt;
+   pen = z - *max_H_pt;
 
    if(pen <= 0)
      {
@@ -2517,7 +2588,7 @@ public:
      }
    else
      {
-       return exp( *k_pt * pen);
+       return  *k_pt * pen;
      }
  }
  
