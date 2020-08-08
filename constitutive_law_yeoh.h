@@ -37,8 +37,8 @@
 #endif
 
 //OOMPH-LIB includes
-#include "../../../src/generic/oomph_utilities.h"
-#include "../../../src/generic/matrices.h"
+#include "../../src/generic/oomph_utilities.h"
+#include "../../src/generic/matrices.h"
 
 namespace oomph
 {

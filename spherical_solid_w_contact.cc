@@ -392,9 +392,9 @@ public:
   int change_parameter(double &parameter, double target);
   int change_parameter(double &parameter, double target, double ds);
  
-  // Set and get the under_relaxation of the newton method
-  void set_under_relaxation_factor(double ur){under_relaxation_factor = ur;}
-  const double get_under_relaxation_factor(){return under_relaxation_factor;}
+  // Set and get the relaxation of the newton method
+  void set_under_relaxation_factor(double ur){Relaxation_factor = ur;}
+  const double get_under_relaxation_factor(){return Relaxation_factor;}
 
   double calc_inflated_vol(double t, double lambda);
 
@@ -505,7 +505,7 @@ CantileverProblem<ELEMENT>::CantileverProblem(const bool& incompress)
     
   // 0.65 appears to be best value: faster than 0.55 and at 0.7 it never converges
   // Set adaptivly now
-  under_relaxation_factor = 1.0; 
+  Relaxation_factor = 1.0; 
   
   newton_step=0; //counter variable, duplicate, clean up 
   
@@ -1687,7 +1687,7 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double
   double tol = 5e-5;
 
   while(!sucess && returnValue == 0){
-    if(under_relaxation_factor < 1e-2){
+    if(Relaxation_factor < 1e-2){
       std::cout << "At beginning of loop. " 
 		<< "Under-relaxation reach less than 1e-2. Ending Function" 
 		<< std::endl;
@@ -1712,15 +1712,15 @@ int CantileverProblem<ELEMENT>::change_parameter(double &parameter, const double
 
       //Half under-relaxation and increase number of allowed steps by 50%
       Max_newton_iterations = Max_newton_iterations*1.75;
-      under_relaxation_factor = under_relaxation_factor/2.0;
+      Relaxation_factor = Relaxation_factor/2.0;
       std::cout << "================================================================" << std::endl;
       std::cout << "Reseting solution and halfing under-relaxation and increasing max newton steps by 75 %" << std::endl;
-      std::cout << " Under-relaxation = " << under_relaxation_factor << std::endl;
+      std::cout << " Under-relaxation = " << Relaxation_factor << std::endl;
       std::cout << " Max Newton Iterations = " << Max_newton_iterations << std::endl;
       std::cout << " H = " << Global_Physical_Variables::H << " parameter = " << parameter << std::endl;
       std::cout << "================================================================" << std::endl;
       
-      if(under_relaxation_factor < 1e-2){
+      if(Relaxation_factor < 1e-2){
 	std::cout << "Under-relaxation reach less than 1e-2. Ending continuation." << std::endl;
 	returnValue =1;
 	sucess = false;
