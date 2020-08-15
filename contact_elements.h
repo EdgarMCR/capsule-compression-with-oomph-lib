@@ -885,7 +885,9 @@ class SurfaceContactElementBase : public virtual FaceGeometry<ELEMENT>,
     // the position of the first entry of this face element's 
     // additional values.
     add_additional_values(n_additional_values,id);
-   
+
+
+    
 #ifdef PARANOID
     // Check spatial dimension
     if (element_pt->dim()!=2)
@@ -918,7 +920,13 @@ class SurfaceContactElementBase : public virtual FaceGeometry<ELEMENT>,
 
    /// \short Default constructor
    SurfaceContactElementBase(){}
- 
+
+  /// Min. value of local coordinate
+  double s_min() const {return 0.0;}
+  
+  /// Max. value of local coordinate
+  double s_max() const {return 1.0;}
+   
    /// \short Enforce permanent contact with penetrator, allowing
    /// for negative contact pressures.
    void enable_stick()
@@ -2724,6 +2732,11 @@ public virtual SurfaceContactElementBase<ELEMENT>
  //Return string that documents contact options
  std::string get_contact_options_in_string();
 
+ /// Min. value of local coordinate
+ double s_min() const {return 0.0;}
+  
+ /// Max. value of local coordinate
+ double s_max() const {return 1.0;}
 
  double get_area(){
    return area;
